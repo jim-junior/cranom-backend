@@ -2,7 +2,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - before: |
+  - name: Python Terminal
+    before: |
+      kind create cluster --config .config/kind-config.yml
       python3 -m venv .venv 
       source .venv/bin/activate
       pip3 install -r requirements.txt 

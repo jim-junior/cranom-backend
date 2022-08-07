@@ -17,5 +17,13 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
+RUN cd /workspace
 
+RUN source .venv/bin/activate
+
+RUN pip3 install -r requirements.txt
+
+RUN python3 manage.py migrate
+
+RUN deactivate
 

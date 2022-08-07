@@ -16,8 +16,8 @@ class CreateUser(APIView):
         if serializer.is_valid():
             serializer.create(data)
             return Response(data=request.data, status=status.HTTP_200_OK)
-        else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SignInWithGithub(APIView):

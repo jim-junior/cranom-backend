@@ -1,8 +1,5 @@
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 
-# python3 -m venv .venv
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-source .venv/bin/activate
-
-pip install --upgrade pip
-
-pip3 install -r requirements.txt
+rm minikube-linux-amd64

@@ -55,5 +55,5 @@
 		"desktop-lite": "latest",
 		"jupyterlab": "latest"
 	},
-	"forwardPorts": ["5432"]
+	"forwardPorts": [5432]
 }

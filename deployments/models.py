@@ -1,37 +1,27 @@
 
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
 class Deployment(models.Model):
 
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    app_label = models.CharField(max_length=100)
-    api_version = models.CharField(max_length=100)
-    kind = models.CharField(max_length=100)
-    metadata = models.TextField()
-    spec = models.TextField()
-    status = models.TextField()
+    port = models.IntegerField()
+    git_repo = models.CharField(max_length=200, blank=True, null=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.name
 
 
-class Pod(models.Model):
+class DeploymentEnvs(models.Model):
     deployment = models.ForeignKey(Deployment, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    image = models.CharField(max_length=100)
-    image_pull_policy = models.CharField(max_length=100)
-    container_port = models.IntegerField()
-    container_name = models.CharField(max_length=100)
-
-
-class PodEnvs(models.Model):
-    pod = models.ForeignKey(Pod, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
-    value_from = models.TextField()
+    name = models.CharField(max_length=120)
+    value = models.CharField(max_length=1000)

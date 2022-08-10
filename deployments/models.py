@@ -16,12 +16,7 @@ class Deployment(models.Model):
         User,
         on_delete=models.CASCADE
     )
+    env_variables = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
-
-
-class DeploymentEnvs(models.Model):
-    deployment = models.ForeignKey(Deployment, on_delete=models.CASCADE)
-    name = models.CharField(max_length=120)
-    value = models.CharField(max_length=1000)

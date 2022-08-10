@@ -50,13 +50,8 @@ def create_deployment(user, name, image, version, port, envs):
         )
     )
 
-# Create Deployment
-    api_response = apps_v1_api.create_namespaced_deployment(
-        body=body, namespace=user)
-    print("Deployment created. status")
 
-
-def create_wordpress_service(name, port, user):
+def create_service(name, port, user):
     body = client.V1Service(
         metadata=client.V1ObjectMeta(
             name=f"{name}-service",

@@ -1,7 +1,7 @@
 #from .views import CreateDeploymentView
 from django.urls import path
-
+from .views import CreateDeployment
 
 urlpatterns = [
-    #path("create", CreateDeploymentView.as_view(), name="Create deployment"),
+    path("create/", CreateDeployment.as_view(), name="Create deployment"),
 ]

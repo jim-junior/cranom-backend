@@ -10,7 +10,7 @@ from django.conf.global_settings import SECRET_KEY
 def encrypt(username, email):
     token = jwt.encode({'username': username, 'email': email,
                        'time': time.time()}, SECRET_KEY, algorithm='HS256')
-    return token.decode('utf-8')
+    return token
 
 
 def decrypt(token):

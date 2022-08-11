@@ -9,6 +9,9 @@ from .models import UserProfile
 from rest_framework import permissions
 import random
 import string
+from .utils.user_utils import encrypt, decrypt
+import time
+from django.core.mail import send_mail
 
 
 class CreateUser(APIView):
@@ -32,6 +35,16 @@ class CreateUser(APIView):
         )
         userprofile.save()
 
+        user_token = encrypt(userprofile.username, userprofile.email)
+        # send email to user with the token
+        send_mail(
+            "Activate your account",
+            "Visit the link to activate your account: http://localhost:8000/activate/" + user_token,
+            "system@cranom.ml",
+            [userprofile.email],
+            fail_silently=True,
+            auth_user="Cranom INC"
+        )
         serializedData = UserSerializer(userprofile)
         return Response(data=serializedData.data, status=status.HTTP_201_CREATED)
 
@@ -88,3 +101,25 @@ class SignInWithGithub(APIView):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
+
+
+class ActivateAccount(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        data = request.data
+        token = data['token']
+        if userprofile.is_active:
+            return Response({"message": "Account already activated"}, status=status.HTTP_400_BAD_REQUEST)
+        decrypted_obj = decrypt(token)
+        if decrypted_obj['email'] != userprofile.email or decrypted_obj['username'] != userprofile.username:
+            return Response({"message": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+        created_at = decrypted_obj['created_at']
+        # Check if the token has spent more that 24 hours
+        if (created_at + 24 * 60 * 60) < time.time():
+            return Response({"message": "Token has expired"}, status=status.HTTP_400_BAD_REQUEST)
+        userprofile.is_active = True
+        userprofile.save()
+        return Response({"message": "Account activated"}, status=status.HTTP_200_OK)

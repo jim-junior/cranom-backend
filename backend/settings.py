@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     "corsheaders",
     "deployments",
-    "users"
+    "users",
+    "anymail"
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+ANYMAIL = {
+    # (exact settings here depend on your ESP...)
+    "MAILGUN_API_KEY": "5665624917222649a8cd6d5bcc644cf7-2bab6b06-ef64d8fd",
+    "MAILGUN_SENDER_DOMAIN": 'sandbox1bab856e0f3d46a3a39af5b09cc0e948.mailgun.org',
+}
+
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  # or sendgrid.EmailBackend, or...
+DEFAULT_FROM_EMAIL = "jimjunior854@gmail.com"  # if you don't already have this in settings
+SERVER_EMAIL = "jimjunior854@gmail.com"  # ditto (default from-email for Django errors)
 
 ROOT_URLCONF = 'backend.urls'
 

@@ -1,4 +1,4 @@
-from .views import CreateUser, SignInWithGithub, GetUserProfile
+from .views import CreateUser, SignInWithGithub, GetUserProfile, ActivateAccount
 from django.urls import path
 
 
@@ -7,4 +7,5 @@ urlpatterns = [
     path("get/", GetUserProfile.as_view(), name="Get User"),
     path("signinwithgithub/", SignInWithGithub.as_view(),
          name="Sign In With Github"),
+    path("activate/", ActivateAccount.as_view(), name="Activate Account"),
 ]

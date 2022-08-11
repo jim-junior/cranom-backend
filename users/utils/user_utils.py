@@ -14,5 +14,8 @@ def encrypt(username, email):
 
 
 def decrypt(token):
-    token = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-    return {'username': token['username'], 'email': token['email'], 'time': token['time']}
+    try:
+        token = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return {'username': token['username'], 'email': token['email'], 'time': token['time']}
+    except:
+        return {'username': None, 'email': None, 'time': None}

@@ -5,13 +5,14 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.serializers import UserSerializer
-from .models import UserProfile
+from ..models import UserProfile
 from rest_framework import permissions
 import random
 import string
-from .utils.user_utils import encrypt, decrypt
+from ..utils.user_utils import encrypt, decrypt
 import time
 from django.core.mail import send_mail
+from ..utils.kube.kube_user import create_namespace
 
 
 class CreateUser(APIView):
@@ -43,7 +44,26 @@ class CreateUser(APIView):
             "system@cranom.ml",
             [userprofile.email],
             fail_silently=True,
-            auth_user="Cranom INC"
+            auth_user="Cranom INC",
+            html_message="""<!DOCTYPE html><html lang="en"><head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Verifiy Your Email</title>
+            </head>
+            <body>
+                <style>
+                    #verify {
+                        padding: 20px;
+                        background-color: #006eff;
+                        color: #fff;
+                    }
+                </style>
+                <h1>Verifiy Your Email</h1>
+                <p>Click The button below inorder to verifiy your email and activate your account</p>
+                <a id="verify" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
+            </body>
+            </html>"""
         )
         serializedData = UserSerializer(userprofile)
         return Response(data=serializedData.data, status=status.HTTP_201_CREATED)
@@ -116,10 +136,59 @@ class ActivateAccount(APIView):
         decrypted_obj = decrypt(token)
         if decrypted_obj['email'] != userprofile.email or decrypted_obj['username'] != userprofile.username:
             return Response({"message": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
-        created_at = decrypted_obj['created_at']
+        created_at = decrypted_obj['time']
         # Check if the token has spent more that 24 hours
         if (created_at + 24 * 60 * 60) < time.time():
             return Response({"message": "Token has expired"}, status=status.HTTP_400_BAD_REQUEST)
         userprofile.is_active = True
         userprofile.save()
+        # create kube namespace for the user
+        create_namespace(userprofile.username)
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
+
+
+class ChangePassword(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        data = request.data
+        old_password = data['old_password']
+        new_password = data['new_password']
+        if not user.check_password(old_password):
+            return Response({"message": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+        user.set_password(new_password)
+        user.save()
+        return Response({"message": "Password changed"}, status=status.HTTP_200_OK)
+
+
+# An API View that deletes a user account. It requires the request to have a request header named X-Password-Token with the password:
+# X-Password-Token: password
+class DeleteUser(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        data = request.data
+        password = data['password']
+        if not user.check_password(password):
+            return Response({"message": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+        user.delete()
+        return Response({"message": "User deleted"}, status=status.HTTP_200_OK)
+
+
+class ChangeUsername(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        data = request.data
+        username = data['username']
+        if User.objects.filter(username=username).exists():
+            return Response({"message": "Username already in use"}, status=status.HTTP_400_BAD_REQUEST)
+        user.username = username
+        user.save()
+        return Response({"message": "Username changed"}, status=status.HTTP_200_OK)

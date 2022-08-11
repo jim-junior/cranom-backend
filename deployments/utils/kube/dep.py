@@ -50,6 +50,11 @@ def create_deployment(user, name, image, version, port, envs):
         )
     )
 
+    api_response = apps_v1_api.create_namespaced_deployment(
+        body=body,
+        namespace=user
+    )
+
 
 def create_service(name, port, user):
     body = client.V1Service(
@@ -77,3 +82,43 @@ def create_service(name, port, user):
         namespace=user
     )
     print("Service created with status")
+
+
+def create_ingress(name, port, user):
+    body = client.V1beta1Ingress(
+        metadata=client.V1ObjectMeta(
+            name=f"{name}-ingress",
+            namespace="default"
+        ),
+        spec=client.V1beta1IngressSpec(
+            rules=[
+                client.V1beta1IngressRule(
+                    host=f"{name}.cranom.ml",
+                    http=client.V1beta1HTTPIngressRuleValue(
+                        paths=[
+                            client.V1beta1HTTPIngressPath(
+                                backend=client.V1beta1IngressBackend(
+                                    service_name=f"{name}-service",
+                                    service_port=port
+                                )
+                            )
+                        ]
+                    )
+                )
+            ]
+        )
+    )
+
+    api_response = networking_v1_api.create_namespaced_ingress(
+        body=body,
+        namespace=user
+    )
+    print("Ingress created with status")
+
+
+def get_deployment_logs(name, user):
+    api_response = v1.read_namespaced_deployment_log(
+        name=f"{name}-deployment",
+        namespace=user
+    )
+    return api_response.body

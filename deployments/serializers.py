@@ -7,3 +7,10 @@ class DeploymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deployment
         fields = "__all__"
+
+
+class DockerDeploymentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DockerDeployment
+        fields = "__all__"

@@ -14,7 +14,7 @@ apps_v1_api = client.AppsV1Api()
 networking_v1_api = client.NetworkingV1Api()
 
 
-def create_deployment(user, name, image, version, port, envs):
+def create_deployment(user, name, image, port, envs):
     environVars = []
 
     for var in envs:
@@ -38,7 +38,7 @@ def create_deployment(user, name, image, version, port, envs):
                         containers=[
                             client.V1Container(
                                 name=f"{name}-deployment",
-                                image=f"{image}:{version}",
+                                image=f"{image}",
                                 ports=[client.V1ContainerPort(
                                     container_port=port)],
                                 image_pull_policy="IfNotPresent",

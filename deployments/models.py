@@ -1,12 +1,13 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 # Create your models here.
 
 
 class Deployment(models.Model):
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -15,6 +16,34 @@ class Deployment(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
+    )
+    project_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
+    )
+    env_variables = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class DockerDeployment(models.Model):
+
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    port = models.IntegerField()
+    image = models.CharField(max_length=200, blank=True, null=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    project_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
     )
     env_variables = models.JSONField(blank=True, null=True)
 

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "deployments",
     "users",
-    "anymail"
+    "anymail",
+    "channels"
 ]
 
 MIDDLEWARE = [
@@ -63,9 +64,12 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": 'sandbox1bab856e0f3d46a3a39af5b09cc0e948.mailgun.org',
 }
 
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  # or sendgrid.EmailBackend, or...
-DEFAULT_FROM_EMAIL = "jimjunior854@gmail.com"  # if you don't already have this in settings
-SERVER_EMAIL = "jimjunior854@gmail.com"  # ditto (default from-email for Django errors)
+# or sendgrid.EmailBackend, or...
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# if you don't already have this in settings
+DEFAULT_FROM_EMAIL = "jimjunior854@gmail.com"
+# ditto (default from-email for Django errors)
+SERVER_EMAIL = "jimjunior854@gmail.com"
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -86,7 +90,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
+ASGI_APPLICATION = "backend.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

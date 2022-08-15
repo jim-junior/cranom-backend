@@ -12,7 +12,7 @@ import string
 from ..utils.user_utils import encrypt, decrypt
 import time
 from django.core.mail import send_mail
-from ..utils.kube.kube_user import create_namespace
+#from ..utils.kube.kube_user import create_namespace
 
 
 class CreateUser(APIView):
@@ -143,7 +143,7 @@ class ActivateAccount(APIView):
         userprofile.is_active = True
         userprofile.save()
         # create kube namespace for the user
-        create_namespace(userprofile)
+        # create_namespace(userprofile)
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 
 

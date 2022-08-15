@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from .models import *
 from .serializers import *
-from .utils.kube.dep import create_ingress, create_service, create_deployment
+#from .utils.kube.dep import create_ingress, create_service, create_deployment
 
 
 class CreateDeployment(generics.GenericAPIView):
@@ -34,14 +34,14 @@ class CreateDockerDeployment(generics.GenericAPIView):
         serializer = DockerDeploymentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            create_deployment(
+            """ create_deployment(
                 request.user.username,
                 serializer.data['name'],
                 serializer.data['image'],
                 serializer.data['port'],
                 # Environment variables
                 serializer.data['env_variables'],
-            )
+            ) """
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

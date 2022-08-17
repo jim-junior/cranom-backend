@@ -10,8 +10,8 @@ RUN sudo install-packages \
 
 RUN sudo apt-get update && sudo apt-get install -y ca-certificates curl
 
-# Install kind and kubectl
-RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
+# Install k3d and kubectl
+RUN curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.0.0 bash
 
 RUN sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 

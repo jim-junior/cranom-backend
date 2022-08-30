@@ -4,9 +4,7 @@ image:
 tasks:
   - name: Python Terminal
     before: |
-      k3d cluster create testcluster
       python3 -m venv .venv 
       source .venv/bin/activate
       pip3 install -r requirements.txt 
     init: python3 manage.py migrate
-    command: python3 manage.py runserver

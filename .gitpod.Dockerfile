@@ -11,7 +11,6 @@ RUN sudo install-packages \
 RUN sudo apt-get update && sudo apt-get install -y ca-certificates curl
 
 # Install k3d and kubectl
-RUN curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.0.0 bash
 
 RUN sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 

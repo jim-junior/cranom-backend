@@ -18,3 +18,11 @@ RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] htt
 
 RUN sudo apt-get update
 RUN sudo apt-get install -y kubectl
+
+# Install pack-cli
+
+RUN sudo add-apt-repository -y ppa:cncf-buildpacks/pack-cli
+
+RUN sudo apt-get update
+
+RUN sudo apt-get install pack-cli

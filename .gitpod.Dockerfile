@@ -26,3 +26,5 @@ RUN sudo add-apt-repository -y ppa:cncf-buildpacks/pack-cli
 RUN sudo apt-get update
 
 RUN sudo apt-get install pack-cli
+
+RUN curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash

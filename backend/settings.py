@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "deployments",
     "users",
     "anymail",
-    "channels"
+    "channels",
+    "intergrations"
 ]
 
 MIDDLEWARE = [

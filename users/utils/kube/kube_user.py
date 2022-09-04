@@ -1,19 +1,17 @@
 import json
 import httpx
 from kubernetes import client, config
-
-try:
-    config.load_incluster_config()
-    print("Loaded cluster config")
-except config.config_exception.ConfigException:
-    config.load_kube_config()
+from ....kube.config import get_api_client_config
 
 
-v1 = client.CoreV1Api()
-apps_v1_api = client.AppsV1Api()
-networking_v1_api = client.NetworkingV1Api()
+clientConfig = get_api_client_config()
+k8s_client = client.ApiClient(clientConfig)
+
+v1 = client.CoreV1Api(k8s_client)
 
 # A function that creates a new namespace in the cluster for a given User
+
+
 def create_namespace(user):
     namespace = client.V1Namespace(
         metadata=client.V1ObjectMeta(name=user.username),

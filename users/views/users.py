@@ -53,15 +53,16 @@ class CreateUser(APIView):
             </head>
             <body>
                 <style>
-                    #verify {
+                    .verify {
                         padding: 20px;
                         background-color: #006eff;
                         color: #fff;
+                        border-radius: 10px;
                     }
                 </style>
                 <h1>Verifiy Your Email</h1>
                 <p>Click The button below inorder to verifiy your email and activate your account</p>
-                <a id="verify" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
+                <a class="verify" style="paddiFiGithubng: 20px;background-color: #006eff;color: #fff;" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
             </body>
             </html>"""
         )

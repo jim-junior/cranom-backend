@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-git-user-pass
+  annotations:
+    kpack.io/git: https://github.com
+type: kubernetes.io/basic-auth
+stringData:
+  username: jim-junior
+  password: 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

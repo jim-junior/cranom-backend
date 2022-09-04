@@ -1,0 +1,14 @@
+from kubernetes import client, config
+
+
+def get_api_client_config():
+    aToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ilc3M0pXR1IzNUs1aFJLTW9aWkZyVW56SDBGQUJ2VHZ3SUtDcXhfQVFkQUUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjM0ZTM2MjUyLTRmNmEtNDE3MC1iODJiLWNkMWZjZjRjZGJmYiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.SapBcxnnqc99RkDSBePCkWPNRxhvcUdGDp-rz_9fB6BDzEYrYHe-lvSHPATx6gfFSMy6WUBLH1FJwy-lD4wk83SwrPdwhh7-MxwPhHPI3ESovaZGLGT-O-SJ0FvQJIU8x4upa_Mee4qeOVeMp7jw8EyHvVTAljlGB0zboFD6Wxnjnl04Cwk1XV8WRkKl__H5Bb2ZQjIiblRcw72OzZWTpQ5ydw2_CGhddkxHguDflFLE9vfSMhCebPRgvFtmnbmIZZ6AniuKm7fP8ZLRegKvTVUvJeH9z24s6XjpjHzfzJIZHleZUBlmvk84rZSudBGGOQPkWBAzFl_Nsi-RzchjsQ"
+
+    aConfiguration = client.Configuration()
+
+    aConfiguration.host = "https://0.0.0.0:44743"
+
+    aConfiguration.verify_ssl = False
+    aConfiguration.api_key = {"authorization": "Bearer " + aToken}
+
+    return aConfiguration

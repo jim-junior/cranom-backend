@@ -10,5 +10,5 @@ from rest_framework import permissions
 class CreateDeployment(APIView):
     def post(self, request):
         data = request.data
-        print(data["action"])
+        print(data)
         return Response(status=status.HTTP_201_CREATED)

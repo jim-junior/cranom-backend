@@ -23,6 +23,8 @@ class Deployment(models.Model):
         editable=False,
         unique=True
     )
+    run_command = models.CharField(max_length=100, blank=True)
+    build_command = models.CharField(max_length=100, blank=True)
     env_variables = models.JSONField(blank=True, null=True)
     deployed = models.BooleanField(default=False)
 

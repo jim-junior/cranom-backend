@@ -188,3 +188,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+import os
+
+MEDIA_URL = '/useruploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'useruploads')

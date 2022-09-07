@@ -6,13 +6,12 @@ from users.models import UserProfile
 # Create your models here.
 
 
-class Deployment(models.Model):
-
-    name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
+class Project(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    port = models.IntegerField()
+    port = models.IntegerField(blank=True, null=True)
     git_repo = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(
         UserProfile,
@@ -23,33 +22,32 @@ class Deployment(models.Model):
         editable=False,
         unique=True
     )
-    run_command = models.CharField(max_length=100, blank=True)
-    build_command = models.CharField(max_length=100, blank=True)
+    run_command = models.CharField(max_length=100, blank=True, null=True)
+    build_command = models.CharField(max_length=100, blank=True, null=True)
     env_variables = models.JSONField(blank=True, null=True)
     deployed = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.name
 
-
-class DockerDeployment(models.Model):
-
-    name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
+class Deployment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    port = models.IntegerField()
-    image = models.CharField(max_length=200, blank=True, null=True)
+    version = models.IntegerField()
+    zipped_project = models.FileField(
+        upload_to='delopyments/%Y/%m/%d/', blank=True)
+    git_repo = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(
-        User,
+        UserProfile,
         on_delete=models.CASCADE
     )
-    project_uuid = models.UUIDField(
+    deployment_uuid = models.UUIDField(
         default=uuid.uuid4,
         editable=False,
         unique=True
     )
-    env_variables = models.JSONField(blank=True, null=True)
+    project = models.ForeignKey(
+        Project,
+        to_field="project_uuid",
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.name

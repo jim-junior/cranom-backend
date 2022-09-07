@@ -9,8 +9,8 @@ class DeploymentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class DockerDeploymentSerializer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = DockerDeployment
+        model = Project
         fields = "__all__"

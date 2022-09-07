@@ -1,9 +1,10 @@
 #from .views import CreateDeploymentView
 from django.urls import path
-from .views import CreateDeployment, CreateDockerDeployment
+from .views import (CreateDeployment, CreateProject, GetProjectInfo,)
 
 urlpatterns = [
-    path("create/git/", CreateDeployment.as_view(), name="Create deployment"),
-    path("create/docker/", CreateDockerDeployment.as_view(),
-         name="Create Docker deployment"),
+    path("create/", CreateDeployment.as_view(), name="Create deployment"),
+    path("create/project/", CreateProject.as_view(), name="Create Project"),
+    path("get/project/info/", GetProjectInfo.as_view(), name="Get Project Info")
+
 ]

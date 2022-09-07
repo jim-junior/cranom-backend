@@ -37,6 +37,9 @@ class CreateUser(APIView):
         userprofile.save()
 
         user_token = encrypt(userprofile.username, userprofile.email)
+        print("========")
+        print(user_token)
+        print("========")
         # send email to user with the token
         send_mail(
             "Activate your account",
@@ -62,7 +65,7 @@ class CreateUser(APIView):
                 </style>
                 <h1>Verifiy Your Email</h1>
                 <p>Click The button below inorder to verifiy your email and activate your account</p>
-                <a class="verify" style="paddiFiGithubng: 20px;background-color: #006eff;color: #fff;" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
+                <a class="verify" style="padding: 20px;background-color: #006eff;color: #fff;" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
             </body>
             </html>"""
         )

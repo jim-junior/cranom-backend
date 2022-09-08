@@ -1,19 +1,21 @@
 apiVersion: kpack.io/v1alpha2
-kind: Builder
+kind: ClusterBuilder
 metadata:
-  name: my-builder
+  name: default-builder
   namespace: default
 spec:
-  serviceAccountName: tutorial-service-account
-  tag: latest
+  # Cluster service account
+  serviceAccountRef:
+    name: kpack-sva
+    namespace: default
+  # Builder tag
+  tag: paketobuildpacks/builder:base
   stack:
-    name: base
+    name: base-stack
     kind: ClusterStack
   store:
-    name: default
+    name: default-store
     kind: ClusterStore
   order:
   - group:
-    - id: paketo-buildpacks/java
-  - group:
-    - id: paketo-buildpacks/nodejs
+    - id: paketobuildpacks/builder:base

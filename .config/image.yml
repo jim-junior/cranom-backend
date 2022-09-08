@@ -4,11 +4,13 @@ metadata:
   name: tutorial-image
   namespace: default
 spec:
-  tag: latest
-  serviceAccountName: tutorial-service-account
+  tag: jimjuniorb/default-kpack
+  serviceAccountRef:
+    name: kpack-sva
+    namespace: default
   builder:
-    name: my-builder
-    kind: Builder
+    name: default-builder
+    kind: ClusterBuilder
   source:
     git:
       url: https://github.com/spring-projects/spring-petclinic

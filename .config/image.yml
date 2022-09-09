@@ -1,13 +1,11 @@
 apiVersion: kpack.io/v1alpha2
 kind: Image
 metadata:
-  name: tutorial-image
+  name: tutorial-image-1
   namespace: default
 spec:
   tag: jimjuniorb/default-kpack
-  serviceAccountRef:
-    name: kpack-sva
-    namespace: default
+  serviceAccountName: kpack-sva
   builder:
     name: default-builder
     kind: ClusterBuilder

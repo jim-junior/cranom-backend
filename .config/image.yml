@@ -11,5 +11,5 @@ spec:
     kind: ClusterBuilder
   source:
     git:
-      url: https://github.com/spring-projects/spring-petclinic
-      revision: 82cb521d636b282340378d80a6307a08e3d4a4c4
+      url: https://github.com/Blazity/next-saas-starter
+      revision: 4233a52c7d5441e1582479c0f087c262d92a112d

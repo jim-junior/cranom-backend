@@ -12,6 +12,7 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     port = models.IntegerField(blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
     git_repo = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(
         UserProfile,
@@ -22,6 +23,7 @@ class Project(models.Model):
         editable=False,
         unique=True
     )
+    project_type = models.CharField(max_length=10, blank=False)
     run_command = models.CharField(max_length=100, blank=True, null=True)
     build_command = models.CharField(max_length=100, blank=True, null=True)
     env_variables = models.JSONField(blank=True, null=True)
@@ -34,6 +36,7 @@ class Deployment(models.Model):
     zipped_project = models.FileField(
         upload_to='delopyments/%Y/%m/%d/', blank=True)
     git_repo = models.CharField(max_length=200, blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
         UserProfile,
         on_delete=models.CASCADE

@@ -5,14 +5,20 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from .models import *
-from .serializers import *
-#from .utils.kube.dep import create_ingress, create_service, create_deployment
+from ..models import *
+from ..serializers import *
+#from ..utils.kube.dep import create_ingress, create_service, create_deployment
 
 
 def getUserProfile(user):
     profile = UserProfile.objects.get(user=user)
     return profile
+
+
+""" def create_from_deployment(username, name, image, port, envs):
+    create_deployment(username, name, image, port, envs)
+    create_service(name, port, username)
+    create_ingress(name, port, username) """
 
 
 class CreateDeployment(generics.GenericAPIView):
@@ -29,6 +35,14 @@ class CreateDeployment(generics.GenericAPIView):
             if proj.deployed == False:
                 proj.deployed = True
                 proj.save()
+            if proj.project_type == "docker":
+                #
+                userprofile = getUserProfile(request.user)
+                username = userprofile.username
+                print(f"Created Docker Project for {username}")
+                #create_from_deployment(
+                #    username, proj.name, dep.image, proj.port, proj.env_variables)
+                pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -47,13 +61,15 @@ class GetProjectInfo(APIView):
             proj = Project.objects.get(name=proj_name)
             ver = proj.deployment_set.count()
             puuid = proj.project_uuid
+            typ = proj.project_type
             data["version"] = ver
             return Response(data={
                 "exists": True,
                 "name": proj_name,
                 "version": ver,
                 "uuid": puuid,
-                "deployed": False
+                "deployed": False,
+                "type": typ
             }, status=status.HTTP_200_OK)
         return Response(data={
             "message": "Project Does not exist"

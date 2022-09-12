@@ -1,17 +1,13 @@
 import json
 import httpx
 from kubernetes import client, config
+from ....kube.config import get_api_client_config
 
-try:
-    config.load_incluster_config()
-    print("Loaded cluster config")
-except config.config_exception.ConfigException:
-    config.load_kube_config()
-
-
-v1 = client.CoreV1Api()
-apps_v1_api = client.AppsV1Api()
-networking_v1_api = client.NetworkingV1Api()
+apiConfig = get_api_client_config()
+apiclient = client.ApiClient(apiConfig)
+v1 = client.CoreV1Api(apiclient)
+apps_v1_api = client.AppsV1Api(apiclient)
+networking_v1_api = client.NetworkingV1Api(apiclient)
 
 
 def create_deployment(user, name, image, port, envs):
@@ -70,10 +66,9 @@ def create_service(name, port, user):
                 client.V1ServicePort(
                     port=port,
                     target_port=port,
-                    node_port=31001
                 )
             ],
-            type="NodePort"
+            type="ClusterIP"
         )
     )
 
@@ -87,13 +82,13 @@ def create_service(name, port, user):
 def create_ingress(name, port, user):
     body = client.V1beta1Ingress(
         metadata=client.V1ObjectMeta(
-            name=f"{name}-ingress",
+            name=f"{name}-{user}-ingress",
             namespace="default"
         ),
         spec=client.V1beta1IngressSpec(
             rules=[
                 client.V1beta1IngressRule(
-                    host=f"{name}.cranom.ml",
+                    host=f"{name}-{user}.cranomapp.ml",
                     http=client.V1beta1HTTPIngressRuleValue(
                         paths=[
                             client.V1beta1HTTPIngressPath(

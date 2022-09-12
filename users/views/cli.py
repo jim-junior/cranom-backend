@@ -24,7 +24,9 @@ class GetCLIToken(APIView):
 class LoginWithCli(APIView):
 
     def post(self, request):
+
         data = request.data
+        print(data)
         token = data["token"]
         username = data["username"]
         token_data = decode_cli_token(token)

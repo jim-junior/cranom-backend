@@ -9,21 +9,10 @@ spec:
     name: kpack-sva
     namespace: default
   # Builder tag
-  tag: jimjuniorb/kpbuilder
+  tag: paketobuildpacks/builder:base
   stack:
     name: base-stack
     kind: ClusterStack
   store:
     name: default-store
     kind: ClusterStore
-  order:
-  - group:
-    - id: paketo-buildpacks/nodejs
-  - group:
-    - id: paketo-buildpacks/python
-  - group:
-    - id: paketo-buildpacks/go
-  - group:
-    - id: paketo-buildpacks/java
-  - group:
-    - id: paketo-buildpacks/ruby

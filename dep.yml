@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-node-deployment
+  labels:
+    app: hello-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-node
+  template:
+    metadata:
+      labels:
+        app: hello-node
+    spec:
+      containers:
+        - name: hello-node
+          image: jimjuniorb/node-hello:1.0.1
+          imagePullPolicy: Never
+          ports:
+          - name: hello-node-port
+            containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-node-svc
+spec:
+  selector:
+    app: hello-node
+  ports:
+  - port: 3000
+    nodePort: 31001
+    targetPort: hello-node-port
+  type: NodePort

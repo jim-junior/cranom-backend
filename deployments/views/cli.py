@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from ..models import *
 from ..serializers import *
-#from ..utils.kube.dep import create_ingress, create_service, create_deployment
+from ..utils.kube.dep import create_ingress, create_service, create_deployment
 
 
 def getUserProfile(user):
@@ -15,10 +15,11 @@ def getUserProfile(user):
     return profile
 
 
-""" def create_from_deployment(username, name, image, port, envs):
+def create_from_deployment(username, name, image, port, envs):
+    print(username)
     create_deployment(username, name, image, port, envs)
     create_service(name, port, username)
-    create_ingress(name, port, username) """
+    #create_ingress(name, port, username)
 
 
 class CreateDeployment(generics.GenericAPIView):
@@ -40,8 +41,8 @@ class CreateDeployment(generics.GenericAPIView):
                 userprofile = getUserProfile(request.user)
                 username = userprofile.username
                 print(f"Created Docker Project for {username}")
-                #create_from_deployment(
-                #    username, proj.name, dep.image, proj.port, proj.env_variables)
+                create_from_deployment(
+                    username, proj.name, dep.image, proj.port, [])
                 pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:

@@ -1,18 +1,22 @@
 import json
 import httpx
 from kubernetes import client, config
-from ....kube.config import get_api_client_config
+# from ....kube.config import get_api_client_config
 
-apiConfig = get_api_client_config()
+""" apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 v1 = client.CoreV1Api(apiclient)
 apps_v1_api = client.AppsV1Api(apiclient)
-networking_v1_api = client.NetworkingV1Api(apiclient)
+networking_v1_api = client.NetworkingV1Api(apiclient) """
+
+config.load_kube_config()
+v1 = client.CoreV1Api()
+apps_v1_api = client.AppsV1Api()
+networking_v1_api = client.NetworkingV1Api()
 
 
-def create_deployment(user, name, image, port, envs):
+def create_deployment(user, name, image, port, envs=[]):
     environVars = []
-
     for var in envs:
         environVars.append(
             client.V1EnvVar(
@@ -20,6 +24,49 @@ def create_deployment(user, name, image, port, envs):
                 value=var["value"]
             )
         )
+
+    dic = {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+            "name": f"{name}-deployment",
+            "labels": {
+                "app": f"{name}-deployment"
+            }
+        },
+        "spec": {
+            "replicas": 1,
+            "selector": {
+                "matchLabels": {
+                    "app": f"{name}-deployment"
+                }
+            },
+            "template": {
+                "metadata": {
+                    "labels": {
+                        "app": f"{name}-deployment"
+                    }
+                },
+                "spec": {
+                    "containers": [
+                        {
+                            "name": f"{name}-containor",
+                            "image": image,
+                            "imagePullPolicy": "Never",
+                            "ports": [
+                                {
+                                    "name": f"{name}-port",
+                                    "containerPort": 3000
+                                }
+                            ],
+                            "env": environVars
+                        }
+                    ]
+                }
+            }
+        }
+    }
+
     body = client.V1Deployment(
         api_version="apps/v1",
         kind="Deployment",
@@ -37,7 +84,7 @@ def create_deployment(user, name, image, port, envs):
                                 image=f"{image}",
                                 ports=[client.V1ContainerPort(
                                     container_port=port)],
-                                image_pull_policy="IfNotPresent",
+                                image_pull_policy="Never",
                                 env=environVars
                             ),
                         ]
@@ -47,7 +94,7 @@ def create_deployment(user, name, image, port, envs):
     )
 
     api_response = apps_v1_api.create_namespaced_deployment(
-        body=body,
+        body=dic,
         namespace=user
     )
 
@@ -56,7 +103,6 @@ def create_service(name, port, user):
     body = client.V1Service(
         metadata=client.V1ObjectMeta(
             name=f"{name}-service",
-            namespace="default"
         ),
         spec=client.V1ServiceSpec(
             selector={
@@ -71,6 +117,7 @@ def create_service(name, port, user):
             type="ClusterIP"
         )
     )
+    print(f">>>>>>>>>>> {user}")
 
     api_response = v1.create_namespaced_service(
         body=body,

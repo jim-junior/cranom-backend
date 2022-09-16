@@ -14,6 +14,18 @@ import time
 from django.core.mail import send_mail
 from ..utils.kube.kube_user import create_namespace
 
+restricted_names = [
+    "admin",
+    "default",
+    "kube-system",
+    "kube-proxy",
+    "kube-public",
+    "kpack",
+    "kube-node-lease",
+    "ingress",
+    "external-dns",
+]
+
 
 class CreateUser(APIView):
 
@@ -23,7 +35,8 @@ class CreateUser(APIView):
         email = data["email"]
         password = data["password"]
         # check if user with the same email or username exists
-        if User.objects.filter(username=username).exists():
+
+        if User.objects.filter(username=username).exists() or username not in restricted_names:
             return Response({"message": "User with the same username already exists"}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=email).exists():
             return Response({"message": "User with the same email already exists"}, status=status.HTTP_400_BAD_REQUEST)
@@ -63,9 +76,9 @@ class CreateUser(APIView):
                         border-radius: 10px;
                     }
                 </style>
-                <h1>Verifiy Your Email</h1>
-                <p>Click The button below inorder to verifiy your email and activate your account</p>
-                <a class="verify" style="padding: 20px;background-color: #006eff;color: #fff;" href="http://localhost:3000/activate/"""+user_token + """\">Verify your Account</a>
+                <h1 style="padding: 20px;">Verifiy Your Email</h1>
+                <p style="padding: 20px;">Click The button below inorder to verifiy your email and activate your account</p>
+                <a class="verify" style="padding: 20px;background-color: #006eff;color: #fff;" href="http://cranom.ml/activate/"""+user_token + """\">Verify your Account</a>
             </body>
             </html>"""
         )
@@ -97,7 +110,7 @@ class SignInWithGithub(APIView):
         else:
             # create a random username that is not in use
             username = ''.join(random.choices(string.ascii_lowercase, k=10))
-            while User.objects.filter(username=username).exists():
+            while User.objects.filter(username=username).exists() or username not in restricted_names:
                 username = ''.join(random.choices(
                     string.ascii_lowercase, k=10))
             user = User.objects.create_user(username=username, email=email)
@@ -192,7 +205,7 @@ class ChangeUsername(APIView):
         userprofile = UserProfile.objects.get(user=user)
         data = request.data
         username = data['username']
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).exists() or username not in restricted_names:
             return Response({"message": "Username already in use"}, status=status.HTTP_400_BAD_REQUEST)
         user.username = username
         user.save()

@@ -133,7 +133,8 @@ def create_ingress(name, port, user):
         "metadata": {
             "name": f"{name}-{user}-ingress",
             "annotations": {
-                "kubernetes.io/ingress.class": "nginx"
+                "kubernetes.io/ingress.class": "nginx",
+                "external-dns.alpha.kubernetes.io/hostname": f"{name}-{user}.cranomapp.ml"
             }
         },
         "spec": {

@@ -36,7 +36,7 @@ class CreateUser(APIView):
         password = data["password"]
         # check if user with the same email or username exists
 
-        if User.objects.filter(username=username).exists() or username not in restricted_names:
+        if User.objects.filter(username=username).exists() or username in restricted_names:
             return Response({"message": "User with the same username already exists"}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=email).exists():
             return Response({"message": "User with the same email already exists"}, status=status.HTTP_400_BAD_REQUEST)
@@ -110,7 +110,7 @@ class SignInWithGithub(APIView):
         else:
             # create a random username that is not in use
             username = ''.join(random.choices(string.ascii_lowercase, k=10))
-            while User.objects.filter(username=username).exists() or username not in restricted_names:
+            while User.objects.filter(username=username).exists() or username in restricted_names:
                 username = ''.join(random.choices(
                     string.ascii_lowercase, k=10))
             user = User.objects.create_user(username=username, email=email)
@@ -205,7 +205,7 @@ class ChangeUsername(APIView):
         userprofile = UserProfile.objects.get(user=user)
         data = request.data
         username = data['username']
-        if User.objects.filter(username=username).exists() or username not in restricted_names:
+        if User.objects.filter(username=username).exists() or username in restricted_names:
             return Response({"message": "Username already in use"}, status=status.HTTP_400_BAD_REQUEST)
         user.username = username
         user.save()

@@ -127,6 +127,39 @@ def create_service(name, port, user):
 
 
 def create_ingress(name, port, user):
+    ing_obj = {
+        "apiVersion": "networking.k8s.io/v1",
+        "kind": "Ingress",
+        "metadata": {
+            "name": f"{name}-{user}-ingress",
+            "annotations": {
+                "kubernetes.io/ingress.class": "nginx"
+            }
+        },
+        "spec": {
+            "rules": [
+                {
+                    "host": f"{name}-{user}.cranomapp.ml",
+                    "http": {
+                        "paths": [
+                            {
+                                "pathType": "Prefix",
+                                "path": "/",
+                                "backend": {
+                                    "service": {
+                                        "name": f"{name}-service",
+                                        "port": {
+                                            "number": port
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
     body = client.V1beta1Ingress(
         metadata=client.V1ObjectMeta(
             name=f"{name}-{user}-ingress",
@@ -152,7 +185,7 @@ def create_ingress(name, port, user):
     )
 
     api_response = networking_v1_api.create_namespaced_ingress(
-        body=body,
+        body=ing_obj,
         namespace=user
     )
     print("Ingress created with status")

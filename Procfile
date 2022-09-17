@@ -1,1 +1,1 @@
-web: gunicorn miapose.asgi
+web: gunicorn backend.asgi

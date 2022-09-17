@@ -52,7 +52,7 @@ def create_deployment(user, name, image, port, envs=[]):
                         {
                             "name": f"{name}-containor",
                             "image": image,
-                            "imagePullPolicy": "Never",
+                            "imagePullPolicy": "Always",
                             "ports": [
                                 {
                                     "name": f"{name}-port",
@@ -84,7 +84,7 @@ def create_deployment(user, name, image, port, envs=[]):
                                 image=f"{image}",
                                 ports=[client.V1ContainerPort(
                                     container_port=port)],
-                                image_pull_policy="Never",
+                                image_pull_policy="Always",
                                 env=environVars
                             ),
                         ]

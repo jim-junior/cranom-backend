@@ -21,4 +21,4 @@ spec:
         - --provider=linode
         env:
         - name: LINODE_TOKEN
-          value: "7dd6d7337c8ed1948456e6b67072a1588a32382cddf6fe73aa6f2170b9db170a"
+          value: 145fa4b6f5b67aed482ece318041abdda68945bf1b8a3d5dbd1a6c1439fd25b2

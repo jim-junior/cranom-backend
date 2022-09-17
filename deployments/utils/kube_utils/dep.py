@@ -114,7 +114,7 @@ def create_service(name, port, user):
                     target_port=port,
                 )
             ],
-            type="ClusterIP"
+            type="LoadBalancer"
         )
     )
     print(f">>>>>>>>>>> {user}")

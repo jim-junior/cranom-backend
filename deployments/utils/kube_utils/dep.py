@@ -160,29 +160,6 @@ def create_ingress(name, port, user):
             ]
         }
     }
-    body = client.V1beta1Ingress(
-        metadata=client.V1ObjectMeta(
-            name=f"{name}-{user}-ingress",
-            namespace="default"
-        ),
-        spec=client.V1beta1IngressSpec(
-            rules=[
-                client.V1beta1IngressRule(
-                    host=f"{name}-{user}.cranomapp.ml",
-                    http=client.V1beta1HTTPIngressRuleValue(
-                        paths=[
-                            client.V1beta1HTTPIngressPath(
-                                backend=client.V1beta1IngressBackend(
-                                    service_name=f"{name}-service",
-                                    service_port=port
-                                )
-                            )
-                        ]
-                    )
-                )
-            ]
-        )
-    )
 
     api_response = networking_v1_api.create_namespaced_ingress(
         body=ing_obj,

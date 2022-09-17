@@ -1,17 +1,17 @@
 import json
 import httpx
 from kubernetes import client, config
-# from ....kube.config import get_api_client_config
+from kube.config import get_api_client_config
 
 
-""" clientConfig = get_api_client_config()
+clientConfig = get_api_client_config()
 k8s_client = client.ApiClient(clientConfig)
 
-v1 = client.CoreV1Api(k8s_client) """
-config.load_kube_config()
+v1 = client.CoreV1Api(k8s_client)
+
 
 # A function that creates a new namespace in the cluster for a given User
-v1 = client.CoreV1Api()
+#v1 = client.CoreV1Api()
 
 
 def create_namespace(user):

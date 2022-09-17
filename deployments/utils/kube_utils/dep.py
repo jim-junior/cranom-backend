@@ -1,18 +1,18 @@
 import json
 import httpx
 from kubernetes import client, config
-# from ....kube.config import get_api_client_config
+from kube.config import get_api_client_config
 
-""" apiConfig = get_api_client_config()
+apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 v1 = client.CoreV1Api(apiclient)
 apps_v1_api = client.AppsV1Api(apiclient)
-networking_v1_api = client.NetworkingV1Api(apiclient) """
+networking_v1_api = client.NetworkingV1Api(apiclient)
 
-config.load_kube_config()
+""" config.load_kube_config()
 v1 = client.CoreV1Api()
 apps_v1_api = client.AppsV1Api()
-networking_v1_api = client.NetworkingV1Api()
+networking_v1_api = client.NetworkingV1Api() """
 
 
 def create_deployment(user, name, image, port, envs=[]):

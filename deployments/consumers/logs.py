@@ -30,6 +30,8 @@ class ChatConsumer(WebsocketConsumer):
         logging_thread.start()
 
     def disconnect(self, close_code):
+        if self.logging == True:
+            self.logging = False
         pass
 
     def receive(self, text_data):

@@ -98,7 +98,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": ["redis://:0R91WRdBx7zcCKO05U3Ekz5M3lbT51vX@redis-19117.c12.us-east-1-4.ec2.cloud.redislabs.com:19117/0"],
         },
     },
 }
@@ -106,13 +106,23 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+} """
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "wnypdbwz",
+        'USER': "wnypdbwz",
+        'PASSWORD': "xaE6lWJwxA6zhtIFKT1i-ETj7IVV380D",
+        'HOST': "rosie.db.elephantsql.com",
+        'PORT': "5432",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

@@ -12,7 +12,7 @@ import string
 from ..utils.user_utils import encrypt, decrypt
 import time
 from django.core.mail import send_mail
-from ..utils.kube.kube_user import create_namespace
+from ..utils.kube_utils.kube_user import create_namespace
 
 restricted_names = [
     "admin",

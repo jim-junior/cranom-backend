@@ -1,1 +1,1 @@
-web: gunicorn backend.asgi
+web: daphne backend.asgi --port 8888

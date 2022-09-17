@@ -1,1 +1,1 @@
-web: daphne backend.asgi --port 8888
+web: daphne backend.asgi:application --port $PORT --bind 0.0.0.0 -v2

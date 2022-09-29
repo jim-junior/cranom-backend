@@ -7,6 +7,7 @@ from users.models import UserProfile
 
 
 class Project(models.Model):
+    readable_name = models.CharField(max_length=32, blank=True, null=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,6 +29,9 @@ class Project(models.Model):
     build_command = models.CharField(max_length=100, blank=True, null=True)
     env_variables = models.JSONField(blank=True, null=True)
     deployed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} {self.project_uuid}"
 
 
 class Deployment(models.Model):

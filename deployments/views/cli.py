@@ -15,11 +15,10 @@ def getUserProfile(user):
     return profile
 
 
-def create_from_deployment(username, name, image, port, envs):
-    print(username)
-    create_deployment(username, name, image, port, envs)
-    create_service(name, port, username)
-    create_ingress(name, port, username)
+def create_from_deployment(username, name, image, port, envs, deployed):
+    create_deployment(username, name, image, port, envs, deployed)
+    create_service(name, port, username, deployed)
+    create_ingress(name, port, username, deployed)
 
 
 class CreateDeployment(generics.GenericAPIView):
@@ -33,6 +32,7 @@ class CreateDeployment(generics.GenericAPIView):
         if serializer.is_valid():
             dep = serializer.save()
             proj = dep.project
+            deployed = proj.deployed
             if proj.deployed == False:
                 proj.deployed = True
                 proj.save()
@@ -41,7 +41,7 @@ class CreateDeployment(generics.GenericAPIView):
                 userprofile = getUserProfile(request.user)
                 username = userprofile.username
                 create_from_deployment(
-                    username, proj.name, dep.image, proj.port, [])
+                    username, proj.name, dep.image, proj.port, [], deployed)
                 pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:

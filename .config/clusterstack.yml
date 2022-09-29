@@ -3,8 +3,8 @@ kind: ClusterStack
 metadata:
   name: base-stack
 spec:
-  id: "io.buildpacks.stacks.bionic"
+  id: "heroku-20"
   buildImage:
-    image: "paketobuildpacks/build:base-cnb"
+    image: "heroku/heroku:20-cnb-build"
   runImage:
-    image: "paketobuildpacks/run:base-cnb"
+    image: "heroku/heroku:20-cnb"

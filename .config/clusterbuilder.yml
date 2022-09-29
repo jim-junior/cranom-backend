@@ -9,10 +9,13 @@ spec:
     name: kpack-sva
     namespace: default
   # Builder tag
-  tag: paketobuildpacks/builder:base
+  tag: jimjuniorb/buildpacks:20
   stack:
     name: base-stack
     kind: ClusterStack
   store:
     name: default-store
     kind: ClusterStore
+  order:
+  - group:
+    - id: heroku/nodejs

@@ -1,7 +1,7 @@
 apiVersion: kpack.io/v1alpha2
 kind: Image
 metadata:
-  name: tutorial-image-1
+  name: tutorial-image-3
   namespace: default
 spec:
   tag: jimjuniorb/default-kpack
@@ -12,4 +12,4 @@ spec:
   source:
     git:
       url: https://github.com/Blazity/next-saas-starter
-      revision: 4233a52c7d5441e1582479c0f087c262d92a112d
+      revision: 375ae1bdbceac9799b849d5951b41e884074b98a

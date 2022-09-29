@@ -1,0 +1,47 @@
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.request import Request
+from rest_framework import status
+from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework import permissions
+from ..models import *
+from ..serializers import *
+from .cli import getUserProfile
+
+
+class ProjectDetails(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ProjectSerializer
+
+    def get(self, request, uuid):
+        if Project.objects.filter(project_uuid=uuid).exists():
+            obj = Project.objects.get(project_uuid=uuid)
+            serialized = ProjectSerializer(obj)
+            return Response(data=serialized.data, status=status.HTTP_200_OK)
+        return Response(data={"message": "Project does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProjectDeployments(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = DeploymentSerializer
+    model = serializer_class.Meta.model
+    paginate_by = 10
+
+    def get_queryset(self):
+        project_uuid = self.kwargs['project']
+        queryset = self.model.objects.filter(project=project_uuid)
+        return queryset.order_by('-created_at')
+
+
+
+class ProjectList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ProjectSerializer
+    model = serializer_class.Meta.model
+    paginate_by = 10
+
+    def get_queryset(self):
+        user = getUserProfile(self.request.user)
+        queryset = self.model.objects.filter(user=user)
+        return queryset.order_by('-created_at')

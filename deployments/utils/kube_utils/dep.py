@@ -15,7 +15,7 @@ apps_v1_api = client.AppsV1Api()
 networking_v1_api = client.NetworkingV1Api() """
 
 
-def create_deployment(user, name, image, port, envs=[]):
+def create_deployment(user, name, image, port, envs=[], deployed=False):
     environVars = []
     for var in envs:
         environVars.append(
@@ -67,39 +67,23 @@ def create_deployment(user, name, image, port, envs=[]):
         }
     }
 
-    body = client.V1Deployment(
-        api_version="apps/v1",
-        kind="Deployment",
-        metadata=client.V1ObjectMeta(name=f"{name}-deployment"),
-        spec=client.V1DeploymentSpec(
-            replicas=1,
-            selector={"matchLabels": {"app": f"{name}-deployment"}},
-            template=client.V1PodTemplateSpec(
-                    metadata=client.V1ObjectMeta(
-                        labels={"app": f"{name}-deployment"}),
-                    spec=client.V1PodSpec(
-                        containers=[
-                            client.V1Container(
-                                name=f"{name}-deployment",
-                                image=f"{image}",
-                                ports=[client.V1ContainerPort(
-                                    container_port=port)],
-                                image_pull_policy="Always",
-                                env=environVars
-                            ),
-                        ]
-                    )
-            )
-        )
-    )
-
     api_response = apps_v1_api.create_namespaced_deployment(
         body=dic,
         namespace=user
     )
 
+    if deployed == True:
+        respo = apps_v1_api.patch_namespaced_deployment(
+            name=f"{name}-deployment", namespace=user, body=dic
+        )
+    else:
+        api_response = apps_v1_api.create_namespaced_deployment(
+            body=dic,
+            namespace=user
+        )
 
-def create_service(name, port, user):
+
+def create_service(name, port, user, deployed):
     body = client.V1Service(
         metadata=client.V1ObjectMeta(
             name=f"{name}-service",
@@ -119,14 +103,20 @@ def create_service(name, port, user):
     )
     print(f">>>>>>>>>>> {user}")
 
-    api_response = v1.create_namespaced_service(
-        body=body,
-        namespace=user
-    )
-    print("Service created with status")
+    if deployed == True:
+        v1.patch_namespaced_service(
+            name=f"{name}-service",
+            namespace=user,
+            body=body
+        )
+    else:
+        api_response = v1.create_namespaced_service(
+            body=body,
+            namespace=user
+        )
 
 
-def create_ingress(name, port, user):
+def create_ingress(name, port, user, deployed):
     ing_obj = {
         "apiVersion": "networking.k8s.io/v1",
         "kind": "Ingress",
@@ -162,16 +152,15 @@ def create_ingress(name, port, user):
         }
     }
 
-    api_response = networking_v1_api.create_namespaced_ingress(
-        body=ing_obj,
-        namespace=user
-    )
-    print("Ingress created with status")
+    if deployed == True:
+        api_response = networking_v1_api.patch_namespaced_ingress(
+            name=f"{name}-{user}-ingress",
+            body=ing_obj,
+            namespace=user
+        )
+    else:
+        api_response = networking_v1_api.create_namespaced_ingress(
+            body=ing_obj,
+            namespace=user
+        )
 
-
-def get_deployment_logs(name, user):
-    api_response = v1.read_namespaced_deployment_log(
-        name=f"{name}-deployment",
-        namespace=user
-    )
-    return api_response.body

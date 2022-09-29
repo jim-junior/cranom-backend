@@ -27,3 +27,5 @@ spec:
     - id: paketo-buildpacks/java
   - group:
     - id: paketo-buildpacks/ruby
+  - group:
+    - id: heroku/buildpacks:20

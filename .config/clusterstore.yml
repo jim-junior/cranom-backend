@@ -4,7 +4,8 @@ metadata:
   name: default-store
 spec:
   sources:
-  - image: gcr.io/paketo-buildpacks/java
-  - image: gcr.io/paketo-buildpacks/nodejs
-  - image: gcr.io/buildpacks/builder:v1
-  - image: paketobuildpacks/builder:base
+  #- image: public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack:0.5.8
+  #- image: public.ecr.aws/heroku-buildpacks/heroku-nodejs-yarn-buildpack:0.2.3
+  #- image: public.ecr.aws/heroku-buildpacks/heroku-nodejs-npm-buildpack:0.5.2
+  - image: heroku/buildpacks:20
+  #- image: public.ecr.aws/heroku-buildpacks/heroku-nodejs-engine-buildpack:0.8.8

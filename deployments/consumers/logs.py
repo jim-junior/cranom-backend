@@ -18,12 +18,13 @@ def get_logs(obj):
             w.stop()
 
 
-class ChatConsumer(WebsocketConsumer):
+class LogingConsumer(WebsocketConsumer):
     def connect(self):
+        self.proj_uuid = self.scope['url_route']['kwargs']['uuid']
         self.accept()
         sleep(1)
         self.send(text_data=json.dumps({
-            'message': "Restarting App with PID"
+            'message': "Connected to Project logs Successfully"
         }))
         self.logging = True
         logging_thread = Thread(target=get_logs, args=(self,))
@@ -38,3 +39,6 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         self.logging = False
+
+    def get_project_info(self, uuid):
+        pass

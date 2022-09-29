@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 """
 
 
-#import deployments.routing
+#import deployments.routing 
 import os
 from django.core.asgi import get_asgi_application
 
@@ -28,10 +28,10 @@ from .channelsmiddleware import TokenAuthMiddleware
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
     "websocket": AllowedHostsOriginValidator(
-        # TokenAuthMiddleware(
-        URLRouter(
-            websocket_urlpatterns
+        AuthMiddlewareStack(
+            URLRouter(
+                websocket_urlpatterns
+            )
         )
-        # )
     ),
 })

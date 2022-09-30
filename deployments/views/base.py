@@ -34,7 +34,6 @@ class ProjectDeployments(generics.ListAPIView):
         return queryset.order_by('-created_at')
 
 
-
 class ProjectList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProjectSerializer
@@ -44,4 +43,21 @@ class ProjectList(generics.ListAPIView):
     def get_queryset(self):
         user = getUserProfile(self.request.user)
         queryset = self.model.objects.filter(user=user)
-        return queryset.order_by('-created_at')
+        return queryset.order_by("favorite", '-created_at')
+
+
+class StarProjectAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        data = request.data
+        p_uuid = data["uuid"]
+        if Project.objects.filter(project_uuid=p_uuid).exists():
+            obj = Project.objects.get(project_uuid=p_uuid)
+            if obj.favorite == True:
+                obj.favorite = False
+            else:
+                obj.favorite = True
+            obj.save()
+            return Response(data={"message": "Starred"}, status=status.HTTP_200_OK)
+        return Response(data={"message": "Project does not exist"}, status=status.HTTP_404_NOT_FOUND)

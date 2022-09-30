@@ -29,6 +29,7 @@ class Project(models.Model):
     build_command = models.CharField(max_length=100, blank=True, null=True)
     env_variables = models.JSONField(blank=True, null=True)
     deployed = models.BooleanField(default=False)
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} {self.project_uuid}"

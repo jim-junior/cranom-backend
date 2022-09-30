@@ -40,8 +40,8 @@ class CreateDeployment(generics.GenericAPIView):
                 #
                 userprofile = getUserProfile(request.user)
                 username = userprofile.username
-                create_from_deployment(
-                    username, proj.name, dep.image, proj.port, [], deployed)
+                # create_from_deployment(
+                #    username, proj.name, dep.image, proj.port, [], deployed)
                 pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -96,4 +96,5 @@ class CreateProject(generics.GenericAPIView):
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

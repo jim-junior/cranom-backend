@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
+
+from deployments.utils.ws_token import encrypt
 from ..models import *
 from ..serializers import *
 from .cli import getUserProfile
@@ -61,3 +63,12 @@ class StarProjectAPIView(APIView):
             obj.save()
             return Response(data={"message": "Starred"}, status=status.HTTP_200_OK)
         return Response(data={"message": "Project does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetWebSocketToken(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        token = encrypt(user.username, user.id)
+        return Response(data={"token": token}, status=status.HTTP_200_OK)

@@ -7,12 +7,10 @@ def main():
     # default location.
     config.load_kube_config()
 
-    v1 = client.CoreV1Api()
-    count = 10
     w = watch.Watch()
     v1 = client.CoreV1Api()
     #w = Watch()
-    for e in w.stream(v1.read_namespaced_pod_log, name="hello-node-deployment-6568bdf595-mktj9", namespace="default"):
+    for e in w.stream(v1.read_namespaced_pod_log, name="nodeapp-deployment-784d8dc7b6-lj5tm", namespace="cli", tail_lines=1):
         print(e)
 
 

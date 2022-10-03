@@ -12,4 +12,6 @@ spec:
   source:
     git:
       url: https://github.com/Blazity/next-saas-starter
-      revision: 375ae1bdbceac9799b849d5951b41e884074b98a
+      #url: https://github.com/ixartz/Next-js-Blog-Boilerplate
+      #revision: master
+      revision: 4233a52c7d5441e1582479c0f087c262d92a112d

@@ -43,7 +43,7 @@ class Deployment(models.Model):
     zipped_project = models.FileField(
         upload_to='delopyments/%Y/%m/%d/', blank=True)
     git_repo = models.CharField(max_length=200, blank=True, null=True)
-    git_revision = models.CharField(max_lenght=200, blank=True, null=True)
+    git_revision = models.CharField(max_length=200, blank=True, null=True)
     image = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
         UserProfile,

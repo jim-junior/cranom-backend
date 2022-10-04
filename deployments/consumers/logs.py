@@ -1,17 +1,20 @@
 import json
 from time import sleep
+
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from kubernetes import client, config, watch
 from threading import Thread
 from channels.db import database_sync_to_async
 from deployments.models import Project
 from deployments.utils.ws_token import decrypt
+from kube.config import get_api_client_config
 
 
 def get_logs(obj, name, username):
-    config.load_kube_config()
+    apiConfig = get_api_client_config()
+    apiclient = client.ApiClient(apiConfig)
+    v1 = client.CoreV1Api(apiclient)
     w = watch.Watch()
-    v1 = client.CoreV1Api()
     depname = name + "-deployment"
     podname = ""
     pods = v1.list_namespaced_pod(username)

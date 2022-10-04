@@ -1,0 +1,529 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 513d7d2d392b442febb655fb9b90d6e0e7e14a3ea141b7972f4c8961c4fabe0f
+    cni.projectcalico.org/podIP: ""
+    cni.projectcalico.org/podIPs: ""
+    container.seccomp.security.alpha.kubernetes.io/analyze: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/build: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/completion: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/detect: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/export: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/prepare: runtime/default
+    container.seccomp.security.alpha.kubernetes.io/restore: runtime/default
+    image.kpack.io/buildChanges: '[{"reason":"COMMIT","old":"4233a52c7d5441e1582479c0f087c262d92a112d","new":"375ae1bdbceac9799b849d5951b41e884074b98a"}]'
+    image.kpack.io/builderKind: ClusterBuilder
+    image.kpack.io/builderName: default-builder
+    image.kpack.io/reason: COMMIT
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kpack.io/v1alpha2","kind":"Image","metadata":{"annotations":{},"name":"tutorial-image-3","namespace":"default"},"spec":{"builder":{"kind":"ClusterBuilder","name":"default-builder"},"serviceAccountName":"kpack-sva","source":{"git":{"revision":"master","url":"https://github.com/Blazity/next-saas-starter"}},"tag":"jimjuniorb/default-kpack"}}
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    sidecar.istio.io/inject: "false"
+  creationTimestamp: "2022-10-04T09:56:05Z"
+  labels:
+    image.kpack.io/buildNumber: "8"
+    image.kpack.io/image: tutorial-image-3
+    image.kpack.io/imageGeneration: "8"
+    kpack.io/build: tutorial-image-3-build-8
+  name: tutorial-image-3-build-8-build-pod
+  namespace: default
+  ownerReferences:
+  - apiVersion: kpack.io/v1alpha2
+    blockOwnerDeletion: true
+    controller: true
+    kind: Build
+    name: tutorial-image-3-build-8
+    uid: bf64eba1-3781-454f-840f-0fa0a1f52144
+  resourceVersion: "3362699"
+  uid: 665b2bb5-3e72-429b-9dee-7d3c0bb02d79
+spec:
+  containers:
+  - args:
+    - -dockerconfig=docker-configjson
+    - -cosign-annotations=buildTimestamp=20221004.095601
+    - -cosign-annotations=buildNumber=8
+    command:
+    - /cnb/process/completion
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: CACHE_TAG
+    - name: TERMINATION_MESSAGE_PATH
+      value: /tmp/termination-log
+    image: gcr.io/cf-build-service-public/kpack/completion@sha256:16da41e9dd2fdea79bc4823ac19e2f2aa647c30fafd92657b2180530c7e240f8
+    imagePullPolicy: IfNotPresent
+    name: completion
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /tmp/termination-log
+    terminationMessagePolicy: FallbackToLogsOnError
+    volumeMounts:
+    - mountPath: /var/build-secrets/docker-configjson
+      name: secret-volume-0
+    - mountPath: /builder/home
+      name: home-dir
+    - mountPath: /var/report
+      name: report-dir
+    - mountPath: /var/notary/v1
+      name: notary-dir
+      readOnly: true
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  imagePullSecrets:
+  - name: docker-configjson
+  initContainers:
+  - args:
+    - -dockerconfig=docker-configjson
+    env:
+    - name: GIT_URL
+      value: https://github.com/Blazity/next-saas-starter
+    - name: GIT_REVISION
+      value: 375ae1bdbceac9799b849d5951b41e884074b98a
+    - name: SOURCE_SUB_PATH
+    - name: PROJECT_DESCRIPTOR_PATH
+    - name: IMAGE_TAG
+      value: jimjuniorb/default-kpack
+    - name: RUN_IMAGE
+      value: index.docker.io/heroku/heroku@sha256:74ca0e2042b01fb37cb894592c19420c758548356583d420e038acfc7001b5a9
+    - name: BUILDER_IMAGE
+      value: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    - name: BUILDER_NAME
+      value: default-builder
+    - name: BUILDER_KIND
+      value: ClusterBuilder
+    - name: DNS_PROBE_HOSTNAME
+      value: index.docker.io
+    - name: BUILD_CHANGES
+      value: '[{"reason":"COMMIT","old":"4233a52c7d5441e1582479c0f087c262d92a112d","new":"375ae1bdbceac9799b849d5951b41e884074b98a"}]'
+    image: gcr.io/cf-build-service-public/kpack/build-init@sha256:8869483600a9bd4e44bac1351b46e3a389197049acf572101bc72f00187b032d
+    imagePullPolicy: IfNotPresent
+    name: prepare
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/build-secrets/docker-configjson
+      name: secret-volume-0
+    - mountPath: /registrySourcePullSecrets
+      name: registry-source-pull-secrets-dir
+      readOnly: true
+    - mountPath: /platform
+      name: platform-dir
+    - mountPath: /workspace
+      name: workspace-dir
+    - mountPath: /builder/home
+      name: home-dir
+    - mountPath: /projectMetadata
+      name: layers-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+    workingDir: /workspace
+  - args:
+    - -layers=/layers
+    - -analyzed=/layers/analyzed.toml
+    - -run-image=index.docker.io/heroku/heroku@sha256:74ca0e2042b01fb37cb894592c19420c758548356583d420e038acfc7001b5a9
+    - -tag=index.docker.io/jimjuniorb/default-kpack:b8.20221004.095601
+    - -previous-image=index.docker.io/jimjuniorb/default-kpack@sha256:5f0327a25b389329a20f26ef904e137772bc1da63c90a9a81f9b531222b77f8a
+    - jimjuniorb/default-kpack
+    command:
+    - /cnb/lifecycle/analyzer
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: CNB_PLATFORM_API
+      value: "0.9"
+    - name: SERVICE_BINDING_ROOT
+      value: /platform/bindings
+    image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imagePullPolicy: IfNotPresent
+    name: analyze
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /layers
+      name: layers-dir
+    - mountPath: /workspace
+      name: workspace-dir
+    - mountPath: /builder/home
+      name: home-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  - args:
+    - -app=/workspace
+    - -group=/layers/group.toml
+    - -plan=/layers/plan.toml
+    command:
+    - /cnb/lifecycle/detector
+    env:
+    - name: CNB_PLATFORM_API
+      value: "0.9"
+    image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imagePullPolicy: IfNotPresent
+    name: detect
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /layers
+      name: layers-dir
+    - mountPath: /platform
+      name: platform-dir
+    - mountPath: /workspace
+      name: workspace-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  - args:
+    - -group=/layers/group.toml
+    - -layers=/layers
+    - -cache-dir=/cache
+    - -analyzed=/layers/analyzed.toml
+    command:
+    - /cnb/lifecycle/restorer
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: CNB_PLATFORM_API
+      value: "0.9"
+    image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imagePullPolicy: IfNotPresent
+    name: restore
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /layers
+      name: layers-dir
+    - mountPath: /builder/home
+      name: home-dir
+    - mountPath: /cache
+      name: cache-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  - args:
+    - -layers=/layers
+    - -app=/workspace
+    - -group=/layers/group.toml
+    - -plan=/layers/plan.toml
+    command:
+    - /cnb/lifecycle/builder
+    env:
+    - name: CNB_PLATFORM_API
+      value: "0.9"
+    - name: SERVICE_BINDING_ROOT
+      value: /platform/bindings
+    image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imagePullPolicy: IfNotPresent
+    name: build
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /layers
+      name: layers-dir
+    - mountPath: /platform
+      name: platform-dir
+    - mountPath: /workspace
+      name: workspace-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  - args:
+    - -layers=/layers
+    - -app=/workspace
+    - -group=/layers/group.toml
+    - -analyzed=/layers/analyzed.toml
+    - -project-metadata=/layers/project-metadata.toml
+    - -cache-dir=/cache
+    - -report=/var/report/report.toml
+    - jimjuniorb/default-kpack
+    - index.docker.io/jimjuniorb/default-kpack:b8.20221004.095601
+    command:
+    - /cnb/lifecycle/exporter
+    env:
+    - name: HOME
+      value: /builder/home
+    - name: CNB_PLATFORM_API
+      value: "0.9"
+    - name: CNB_RUN_IMAGE
+      value: index.docker.io/heroku/heroku@sha256:74ca0e2042b01fb37cb894592c19420c758548356583d420e038acfc7001b5a9
+    image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imagePullPolicy: IfNotPresent
+    name: export
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /layers
+      name: layers-dir
+    - mountPath: /workspace
+      name: workspace-dir
+    - mountPath: /builder/home
+      name: home-dir
+    - mountPath: /var/report
+      name: report-dir
+    - mountPath: /cache
+      name: cache-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-vw559
+      readOnly: true
+  nodeName: lke72932-112519-6325dd08d5f3
+  nodeSelector:
+    kubernetes.io/os: linux
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount: kpack-sva
+  serviceAccountName: kpack-sva
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: secret-volume-0
+    secret:
+      defaultMode: 420
+      secretName: docker-configjson
+  - name: cache-dir
+    persistentVolumeClaim:
+      claimName: tutorial-image-3-cache
+  - emptyDir: {}
+    name: layers-dir
+  - emptyDir: {}
+    name: home-dir
+  - emptyDir: {}
+    name: workspace-dir
+  - emptyDir: {}
+    name: platform-dir
+  - emptyDir: {}
+    name: report-dir
+  - emptyDir: {}
+    name: network-wait-launcher-dir
+  - emptyDir: {}
+    name: registry-source-pull-secrets-dir
+  - emptyDir: {}
+    name: notary-dir
+  - name: kube-api-access-vw559
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-04T09:56:06Z"
+    message: 'containers with incomplete status: [build export]'
+    reason: ContainersNotInitialized
+    status: "False"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-04T09:56:06Z"
+    message: 'containers with unready status: [completion]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-04T09:56:06Z"
+    message: 'containers with unready status: [completion]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-04T09:56:06Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: gcr.io/cf-build-service-public/kpack/completion@sha256:16da41e9dd2fdea79bc4823ac19e2f2aa647c30fafd92657b2180530c7e240f8
+    imageID: ""
+    lastState: {}
+    name: completion
+    ready: false
+    restartCount: 0
+    started: false
+    state:
+      waiting:
+        reason: PodInitializing
+  hostIP: 192.168.136.126
+  initContainerStatuses:
+  - containerID: docker://e591214a585d16a2a970c751c4a1fc8fdde7b09f699ae49d0b0f2817d5927bb9
+    image: sha256:959a71218970d0d57440d8a0f711c0e4362b60672df39fe5e6df40f338fe7a3d
+    imageID: docker-pullable://gcr.io/cf-build-service-public/kpack/build-init@sha256:8869483600a9bd4e44bac1351b46e3a389197049acf572101bc72f00187b032d
+    lastState: {}
+    name: prepare
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://e591214a585d16a2a970c751c4a1fc8fdde7b09f699ae49d0b0f2817d5927bb9
+        exitCode: 0
+        finishedAt: "2022-10-04T09:56:40Z"
+        reason: Completed
+        startedAt: "2022-10-04T09:56:33Z"
+  - containerID: docker://025bbccaf25b2ba2b4f8219618b3f9bda8e82d3b4534dbba3126b36f5dc7c8a8
+    image: sha256:8f40c56743e8dae7b659dcd10e3c20b1228688e737f9f20908431df3e1791a3a
+    imageID: docker-pullable://jimjuniorb/buildpacks@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    lastState: {}
+    name: analyze
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://025bbccaf25b2ba2b4f8219618b3f9bda8e82d3b4534dbba3126b36f5dc7c8a8
+        exitCode: 0
+        finishedAt: "2022-10-04T09:56:59Z"
+        reason: Completed
+        startedAt: "2022-10-04T09:56:42Z"
+  - containerID: docker://19fb8ea62ea607cee019c00d58b8a9332f88e5e72cb96cd691f78161046b4388
+    image: sha256:8f40c56743e8dae7b659dcd10e3c20b1228688e737f9f20908431df3e1791a3a
+    imageID: docker-pullable://jimjuniorb/buildpacks@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    lastState: {}
+    name: detect
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://19fb8ea62ea607cee019c00d58b8a9332f88e5e72cb96cd691f78161046b4388
+        exitCode: 0
+        finishedAt: "2022-10-04T09:56:59Z"
+        reason: Completed
+        startedAt: "2022-10-04T09:56:59Z"
+  - containerID: docker://a41f6cee09ae16629b98f7ef99e1673a80637c2f9205f2ebf497c7a1ffd7b2cb
+    image: sha256:8f40c56743e8dae7b659dcd10e3c20b1228688e737f9f20908431df3e1791a3a
+    imageID: docker-pullable://jimjuniorb/buildpacks@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    lastState: {}
+    name: restore
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://a41f6cee09ae16629b98f7ef99e1673a80637c2f9205f2ebf497c7a1ffd7b2cb
+        exitCode: 0
+        finishedAt: "2022-10-04T09:57:07Z"
+        reason: Completed
+        startedAt: "2022-10-04T09:57:00Z"
+  - containerID: docker://77873cde6761657a096ca44a5fa9238e5e1da31151a7fcbe4e0f4ff57bd255bc
+    image: sha256:8f40c56743e8dae7b659dcd10e3c20b1228688e737f9f20908431df3e1791a3a
+    imageID: docker-pullable://jimjuniorb/buildpacks@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    lastState: {}
+    name: build
+    ready: false
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://77873cde6761657a096ca44a5fa9238e5e1da31151a7fcbe4e0f4ff57bd255bc
+        exitCode: 51
+        finishedAt: "2022-10-04T10:03:28Z"
+        reason: Error
+        startedAt: "2022-10-04T09:57:08Z"
+  - image: jimjuniorb/buildpacks:20@sha256:b5e282aa870b77a113a67ea4b6a97ffc3d0fb16c559c901858fdc5adff41f4c8
+    imageID: ""
+    lastState: {}
+    name: export
+    ready: false
+    restartCount: 0
+    state:
+      waiting:
+        reason: PodInitializing
+  phase: Failed
+  podIP: 10.2.1.30
+  podIPs:
+  - ip: 10.2.1.30
+  qosClass: BestEffort
+  startTime: "2022-10-04T09:56:06Z"

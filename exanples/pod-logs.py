@@ -10,8 +10,9 @@ def main():
     w = watch.Watch()
     v1 = client.CoreV1Api()
     #w = Watch()
-    for e in w.stream(v1.read_namespaced_pod_log, name="nodeapp-deployment-784d8dc7b6-lj5tm", namespace="cli", tail_lines=1):
-        print(e)
+    p = v1.read_namespaced_pod(
+        name="tutorial-image-3-build-8-build-pod", namespace="default")
+    print(p)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,38 @@
+[4/4] Building fresh packages...
+Done in 234.17s.
+yarn run v1.22.19
+$ yarn tinacms server:start -c "next build"
+$ /workspace/node_modules/.bin/tinacms server:start -c 'next build'
+
+(node:185) [DEP0147] DeprecationWarning: In future versions of Node.js, fs.rmdir(path, { recursive: true }) will be removed. Use fs.rm(path, { recursive: true }) instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Started Filesystem GraphQL server on port: 4001
+Visit the playground at http://localhost:4001/altair/
+node:internal/errors:484
+    ErrorCaptureStackTrace(err);
+    ^
+
+Error: ENOSPC: System limit for number of file watchers reached, watch '/workspace/node_modules/@heroicons/react/solid/LinkIcon.d.ts'
+    at FSWatcher.<computed> (node:internal/fs/watchers:244:19)
+    at Proxy.watch (node:fs:2315:34)
+    at createFsWatchInstance (/workspace/node_modules/chokidar/lib/nodefs-handler.js:119:15)
+    at setFsWatchListener (/workspace/node_modules/chokidar/lib/nodefs-handler.js:166:15)
+    at NodeFsHandler._watchWithNodeFs (/workspace/node_modules/chokidar/lib/nodefs-handler.js:331:14)
+    at NodeFsHandler._handleFile (/workspace/node_modules/chokidar/lib/nodefs-handler.js:395:23)
+    at NodeFsHandler._addToNodeFs (/workspace/node_modules/chokidar/lib/nodefs-handler.js:629:21)
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (/workspace/node_modules/chokidar/index.js:647:10)
+    at NodeFsHandler._addToNodeFs (/workspace/node_modules/chokidar/lib/nodefs-handler.js:637:18) {
+  errno: -28,
+  syscall: 'watch',
+  code: 'ENOSPC',
+  path: '/workspace/node_modules/@heroicons/react/solid/LinkIcon.d.ts',
+  filename: '/workspace/node_modules/@heroicons/react/solid/LinkIcon.d.ts'
+}
+
+Node.js v18.9.1
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+ERROR: failed to build: exit status 1

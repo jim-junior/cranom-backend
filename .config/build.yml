@@ -1,14 +1,23 @@
 apiVersion: kpack.io/v1alpha2
 kind: Build
 metadata:
-  name: sample-build
+  name: build-1
 spec:
   tags:
-  - jimjuniorb/heroku-stack-build
+  - jimjuniorb/kpbuildsample
   serviceAccountName: kpack-sva
   builder:
     image: heroku/buildpacks:20
+    imagePullSecrets:
+    - name: docker-configjson
   source:
     git:
-      url: https://github.com/Blazity/next-saas-starter.git
-      revision: master
+      url: https://github.com/Blazity/next-saas-starter
+      revision: 4233a52c7d5441e1582479c0f087c262d92a112d
+  resources:
+    requests:
+      cpu: "0.25"
+      memory: "128M"
+    limits:
+      cpu: "0.5"
+      memory: "256M"

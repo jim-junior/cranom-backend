@@ -1,13 +1,17 @@
 from kubernetes import client, config, watch
-import json
+from kube.config import get_api_client_config
 
 
-config.load_kube_config()
-crd_api = client.CustomObjectsApi()
+apiConfig = get_api_client_config()
+apiclient = client.ApiClient(apiConfig)
+v1 = client.CoreV1Api(apiclient)
+apps_v1_api = client.AppsV1Api(apiclient)
+networking_v1_api = client.NetworkingV1Api(apiclient)
+
+crd_api = client.CustomObjectsApi(apiConfig)
 
 
-def watch_kp_image():
-
+def watch_kp_image(image):
     current = None
 
     while True:
@@ -16,7 +20,7 @@ def watch_kp_image():
             version="v1alpha2",
             namespace="default",
             plural="images",
-            name="tutorial-image-3"
+            name="image"
         )
         status = obj["status"]["conditions"][0]["status"]
         if status == "True":
@@ -30,6 +34,3 @@ def watch_kp_image():
                 print("Building")
                 current = status
                 print(current)
-
-
-watch_kp_image()

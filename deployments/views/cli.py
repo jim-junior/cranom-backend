@@ -40,8 +40,8 @@ class CreateDeployment(generics.GenericAPIView):
                 #
                 userprofile = getUserProfile(request.user)
                 username = userprofile.username
-                # create_from_deployment(
-                #    username, proj.name, dep.image, proj.port, [], deployed)
+                create_from_deployment(
+                    username, proj.name, dep.image, proj.port, [], deployed)
                 pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:

@@ -9,7 +9,8 @@ from ...models import Deployment, Project
 apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 
-api = client.CustomObjectsApi(apiclient)
+custom_obj_api = client.CustomObjectsApi(apiclient)
+core_api = client.CoreV1Api(apiclient)
 
 
 def create_kp_image(project: Project, deployment: Deployment, username: str):
@@ -48,7 +49,7 @@ spec:
             }
         }
 
-    resp = api.create_namespaced_custom_object(
+    resp = custom_obj_api.create_namespaced_custom_object(
         group="kpack.io",
         version="v1alpha2",
         namespace="default",
@@ -56,3 +57,75 @@ spec:
         body=di,
     )
     print(resp.status)
+
+
+def create_git_secret(token: str, gh_username: str, dep, namespace: str):
+    git_secret = f"""
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {dep}-gh-secret
+  annotations:
+    kpack.io/git: https://github.com
+type: kubernetes.io/basic-auth
+stringData:
+  username: {gh_username}
+  password: {token}
+"""
+    di = yaml.load(git_secret, BaseLoader)
+    resp = core_api.create_namespaced_secret(namespace, di)
+
+
+def create_kp_builder(project: Project, deployment: Deployment, username: str):
+    img = f"""
+apiVersion: kpack.io/v1alpha2
+kind: Builder
+metadata:
+  name: {project.name}-builder
+spec:
+  tag: jimjuniorb/{project.name}-{username}-kp-builder
+  serviceAccountName: default
+  stack:
+    name: base-stack
+    kind: ClusterStack
+  store:
+    name: default-store
+    kind: ClusterStore
+  order:
+  - group:
+    - id: paketo-buildpacks/java
+  - group:
+    - id: paketo-buildpacks/nodejs
+  - group:
+    - id: kpack/my-custom-buildpack
+      version: 1.2.3
+    - id: kpack/my-optional-custom-buildpack
+      optional: true
+"""
+    di = yaml.load(img, BaseLoader)
+
+    resp = custom_obj_api.create_namespaced_custom_object(
+        group="kpack.io",
+        version="v1alpha2",
+        namespace=username,
+        plural="builders",
+        body=di,
+    )
+    print(resp.status)
+
+
+def create_git_sva(token: str, gh_username: str, dep, namespace: str):
+    git_secret = f"""
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kpack-sva
+  namespace: default
+secrets:
+- name: docker-configjson
+- name: 
+imagePullSecrets:
+- name: docker-configjson
+"""
+    di = yaml.load(git_secret, BaseLoader)
+    resp = core_api.create_namespaced_service_account(namespace, di)

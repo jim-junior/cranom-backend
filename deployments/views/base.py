@@ -9,7 +9,7 @@ from rest_framework import permissions
 from deployments.utils.ws_token import encrypt
 from ..models import *
 from ..serializers import *
-from .cli import getUserProfile
+from .cli import create_from_deployment, getUserProfile
 
 
 class ProjectDetails(generics.GenericAPIView):
@@ -72,3 +72,29 @@ class GetWebSocketToken(APIView):
         user = request.user
         token = encrypt(user.username, user.id)
         return Response(data={"token": token}, status=status.HTTP_200_OK)
+
+
+class CreateDeploymentFromUI(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        data = request.data
+        project_uuid = data["uuid"]
+        if Project.objects.filter(project_uuid=project_uuid).exists():
+            project = Project.objects.get(project_uuid=project_uuid)
+
+            if project.project_type == "docker":
+                deployment = Deployment.objects.create(
+                    project=project,
+                    image=project.image,
+                    user=project.user,
+                    version=project.deployment_set.count()
+                )
+                deployed = project.deployed
+                project.deployed = True
+                project.save()
+                deployment.save()
+                create_from_deployment(
+                    project.user.username, project.name, project.image, project.port, deployed)
+                return Response(status=status.HTTP_100_CONTINUE)
+        return Response(data={"message": "Does not exist"}, status=status.HTTP_406_NOT_ACCEPTABLE)

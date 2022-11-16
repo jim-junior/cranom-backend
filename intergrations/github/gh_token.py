@@ -21,6 +21,3 @@ def get_gh_auth_token():
 
     token = jwt.encode(payload, keystring, algorithm='RS256')
     return token
-
-
-print(get_gh_auth_token())

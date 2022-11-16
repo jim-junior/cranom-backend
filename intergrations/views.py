@@ -12,3 +12,9 @@ class CreateDeployment(APIView):
         data = request.data
         print(data)
         return Response(status=status.HTTP_201_CREATED)
+
+
+class DockerWebhookURI(APIView):
+
+    def post(self, request: Request, uuid):
+        data = request.data

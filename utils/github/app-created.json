@@ -1,0 +1,27 @@
+{
+  "zen": "Avoid administrative distraction.",
+  "hook_id": 388202609,
+  "hook": {
+    "type": "App",
+    "id": 388202609,
+    "name": "web",
+    "active": true,
+    "events": [
+      "commit_comment",
+      "create",
+      "push",
+      "release",
+      "repository",
+      "status"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "https://webhook.site/6babf2b7-378a-4b29-a745-179f52561424"
+    },
+    "updated_at": "2022-11-13T07:43:49Z",
+    "created_at": "2022-11-13T07:43:49Z",
+    "app_id": 261133,
+    "deliveries_url": "https://api.github.com/app/hook/deliveries"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "action": "created",
+  "installation": {
+    "id": 31177905,
+    "account": {
+      "login": "miapose",
+      "id": 111699947,
+      "node_id": "O_kgDOBqhn6w",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111699947?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/miapose",
+      "html_url": "https://github.com/miapose",
+      "followers_url": "https://api.github.com/users/miapose/followers",
+      "following_url": "https://api.github.com/users/miapose/following{/other_user}",
+      "gists_url": "https://api.github.com/users/miapose/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/miapose/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/miapose/subscriptions",
+      "organizations_url": "https://api.github.com/users/miapose/orgs",
+      "repos_url": "https://api.github.com/users/miapose/repos",
+      "events_url": "https://api.github.com/users/miapose/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/miapose/received_events",
+      "type": "Organization",
+      "site_admin": false
+    },
+    "repository_selection": "all",
+    "access_tokens_url": "https://api.github.com/app/installations/31177905/access_tokens",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "html_url": "https://github.com/organizations/miapose/settings/installations/31177905",
+    "app_id": 261133,
+    "app_slug": "cranoma",
+    "target_id": 111699947,
+    "target_type": "Organization",
+    "permissions": {
+      "issues": "read",
+      "contents": "write",
+      "metadata": "read",
+      "statuses": "read",
+      "deployments": "write"
+    },
+    "events": [
+      "commit_comment",
+      "create",
+      "push",
+      "release",
+      "repository",
+      "status"
+    ],
+    "created_at": "2022-11-13T10:55:56.000+03:00",
+    "updated_at": "2022-11-13T10:55:57.000+03:00",
+    "single_file_name": null,
+    "has_multiple_single_files": false,
+    "single_file_paths": [],
+    "suspended_by": null,
+    "suspended_at": null
+  },
+  "repositories": [
+    {
+      "id": 527267577,
+      "node_id": "R_kgDOH212-Q",
+      "name": "mobile",
+      "full_name": "miapose/mobile",
+      "private": true
+    },
+    {
+      "id": 530195292,
+      "node_id": "R_kgDOH5ojXA",
+      "name": "backend",
+      "full_name": "miapose/backend",
+      "private": true
+    },
+    {
+      "id": 530599029,
+      "node_id": "R_kgDOH6BMdQ",
+      "name": "admin-site",
+      "full_name": "miapose/admin-site",
+      "private": true
+    },
+    {
+      "id": 530599475,
+      "node_id": "R_kgDOH6BOMw",
+      "name": "miapose.com",
+      "full_name": "miapose/miapose.com",
+      "private": true
+    }
+  ],
+  "requester": null,
+  "sender": {
+    "login": "jim-junior",
+    "id": 69729988,
+    "node_id": "MDQ6VXNlcjY5NzI5OTg4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/69729988?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/jim-junior",
+    "html_url": "https://github.com/jim-junior",
+    "followers_url": "https://api.github.com/users/jim-junior/followers",
+    "following_url": "https://api.github.com/users/jim-junior/following{/other_user}",
+    "gists_url": "https://api.github.com/users/jim-junior/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/jim-junior/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/jim-junior/subscriptions",
+    "organizations_url": "https://api.github.com/users/jim-junior/orgs",
+    "repos_url": "https://api.github.com/users/jim-junior/repos",
+    "events_url": "https://api.github.com/users/jim-junior/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/jim-junior/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}

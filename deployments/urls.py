@@ -1,10 +1,11 @@
 #from .views import CreateDeploymentView
 from django.urls import path
 from .views.cli import (CreateDeployment, CreateProject, GetProjectInfo,)
-from .views.base import ProjectDetails, ProjectDeployments, ProjectList, StarProjectAPIView, GetWebSocketToken
+from .views.base import ProjectDetails, ProjectDeployments, ProjectList, StarProjectAPIView, GetWebSocketToken, CreateDeploymentFromUI
 
 urlpatterns = [
     path("create/", CreateDeployment.as_view(), name="Create deployment"),
+    path("project/deploy/", CreateDeploymentFromUI.as_view(), name="DEploy Project"),
     path("get/token/ws/", GetWebSocketToken.as_view(), name="Create deployment"),
     path("create/project/", CreateProject.as_view(), name="Create Project"),
     path("get/project/info/", GetProjectInfo.as_view(), name="Get Project Info"),

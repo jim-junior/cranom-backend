@@ -15,6 +15,8 @@ class UserProfile(models.Model):
     email = models.EmailField()
     is_active = models.BooleanField(default=False)
     username = models.CharField(max_length=50)
+    gh_id = models.CharField(max_length=12, blank=True)
+    avatar = models.TextField(blank=True,)
 
 
 # A teams model. Each team has a name, a description, and a list of members. The members are represented as a list of usernames.

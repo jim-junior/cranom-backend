@@ -101,7 +101,10 @@ class SignInWithGithub(APIView):
 
     def post(self, request: Request):
         email = request.data['email']
-        if self.checkIfEmailExists(email):
+        gh_id = request.data['gh_id']
+        avatar = request.data['avatar_url']
+        gh_name = request.data['name']
+        if self.checkIfEmailExists(email, gh_id):
             user = User.objects.get(email=email)
             # Sign in user and return jwt token
             tokens = self.get_tokens_for_user(user)
@@ -118,18 +121,20 @@ class SignInWithGithub(APIView):
                 user=user,
                 is_active=False,
                 email=email,
-                username=username
+                username=username,
+                gh_id=gh_id,
+                avatar=avatar
             )
             userprofile.save()
             # Sign in user and return jwt token
             tokens = self.get_tokens_for_user(user)
             return Response(data=tokens, status=status.HTTP_200_OK)
 
-    def checkIfEmailExists(self, email):
+    def checkIfEmailExists(self, email, gh_id):
         try:
-            User.objects.get(email=email)
+            UserProfile.objects.get(gh_id=gh_id)
             return True
-        except User.DoesNotExist:
+        except UserProfile.DoesNotExist:
             return False
 
     def get_tokens_for_user(self, user):

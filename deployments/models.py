@@ -60,6 +60,7 @@ class Deployment(models.Model):
         on_delete=models.CASCADE
     )
     deployment_cfg = models.JSONField(blank=True, null=True)
+    pipeline_cfg = models.JSONField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.deployment_uuid

@@ -45,7 +45,7 @@ class ProjectList(generics.ListAPIView):
     def get_queryset(self):
         user = getUserProfile(self.request.user)
         queryset = self.model.objects.filter(user=user)
-        return queryset.order_by("favorite", '-created_at')
+        return queryset.order_by("-favorite", '-created_at')
 
 
 class StarProjectAPIView(APIView):
@@ -95,6 +95,6 @@ class CreateDeploymentFromUI(APIView):
                 project.save()
                 deployment.save()
                 create_from_deployment(
-                    project.user.username, project.name, project.image, project.port, deployed)
+                    project.user.username, project.name, project.image, project.port, [], deployed)
                 return Response(status=status.HTTP_100_CONTINUE)
         return Response(data={"message": "Does not exist"}, status=status.HTTP_406_NOT_ACCEPTABLE)

@@ -16,6 +16,8 @@ networking_v1_api = client.NetworkingV1Api() """
 
 
 def create_deployment(user, name, image, port, envs=[], deployed=False):
+    print(
+        f"Creating deployment {name} for {user}. Deployed: {deployed}, Port: {port}")
     environVars = []
     for var in envs:
         environVars.append(
@@ -67,11 +69,6 @@ def create_deployment(user, name, image, port, envs=[], deployed=False):
         }
     }
 
-    api_response = apps_v1_api.create_namespaced_deployment(
-        body=dic,
-        namespace=user
-    )
-
     if deployed == True:
         respo = apps_v1_api.patch_namespaced_deployment(
             name=f"{name}-deployment", namespace=user, body=dic
@@ -84,6 +81,8 @@ def create_deployment(user, name, image, port, envs=[], deployed=False):
 
 
 def create_service(name, port, user, deployed):
+    print(
+        f"Creating SVC {name} for {user}. Deployed: {deployed}, Port: {port}")
     body = client.V1Service(
         metadata=client.V1ObjectMeta(
             name=f"{name}-service",
@@ -109,14 +108,18 @@ def create_service(name, port, user, deployed):
             namespace=user,
             body=body
         )
+        print("Service patched")
     else:
         api_response = v1.create_namespaced_service(
             body=body,
             namespace=user
         )
+        print(f"Service created. status='{api_response.status}'")
 
 
 def create_ingress(name, port, user, deployed):
+    print(
+        f"Creating Ingress {name} for {user}. Deployed: {deployed}, Port: {port}")
     ing_obj = {
         "apiVersion": "networking.k8s.io/v1",
         "kind": "Ingress",
@@ -163,4 +166,3 @@ def create_ingress(name, port, user, deployed):
             body=ing_obj,
             namespace=user
         )
-

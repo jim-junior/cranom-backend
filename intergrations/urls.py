@@ -1,7 +1,9 @@
 #from .views import CreateDeploymentView
 from django.urls import path
-from .views import CreateDeployment
+from .views import GithubWebhook, DockerHubWebhook
 
 urlpatterns = [
-    path("webhook/git/", CreateDeployment.as_view(), name="Create deployment"),
+    path("webhook/gh/", GithubWebhook.as_view(), name="Github Webhook"),
+    path("webhook/dh/<project_uuid>/",
+         DockerHubWebhook.as_view(), name="Docker Hub Webhook"),
 ]

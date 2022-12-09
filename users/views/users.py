@@ -24,6 +24,18 @@ restricted_names = [
     "kube-node-lease",
     "ingress",
     "external-dns",
+    "cranom",
+    "prometheus",
+    "grafana",
+    "cert-manager",
+    "cert-manager-cainjector",
+    "cert-manager-webhook",
+    "cert-manager-controller",
+    "kubernetes-dashboard",
+    "kubernetes-dashboard-metrics-scraper",
+    "government",
+    "government-internal",
+    "government-external",
 ]
 
 

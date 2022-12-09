@@ -98,3 +98,16 @@ class CreateDeploymentFromUI(APIView):
                     project.user.username, project.name, project.image, project.port, [], deployed)
                 return Response(status=status.HTTP_100_CONTINUE)
         return Response(data={"message": "Does not exist"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+# A ListAPIView that shows the deployments of a project given the project uuid as a parameter and paginates the results in groups of 10
+class ProjectDeployments(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = DeploymentSerializer
+    model = serializer_class.Meta.model
+    paginate_by = 10
+
+    def get_queryset(self):
+        project_uuid = self.kwargs['project']
+        queryset = self.model.objects.filter(project=project_uuid)
+        return queryset.order_by('-created_at')

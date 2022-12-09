@@ -32,6 +32,13 @@ class Project(models.Model):
     favorite = models.BooleanField(default=False)
     project_cfg = models.JSONField(blank=True, null=True)
     webhook = models.URLField(blank=True, null=True)
+    webhook_secret = models.CharField(max_length=100, blank=True, null=True)
+    gh_update_on_push = models.BooleanField(
+        default=False, blank=True, null=True)
+    gh_update_on_pr_merge = models.BooleanField(
+        default=False, blank=True, null=True)
+    gh_update_on_release = models.BooleanField(
+        default=False, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} {self.project_uuid}"

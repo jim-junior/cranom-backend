@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "users",
     "anymail",
     "channels",
+    "billing",
     "intergrations"
 ]
 
@@ -219,3 +220,5 @@ FLUTTERWAVE_SECRET = "FLWSECK_TEST-9dbffbbda5a3746b8e37eb4456886097-X"
 FLUTTERWAVE_ENDPOINT = "https://api.flutterwave.com/v3"
 FLUTTERWAVE_HASH = ""
 FLUTTERWAVE_ENCRYPTION_KEY = "FLWSECK_TEST5b63f3a70b92"
+
+GITHUB_SECRET_HASH = "b3d9b3b0b3d9b3b0b3d9b3b0b3b0b3d9b3bb3d9"

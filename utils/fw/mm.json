@@ -1,0 +1,30 @@
+{
+  "event": "charge.completed",
+  "data": {
+    "id": 4013878,
+    "tx_ref": "564",
+    "flw_ref": "flwm3s4m0c1670702063674",
+    "device_fingerprint": "N/A",
+    "amount": 32000,
+    "currency": "UGX",
+    "charged_amount": 32000,
+    "app_fee": 960,
+    "merchant_fee": 0,
+    "processor_response": "Approved",
+    "auth_model": "MOBILEMONEY",
+    "ip": "52.209.154.143",
+    "narration": "Cranom",
+    "status": "successful",
+    "payment_type": "mobilemoneyug",
+    "created_at": "2022-12-10T19:54:23.000Z",
+    "account_id": 155238,
+    "customer": {
+      "id": 1921782,
+      "name": "Anonymous Customer",
+      "phone_number": "256704203035",
+      "email": "jimjunior854@gmail.com",
+      "created_at": "2022-12-10T19:54:23.000Z"
+    }
+  },
+  "event.type": "MOBILEMONEYUG_TRANSACTION"
+}

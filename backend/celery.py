@@ -6,7 +6,7 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 app = Celery(
-    'backend', broker="redis://localhost:6379")
+    'backend', broker="redis://:99fed4stqjcTSLEKsUOjI2hJsU0TKX0o@redis-19117.c12.us-east-1-4.ec2.cloud.redislabs.com:19117/0")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

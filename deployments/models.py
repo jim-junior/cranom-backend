@@ -6,6 +6,17 @@ from users.models import UserProfile
 # Create your models here.
 
 
+PROJECT_PLANS = (
+    ("hobby", "hobby"),
+    ("micro", "micro"),
+    ("standard", "standard"),
+    ("medium", "medium"),
+    ("large", "large"),
+    ("xlarge", "xlarge"),
+    ("2xlarge", "2xlarge"),
+)
+
+
 class Project(models.Model):
     readable_name = models.CharField(max_length=32, blank=True, null=True)
     name = models.CharField(max_length=100)
@@ -39,6 +50,11 @@ class Project(models.Model):
         default=False, blank=True, null=True)
     gh_update_on_release = models.BooleanField(
         default=False, blank=True, null=True)
+    last_charged = models.DateTimeField(
+        blank=True, null=True, auto_now_add=True)
+    plan = models.CharField(
+        max_length=10, choices=PROJECT_PLANS, default='free'
+    )
 
     def __str__(self):
         return f"{self.name} {self.project_uuid}"

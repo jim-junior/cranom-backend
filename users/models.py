@@ -17,6 +17,10 @@ class UserProfile(models.Model):
     username = models.CharField(max_length=50)
     gh_id = models.CharField(max_length=12, blank=True)
     avatar = models.TextField(blank=True,)
+    account_credit = models.IntegerField(default=0)
+    country = models.CharField(max_length=20, default="uganda")
+    created_at = models.DateTimeField(auto_now_add=True)
+    currency = models.CharField(max_length=4, default="UGX")
 
 
 # A teams model. Each team has a name, a description, and a list of members. The members are represented as a list of usernames.

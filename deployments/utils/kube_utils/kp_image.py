@@ -84,7 +84,7 @@ metadata:
   name: {project.name}-builder
 spec:
   tag: jimjuniorb/{project.name}-{username}-kp-builder
-  serviceAccountName: default
+  serviceAccountName: {project.name}-sva
   stack:
     name: base-stack
     kind: ClusterStack
@@ -114,18 +114,18 @@ spec:
     print(resp.status)
 
 
-def create_git_sva(token: str, gh_username: str, dep, namespace: str):
-    git_secret = f"""
+def create_proj_sva(proj, namespace: str):
+    proj_sva = f"""
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kpack-sva
-  namespace: default
+  name: {proj.name}-sva
+  namespace: {namespace}
 secrets:
 - name: docker-configjson
-- name: 
+- name: {proj.name}-gh-secret
 imagePullSecrets:
 - name: docker-configjson
 """
-    di = yaml.load(git_secret, BaseLoader)
+    di = yaml.load(proj_sva, BaseLoader)
     resp = core_api.create_namespaced_service_account(namespace, di)

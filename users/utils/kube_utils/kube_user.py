@@ -35,7 +35,7 @@ def create_namespace(user):
 
 # A function that creates a kubernetes secret for the user
 def create_docker_pull_secret(user):
-    git_secret = f"""
+    git_secret = """
 apiVersion: v1
 kind: Secret
 metadata:

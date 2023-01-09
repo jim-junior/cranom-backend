@@ -91,17 +91,6 @@ def charge_mobile_money(phone_number, transaction_id, order_id, amount, email, c
     return response.json()
 
 
-resp = charge_mobile_money(
-    "256704203035",
-    "564",
-    "03209",
-    "32000",
-    "jimjunior854@gmail.com",
-    "uganda",
-)
-print(resp)
-
-
 def charge_mpesa(phone_number, transaction_id, order_id, amount, email, country="kenya"):
     currency = "KES"
     endpoint = MPESA_ENDPOINT + country

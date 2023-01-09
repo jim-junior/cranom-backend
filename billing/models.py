@@ -12,6 +12,8 @@ class Card(models.Model):
     card_token = models.CharField(max_length=100, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
     automatic = models.BooleanField(default=False)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    card_holder = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.card_holder
@@ -24,10 +26,12 @@ class Card(models.Model):
 
 
 class MMPhoneNumber(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=16)
     verification_code = models.CharField(max_length=6, blank=True)
     verified = models.BooleanField(default=False)
     country = models.CharField(max_length=15, blank=True)
+    otp = models.CharField(max_length=6, blank=True)
 
     def __str__(self):
         return self.phone_number

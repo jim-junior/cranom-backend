@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 # Create your models here.
 
@@ -48,3 +49,17 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.message
+
+
+class AuthTokens(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    token = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, related_name='token')
+    created_at = models.DateTimeField(auto_now_add=True)
+    user_agent = models.CharField(max_length=100, blank=True)
+    host = models.CharField(max_length=100, blank=True)
+    platform = models.CharField(max_length=100, blank=True)
+    ip = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.token

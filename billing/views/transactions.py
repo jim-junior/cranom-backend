@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from billing.models import MMPhoneNumber, Card, Transaction
+from billing.models import MMPhoneNumber, Card, Transaction, UserProfile
 from billing.serializers import CardSerializer
 from billing.utils.charge import charge_card, charge_mobile_money
 from billing.utils.sms import send_sms
@@ -14,11 +14,19 @@ import random
 # An API View that adds a new card
 
 
+def getUserProfile(user):
+    profile = UserProfile.objects.get(user=user)
+    return profile
+
+
 class AddCardAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
         data = request.data
+        # Print headers
+        print(request.headers)
+        data['user'] = getUserProfile(request.user)
         serializer = CardSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -33,7 +41,7 @@ class ListCardsAPIView(generics.ListAPIView):
     serializer_class = CardSerializer
 
     def get_queryset(self):
-        return Card.objects.filter(user=self.request.user)
+        return Card.objects.filter(user=getUserProfile(self.request.user))
 
 # A generic view that deletes a card
 
@@ -44,7 +52,7 @@ class DeleteCardAPIView(generics.DestroyAPIView):
     lookup_field = 'id'
 
     def get_queryset(self):
-        return Card.objects.filter(user=self.request.user)
+        return Card.objects.filter(user=getUserProfile(self.request.user))
 
 
 class AddMobileNumberAndSendOTPAPIView(APIView):
@@ -53,13 +61,15 @@ class AddMobileNumberAndSendOTPAPIView(APIView):
     def post(self, request):
         data = request.data
         phone_number = data.get('phone_number')
+        user = getUserProfile(request.user)
         if phone_number:
             otp = random.randint(100000, 999999)
             mm_phone_number = MMPhoneNumber.objects.create(
-                user=request.user,
+                user=user,
                 phone_number=phone_number,
                 otp=otp
             )
+            print('OTP: {}'.format(otp))
 
             send_sms(phone_number, f'Your OTP is {otp}')
             return Response({'message': 'OTP sent'}, status=status.HTTP_200_OK)
@@ -75,7 +85,7 @@ class VerifyMobileNumberAPIView(APIView):
         phone_number = data.get('phone_number')
         if otp and phone_number:
             mm_phone_number = MMPhoneNumber.objects.filter(
-                user=request.user,
+                user=getUserProfile(request.user),
                 phone_number=phone_number,
                 otp=otp
             ).first()

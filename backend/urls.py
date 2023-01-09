@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include("users.urls")),
     path('deployments/', include("deployments.urls")),
+    path('billing/', include("billing.urls")),
     path('intergrations/', include("intergrations.urls")),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -7,6 +7,8 @@ from .views import (
     AddMobileNumberAndSendOTPAPIView,
     VerifyMobileNumberAPIView,
     ChargeMobileMoneyAPIView,
+    ListMMPhoneNumbersAPIView,
+    DeleteMMPhoneAPIView,
 
 )
 from .views.webhooks import FlutterwaveTransactionWebhooks
@@ -14,7 +16,11 @@ from .views.webhooks import FlutterwaveTransactionWebhooks
 urlpatterns = [
     path('add-card/', AddCardAPIView.as_view(), name='add-card'),
     path('list-cards/', ListCardsAPIView.as_view(), name='list-cards'),
+    path('list-mm-phone-numbers/', ListMMPhoneNumbersAPIView.as_view(),
+         name='list-mm-phone-numbers'),
     path('delete-card/<pk>/', DeleteCardAPIView.as_view(), name='delete-card'),
+    path('delete-mm-phone/<pk>/',
+         DeleteMMPhoneAPIView.as_view(), name='delete-mm-phone'),
     path('add-mobile-number/', AddMobileNumberAndSendOTPAPIView.as_view(),
          name='add-mobile-number'),
     path('verify-mobile-number/', VerifyMobileNumberAPIView.as_view(),

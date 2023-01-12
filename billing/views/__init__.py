@@ -5,5 +5,7 @@ from .transactions import (
     AddMobileNumberAndSendOTPAPIView,
     VerifyMobileNumberAPIView,
     ChargeMobileMoneyAPIView,
+    ListMMPhoneNumbersAPIView,
+    DeleteMMPhoneAPIView,
 
 )

@@ -12,7 +12,7 @@ import string
 from ..utils.user_utils import encrypt, decrypt
 import time
 from django.core.mail import send_mail
-from ..utils.kube_utils.kube_user import create_namespace
+from ..utils.kube_utils.kube_user import create_namespace, create_docker_pull_secret
 
 restricted_names = [
     "admin",
@@ -39,6 +39,42 @@ restricted_names = [
 ]
 
 
+def sendActivationEmail(userprofile):
+    user_token = encrypt(userprofile.username, userprofile.email)
+    print("========")
+    print(user_token)
+    print("========")
+    # send email to user with the token
+    send_mail(
+        "Activate your account",
+        "Visit the link to activate your account: http://localhost:8000/activate/" + user_token,
+        "system@cranom.ml",
+        [userprofile.email],
+        fail_silently=True,
+        auth_user="Cranom INC",
+        html_message="""<!DOCTYPE html><html lang="en"><head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Verifiy Your Email</title>
+            </head>
+            <body>
+                <style>
+                    .verify {
+                        padding: 20px;
+                        background-color: #006eff;
+                        color: #fff;
+                        border-radius: 10px;
+                    }
+                </style>
+                <h1 style="padding: 20px;">Verifiy Your Email</h1>
+                <p style="padding: 20px;">Click The button below inorder to verifiy your email and activate your account</p>
+                <a class="verify" style="padding: 20px;background-color: #006eff;color: #fff;" href="http://cranom.ml/activate/"""+user_token + """\">Verify your Account</a>
+            </body>
+            </html>"""
+    )
+
+
 class CreateUser(APIView):
 
     def post(self, request: Request):
@@ -61,39 +97,7 @@ class CreateUser(APIView):
         )
         userprofile.save()
 
-        user_token = encrypt(userprofile.username, userprofile.email)
-        print("========")
-        print(user_token)
-        print("========")
-        # send email to user with the token
-        send_mail(
-            "Activate your account",
-            "Visit the link to activate your account: http://localhost:8000/activate/" + user_token,
-            "system@cranom.ml",
-            [userprofile.email],
-            fail_silently=True,
-            auth_user="Cranom INC",
-            html_message="""<!DOCTYPE html><html lang="en"><head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Verifiy Your Email</title>
-            </head>
-            <body>
-                <style>
-                    .verify {
-                        padding: 20px;
-                        background-color: #006eff;
-                        color: #fff;
-                        border-radius: 10px;
-                    }
-                </style>
-                <h1 style="padding: 20px;">Verifiy Your Email</h1>
-                <p style="padding: 20px;">Click The button below inorder to verifiy your email and activate your account</p>
-                <a class="verify" style="padding: 20px;background-color: #006eff;color: #fff;" href="http://cranom.ml/activate/"""+user_token + """\">Verify your Account</a>
-            </body>
-            </html>"""
-        )
+        sendActivationEmail(userprofile)
         serializedData = UserSerializer(userprofile)
 
         return Response(data=serializedData.data, status=status.HTTP_201_CREATED)
@@ -114,10 +118,11 @@ class SignInWithGithub(APIView):
     def post(self, request: Request):
         email = request.data['email']
         gh_id = request.data['gh_id']
-        avatar = request.data['avatar_url']
+        avatar = request.data['picture']
         gh_name = request.data['name']
-        if self.checkIfEmailExists(email, gh_id):
-            user = User.objects.get(email=email)
+        if self.checkIfEmailExists(gh_id):
+            profile = UserProfile.objects.get(gh_id=gh_id)
+            user = profile.user
             # Sign in user and return jwt token
             tokens = self.get_tokens_for_user(user)
             return Response(data=tokens, status=status.HTTP_200_OK)
@@ -138,11 +143,12 @@ class SignInWithGithub(APIView):
                 avatar=avatar
             )
             userprofile.save()
+            sendActivationEmail(userprofile)
             # Sign in user and return jwt token
             tokens = self.get_tokens_for_user(user)
             return Response(data=tokens, status=status.HTTP_200_OK)
 
-    def checkIfEmailExists(self, email, gh_id):
+    def checkIfEmailExists(self, gh_id):
         try:
             UserProfile.objects.get(gh_id=gh_id)
             return True
@@ -178,7 +184,8 @@ class ActivateAccount(APIView):
         userprofile.is_active = True
         userprofile.save()
         # create kube namespace for the user
-        # create_namespace(userprofile)
+        create_namespace(userprofile)
+        create_docker_pull_secret(userprofile)
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 
 

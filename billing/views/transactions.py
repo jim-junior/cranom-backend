@@ -6,7 +6,7 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from billing.models import MMPhoneNumber, Card, Transaction, UserProfile
-from billing.serializers import CardSerializer
+from billing.serializers import CardSerializer, MMPhoneSerializer
 from billing.utils.charge import charge_card, charge_mobile_money
 from billing.utils.sms import send_sms
 import random
@@ -43,16 +43,37 @@ class ListCardsAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Card.objects.filter(user=getUserProfile(self.request.user))
 
+# A generic view that lists all mm phonenumber for a specific user
+
+
+class ListMMPhoneNumbersAPIView(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = MMPhoneSerializer
+
+    def get_queryset(self):
+        return MMPhoneNumber.objects.filter(user=getUserProfile(self.request.user))
+
 # A generic view that deletes a card
 
 
 class DeleteCardAPIView(generics.DestroyAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = CardSerializer
-    lookup_field = 'id'
+    lookup_field = 'pk'
 
     def get_queryset(self):
         return Card.objects.filter(user=getUserProfile(self.request.user))
+
+# A generic view that deletes a mm phone number
+
+
+class DeleteMMPhoneAPIView(generics.DestroyAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = MMPhoneSerializer
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        return MMPhoneNumber.objects.filter(user=getUserProfile(self.request.user))
 
 
 class AddMobileNumberAndSendOTPAPIView(APIView):
@@ -61,13 +82,15 @@ class AddMobileNumberAndSendOTPAPIView(APIView):
     def post(self, request):
         data = request.data
         phone_number = data.get('phone_number')
+        country = data.get('country')
         user = getUserProfile(request.user)
         if phone_number:
             otp = random.randint(100000, 999999)
             mm_phone_number = MMPhoneNumber.objects.create(
                 user=user,
                 phone_number=phone_number,
-                otp=otp
+                otp=otp,
+                country=country
             )
             print('OTP: {}'.format(otp))
 

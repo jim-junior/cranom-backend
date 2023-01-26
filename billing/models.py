@@ -14,6 +14,7 @@ class Card(models.Model):
     automatic = models.BooleanField(default=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     card_holder = models.CharField(max_length=100, blank=True)
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.card_holder
@@ -52,9 +53,10 @@ class Transaction(models.Model):
     )
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     amount = models.FloatField()
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, blank=True)
+    card = models.ForeignKey(
+        Card, on_delete=models.CASCADE, blank=True, null=True)
     mm_phone_number = models.ForeignKey(
-        MMPhoneNumber, on_delete=models.CASCADE, blank=True)
+        MMPhoneNumber, on_delete=models.CASCADE, blank=True, null=True)
     transaction_status = models.CharField(max_length=100, default='pending')
     date_created = models.DateTimeField(auto_now_add=True)
     order_id = models.UUIDField(
@@ -67,12 +69,7 @@ class Transaction(models.Model):
     verification_url = models.CharField(max_length=300, blank=True)
     project = models.ForeignKey(
         Project, blank=True, on_delete=models.CASCADE, null=True)
+    fw_id = models.CharField(max_length=18, blank=True)
 
     def __str__(self):
-        return self.transaction_id
-
-    def __str__(self):
-        return self.transaction_id
-
-    def __str__(self):
-        return self.transaction_id
+        return self.trans_id

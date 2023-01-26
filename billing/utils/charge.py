@@ -46,10 +46,13 @@ def charge_card(card_number, cvv, expiry_month, expiry_year, transaction_id, amo
     payload = payload.decode("utf-8")
 
     # Send the request to the api
-    response = requests.post(
-        CHARGE_CARD_ENDPOINT, headers=headers, data=json.dumps(
-            {"client": payload})
-    )
+    response = requests.request(
+        "POST", CHARGE_CARD_ENDPOINT, headers=headers, data=json.dumps({"client": payload}))
+
+    print('===================================')
+    print(response)
+    print(response.text)
+    print('===================================')
 
     return response.json()
 
@@ -66,8 +69,14 @@ def charge_card(card_number, cvv, expiry_month, expiry_year, transaction_id, amo
 print(resp) """
 
 
-def charge_mobile_money(phone_number, transaction_id, order_id, amount, email, country="uganda", currency="USD", network="MTN"):
+def charge_mobile_money(phone_number, transaction_id, order_id, amount, email, country="uganda", currency="UGX", network="MTN"):
     endpoint = MOBILE_MONEY_ENDPOINT + country
+
+    if phone_number.startswith("+"):
+        # change +2567 to 07
+        phone_number = phone_number[4:]
+        phone_number = "0" + phone_number
+        print(phone_number)
 
     payload = {
         "amount": amount,

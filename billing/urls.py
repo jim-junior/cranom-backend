@@ -9,6 +9,7 @@ from .views import (
     ChargeMobileMoneyAPIView,
     ListMMPhoneNumbersAPIView,
     DeleteMMPhoneAPIView,
+    ChargeMobileMoneyAPIView,
 
 )
 from .views.webhooks import FlutterwaveTransactionWebhooks
@@ -29,4 +30,6 @@ urlpatterns = [
          name='charge-mobile-money'),
     path('flutterwave-webhooks/', FlutterwaveTransactionWebhooks.as_view(),
          name='flutterwave-webhooks'),
+    path('charge-mobile-money/', ChargeMobileMoneyAPIView.as_view(),
+         name='charge-mobile-money'),
 ]

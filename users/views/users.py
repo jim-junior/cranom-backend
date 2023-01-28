@@ -41,9 +41,6 @@ restricted_names = [
 
 def sendActivationEmail(userprofile):
     user_token = encrypt(userprofile.username, userprofile.email)
-    print("========")
-    print(user_token)
-    print("========")
     # send email to user with the token
     send_mail(
         "Activate your account",
@@ -73,6 +70,17 @@ def sendActivationEmail(userprofile):
             </body>
             </html>"""
     )
+
+
+# An APIView that resends the activation email
+class ResendActivationEmail(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        sendActivationEmail(profile)
+        return Response(status=status.HTTP_200_OK)
 
 
 class CreateUser(APIView):
@@ -219,18 +227,3 @@ class DeleteUser(APIView):
             return Response({"message": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
         user.delete()
         return Response({"message": "User deleted"}, status=status.HTTP_200_OK)
-
-
-class ChangeUsername(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def post(self, request: Request):
-        user = request.user
-        userprofile = UserProfile.objects.get(user=user)
-        data = request.data
-        username = data['username']
-        if User.objects.filter(username=username).exists() or username in restricted_names:
-            return Response({"message": "Username already in use"}, status=status.HTTP_400_BAD_REQUEST)
-        user.username = username
-        user.save()
-        return Response({"message": "Username changed"}, status=status.HTTP_200_OK)

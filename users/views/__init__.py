@@ -5,5 +5,5 @@ from .users import (
     ActivateAccount,
     ChangePassword,
     DeleteUser,
-    ChangeUsername,
+    ResendActivationEmail,
 )

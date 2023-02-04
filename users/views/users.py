@@ -227,3 +227,13 @@ class DeleteUser(APIView):
             return Response({"message": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
         user.delete()
         return Response({"message": "User deleted"}, status=status.HTTP_200_OK)
+
+
+# An APIiew that checks if user is verified
+class IsVerified(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request: Request):
+        user = request.user
+        userprofile = UserProfile.objects.get(user=user)
+        return Response({"verified": userprofile.is_active}, status=status.HTTP_200_OK)

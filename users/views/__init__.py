@@ -6,4 +6,5 @@ from .users import (
     ChangePassword,
     DeleteUser,
     ResendActivationEmail,
+    IsVerified,
 )

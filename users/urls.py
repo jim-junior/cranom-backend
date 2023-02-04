@@ -1,4 +1,4 @@
-from .views import CreateUser, SignInWithGithub, GetUserProfile, ActivateAccount, ResendActivationEmail
+from .views import CreateUser, SignInWithGithub, GetUserProfile, ActivateAccount, ResendActivationEmail, IsVerified
 from .views.cli import GetCLIToken, LoginWithCli
 from django.urls import path
 from .views import auth
@@ -23,5 +23,6 @@ urlpatterns = [
          name="Mark All Notifications As Read"),
     path("resendactivationemail/", ResendActivationEmail.as_view(),
          name="Resend Activation Email"),
+    path("isverified/", IsVerified.as_view(), name="Is Verified"),
 
 ]

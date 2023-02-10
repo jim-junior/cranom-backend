@@ -23,6 +23,9 @@ class Project(models.Model):
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    started_on = models.DateTimeField(blank=True, null=True)
+    stopped_on = models.DateTimeField(blank=True, null=True)
+    bill_accumulated = models.FloatField(blank=True, null=True)
     port = models.IntegerField(blank=True, null=True)
     image = models.TextField(blank=True, null=True)
     git_repo = models.CharField(max_length=200, blank=True, null=True)
@@ -45,7 +48,7 @@ class Project(models.Model):
     webhook = models.URLField(blank=True, null=True)
     webhook_secret = models.CharField(max_length=100, blank=True, null=True)
     gh_update_on_push = models.BooleanField(
-        default=False, blank=True, null=True)
+        default=True, blank=True, null=True)
     gh_update_on_pr_merge = models.BooleanField(
         default=False, blank=True, null=True)
     gh_update_on_release = models.BooleanField(
@@ -87,3 +90,18 @@ class Deployment(models.Model):
 
     def __str__(self):
         return self.deployment_uuid
+
+
+class DomainName(models.Model):
+    domain_name = models.CharField(max_length=100)
+    project = models.ForeignKey(
+        Project,
+        to_field="project_uuid",
+        on_delete=models.CASCADE
+    )
+    third_party = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.domain_name

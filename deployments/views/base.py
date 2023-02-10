@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-
+from users.models import Notification
 from deployments.utils.ws_token import encrypt
 from ..models import *
 from ..serializers import *
@@ -111,3 +111,31 @@ class ProjectDeployments(generics.ListAPIView):
         project_uuid = self.kwargs['project']
         queryset = self.model.objects.filter(project=project_uuid)
         return queryset.order_by('-created_at')
+
+
+class CreateGitHubProject(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ProjectSerializer
+
+    def post(self, request):
+        user = UserProfile.objects.get(user=request.user)
+        data = request.data
+        projname = data["name"]
+        prof = getUserProfile(user)
+        project_set = Project.objects.filter(user=prof)
+        if project_set.filter(name=projname).exists():
+            return Response(data={"message": "Project with this name already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            project = serializer.save()
+            # Create a notification for the user
+            Notification.objects.create(
+                user=user,
+                message=f"Project {projname} created successfully",
+                project_uuid=project.project_uuid
+
+            )
+            if data['autodeploy']:
+                pass
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

@@ -7,4 +7,5 @@ from .users import (
     DeleteUser,
     ResendActivationEmail,
     IsVerified,
+    LinkGithubAccount,
 )

@@ -41,6 +41,7 @@ restricted_names = [
 
 def sendActivationEmail(userprofile):
     user_token = encrypt(userprofile.username, userprofile.email)
+    print(user_token)
     # send email to user with the token
     send_mail(
         "Activate your account",
@@ -127,7 +128,6 @@ class SignInWithGithub(APIView):
         email = request.data['email']
         gh_id = request.data['gh_id']
         avatar = request.data['picture']
-        gh_name = request.data['name']
         if self.checkIfEmailExists(gh_id):
             profile = UserProfile.objects.get(gh_id=gh_id)
             user = profile.user
@@ -172,6 +172,21 @@ class SignInWithGithub(APIView):
         }
 
 
+class LinkGithubAccount(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        profile = UserProfile.objects.get(user=request.user)
+        if profile.gh_id:
+            return Response({"message": "Github account already linked"}, status=status.HTTP_400_BAD_REQUEST)
+        gh_id = request.data['gh_id']
+        avatar = request.data['picture']
+        profile.gh_id = gh_id
+        profile.avatar = avatar
+        profile.save()
+        return Response(status=status.HTTP_200_OK)
+
+
 class ActivateAccount(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -192,8 +207,8 @@ class ActivateAccount(APIView):
         userprofile.is_active = True
         userprofile.save()
         # create kube namespace for the user
-        create_namespace(userprofile)
-        create_docker_pull_secret(userprofile)
+        """ create_namespace(userprofile)
+        create_docker_pull_secret(userprofile) """
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 
 

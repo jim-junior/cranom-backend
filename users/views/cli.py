@@ -6,8 +6,9 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.serializers import UserSerializer
-from ..models import UserProfile
+from ..models import UserProfile, AuthTokens
 from rest_framework import permissions
+from rest_framework.authtoken.models import Token
 from ..utils.user_utils import get_cli_token, decode_cli_token
 
 
@@ -26,9 +27,9 @@ class LoginWithCli(APIView):
     def post(self, request):
 
         data = request.data
-        print(data)
         token = data["token"]
         username = data["username"]
+        platform = data["platform"]
         token_data = decode_cli_token(token)
         if token_data == "Failed":
             return Response(data={"message": "Invalid Token"}, status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -41,11 +42,12 @@ class LoginWithCli(APIView):
         if exp <= time.time():
             return Response(data={"message": "Token is Expired"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         user = User.objects.get(username=username)
-        refresh = RefreshToken.for_user(user)
+        token = Token.objects.create(user=user)
+        autht = AuthTokens.objects.create(
+            user=user, token=token, platform=platform)
 
         authdata = {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            "id": user.id
+            "id": user.id,
+            'token': token.key,
         }
         return Response(data=authdata, status=status.HTTP_200_OK)

@@ -39,6 +39,10 @@ class Team(models.Model):
 class Notification(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     message = models.TextField()
+    title = models.CharField(max_length=20, blank=True)
+    link = models.CharField(max_length=100, blank=True, null=True)
+    platform_notification = models.BooleanField(default=False)
+    link_text = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     deployment_uuid = models.CharField(max_length=100, blank=True, null=True)

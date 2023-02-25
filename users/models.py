@@ -4,6 +4,12 @@ from rest_framework.authtoken.models import Token
 
 # Create your models here.
 
+ACCOUNT_PLANS = (
+    ("hobby", "hobby"),
+    ("pro", "pro"),
+    ("enterprise", "enterprise"),
+)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -21,7 +27,10 @@ class UserProfile(models.Model):
     account_credit = models.IntegerField(default=0)
     country = models.CharField(max_length=20, default="uganda")
     created_at = models.DateTimeField(auto_now_add=True)
-    currency = models.CharField(max_length=4, default="UGX")
+    currency = models.CharField(max_length=4, default="USD")
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    plan = models.CharField(
+        max_length=10, choices=ACCOUNT_PLANS, default='hobby')
 
 
 # A teams model. Each team has a name, a description, and a list of members. The members are represented as a list of usernames.

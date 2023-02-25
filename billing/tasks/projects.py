@@ -1,10 +1,10 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Card, Transaction
-from deployments.models import Project
+from billing.models import Card, Transaction
+from deployments.models import Project, Node
 from users.models import UserProfile
-from .utils.charge import charge_card_token
+from billing.utils.charge import charge_card_token
 import datetime
 
 
@@ -36,7 +36,7 @@ def get_project_amount(plan, seconds):
 
 
 @shared_task
-def charge_projects():
+def __charge_projects():
     for project in Project.objects.all():
         if project.deployed:
             last_charged = project.last_charged
@@ -76,3 +76,12 @@ def charge_projects():
                         print("No card token")
                 else:
                     print("No cards")
+
+
+@shared_task
+def charge_projects():
+    for project in Project.objects.all():
+        amount = 0
+        user_profile = UserProfile.objects.get(user=project.user)
+        for node in project.node_set.all():
+            pass

@@ -45,6 +45,7 @@ class CreateDeployment(generics.GenericAPIView):
                 pass
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 

@@ -19,6 +19,17 @@ TOKENISED_TRANSACTIONS = "https://api.flutterwave.com/v3/tokenized-charges"
 
 
 def charge_card(card_number, cvv, expiry_month, expiry_year, transaction_id, amount, email, currency="USD"):
+    """
+    Charge a card
+    :param card_number: Card number 
+    :param cvv: Card CVV 
+    :param expiry_month: Expiry month
+    :param expiry_year: Expiry Year 
+    :param transaction_id: Transaction ID
+    :param amount: Amount
+    :param email: Email
+    :param currency: Currency Default USD
+    """
 
     payload = {
         "amount": amount,

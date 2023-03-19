@@ -31,6 +31,8 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     plan = models.CharField(
         max_length=10, choices=ACCOUNT_PLANS, default='hobby')
+    active_channel_layer = models.CharField(
+        max_length=100, default=None, null=True, blank=True)
 
 
 # A teams model. Each team has a name, a description, and a list of members. The members are represented as a list of usernames.
@@ -58,6 +60,7 @@ class Notification(models.Model):
     project_uuid = models.CharField(max_length=100, blank=True, null=True)
     team = models.ForeignKey(
         Team, on_delete=models.CASCADE, null=True, blank=True)
+    notification_type = models.CharField(max_length=20, default="info")
 
     def __str__(self):
         return self.message
@@ -66,7 +69,7 @@ class Notification(models.Model):
 class AuthTokens(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     token = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, related_name='token')
+        Token, on_delete=models.CASCADE, related_name='token')
     created_at = models.DateTimeField(auto_now_add=True)
     user_agent = models.CharField(max_length=100, blank=True)
     host = models.CharField(max_length=100, blank=True)

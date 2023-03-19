@@ -4,7 +4,8 @@ from kubernetes import client, config
 from kube.config import get_api_client_config
 import yaml
 from yaml.loader import BaseLoader
-from ...models import Deployment, Project
+from ...models import Deployment, Project, Node
+from django.conf import settings
 
 apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
@@ -13,15 +14,15 @@ custom_obj_api = client.CustomObjectsApi(apiclient)
 core_api = client.CoreV1Api(apiclient)
 
 
-def create_kp_image(project: Project, deployment: Deployment, username: str):
+def create_kp_image(project: Project, node: Node, username: str):
     img = f"""
 apiVersion: kpack.io/v1alpha2
 kind: Image
 metadata:
-  name: {project.name}-kp-image
+  name: {project.name}-{node.id}-kp-image
   namespace: default
 spec:
-  tag: jimjuniorb/{project.name}-kp-image
+  tag: {settings.KPACK_DOCKER_REGISTRY}{username}-{project.name}-{node.id}-kp-image
   serviceAccountRef:
     name: kpack-sva
     namespace: default
@@ -32,17 +33,17 @@ spec:
 """
     di = yaml.load(img, BaseLoader)
 
-    if project.project_type == "git":
-        revision = deployment.git_revision
-        repo = project.git_repo
+    if node.node_type == "git":
+        revision = node.git_revision
+        repo = node.git_repo
         di["spec"]["source"] = {
             "git": {
                 "url": repo,
                 "revision": revision
             }
         }
-    elif project.project_type == "local":
-        airtifact = deployment.zipped_project
+    elif node.node_type == "local":
+        airtifact = node.zipped_project
         di["spec"]["source"] = {
             "blob": {
                 "url": airtifact
@@ -52,19 +53,19 @@ spec:
     resp = custom_obj_api.create_namespaced_custom_object(
         group="kpack.io",
         version="v1alpha2",
-        namespace="default",
+        namespace=username,
         plural="images",
         body=di,
     )
     print(resp.status)
 
 
-def create_git_secret(token: str, gh_username: str, dep, namespace: str):
+def create_git_secret(token: str, gh_username: str, node_id, namespace: str):
     git_secret = f"""
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {dep}-gh-secret
+  name: {node_id}-gh-secret
   annotations:
     kpack.io/git: https://github.com
 type: kubernetes.io/basic-auth
@@ -76,12 +77,12 @@ stringData:
     resp = core_api.create_namespaced_secret(namespace, di)
 
 
-def create_kp_builder(project: Project, deployment: Deployment, username: str):
+def create_kp_builder(project: Project, node: Node, username: str):
     img = f"""
 apiVersion: kpack.io/v1alpha2
 kind: Builder
 metadata:
-  name: {project.name}-builder
+  name: {project.name}-{node.id}-builder
 spec:
   tag: jimjuniorb/{project.name}-{username}-kp-builder
   serviceAccountName: {project.name}-sva
@@ -114,16 +115,16 @@ spec:
     print(resp.status)
 
 
-def create_proj_sva(proj, namespace: str):
+def create_proj_sva(project, node, namespace: str):
     proj_sva = f"""
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {proj.name}-sva
+  name: {node.id}-sva
   namespace: {namespace}
 secrets:
 - name: docker-configjson
-- name: {proj.name}-gh-secret
+- name: {node.id}-gh-secret
 imagePullSecrets:
 - name: docker-configjson
 """

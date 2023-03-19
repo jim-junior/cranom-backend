@@ -1,14 +1,13 @@
 import jwt
 import time
 from datetime import timedelta
+from django.conf import settings
 
 
 def get_gh_auth_token():
     t = timedelta(minutes=10)
 
-    pemfile = open("./utils/private-key.pem", 'r')
-    keystring = pemfile.read()
-    pemfile.close()
+    keystring = settings.GH_PRIVATE_KEY
     # print(keystring)
     payload = {
         # issued at time, 60 seconds in the past to allow for clock drift

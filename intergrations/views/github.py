@@ -4,7 +4,11 @@ from rest_framework.request import Request
 from users.models import UserProfile
 from intergrations.models import GithubInstallation
 from django.conf import settings
-from deployments.models import Deployment, Project
+from deployments.models import Deployment, Project, Node
+from users.models import Notification
+from deployments.utils.deployment import create_deployment_task
+from rest_framework.renderers import JSONRenderer
+from deployments.serializers import ProjectNodeSerializer
 
 
 def verify_signature(request: Request):
@@ -54,8 +58,8 @@ def install_app(data: dict):
     """
     sender = data.get("sender")
     # Check if user with sender id exists
-    if UserProfile.objects.filter(github_id=sender["id"]).exists():
-        user = UserProfile.objects.get(github_id=sender["id"])
+    if UserProfile.objects.filter(gh_id=sender["id"]).exists():
+        user = UserProfile.objects.get(gh_id=sender["id"])
         installation_obj = GithubInstallation.objects.create(
             github_id=data["installation"]["id"],
             account=user,
@@ -63,6 +67,14 @@ def install_app(data: dict):
             gh_account_id=data["installation"]["account"]["id"],
         )
         installation_obj.save()
+        # CReate a notification
+        Notification.objects.create(
+            user=user,
+            title=f"Github App Installed",
+            message=f"Github App installed on your account",
+            link=f"/settings/integrations",
+            notification_type="success",
+        )
 
 
 def suspend_app(data: dict):
@@ -105,8 +117,43 @@ def handle_push_event(data: dict):
     Creates new deployments when a push event is received for all projects with that repo
     """
     repository = data["repository"]
-    if Project.objects.filter(git_repo=repository["full_name"], gh_update_on_push=True).exists():
-        pass
+    # Get all Projects which have a node that has the same repo
+    projects = Project.objects.filter(
+        nodes__repository=repository["full_name"]
+    ).distinct()
+
+    # For each project in projects
+    for project in projects:
+        # Get all nodes with the same repo
+        nodes = Node.objects.filter(
+            repository=repository["full_name"], project=project)
+        # For each node in nodes
+        for node in nodes:
+            node.git_revision = data["head_commit"]["id"]
+            node.save()
+            not_msg = f"""A new Deployment of node <b>{node.name}</b> in <b>{project.name}</b> was created through GitHub by <a href="https://github.com/{data["pusher"]["username"]}">{data["pusher"]["username"]}</a>"""
+            Notification.objects.create(
+                user=project.user,
+                title=f"New deployment  created for {project.name}",
+                message=not_msg,
+                link=data["head_commit"]["url"],
+                link_text="View commit on Github",
+                notification_type="success",
+            )
+        # Create a new deployment
+        project.nodes = project.node_set.all()
+        serializer = ProjectNodeSerializer(project)
+        deployment = Deployment.objects.create(
+            project=project,
+            version=project.deployment_set.count(),
+            user=project.user,
+            deployment_cfg=JSONRenderer().render(serializer.data).decode('utf-8'),
+            nodes=JSONRenderer().render(
+                serializer.data['nodes']).decode('utf-8')
+        )
+
+        # Run the deployment task
+        create_deployment_task.delay(deployment.id)
 
 
 def handle_release_published(data: dict):
@@ -114,5 +161,3 @@ def handle_release_published(data: dict):
     Creates new deployments when a release is published for all projects with that repo
     """
     repository = data["repository"]
-    if Project.objects.filter(git_repo=repository["full_name"], gh_update_on_release=True).exists():
-        pass

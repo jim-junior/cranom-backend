@@ -1,8 +1,13 @@
 from django.urls import path, re_path
 
-from . import consumers
+from .consumers import NodeLogsConsumer
 
-websocket_urlpatterns = [
-    re_path(r'^logs/(?P<uuid>[A-Za-z0-9_-]+)/(?P<token>[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*)/$',
-            consumers.LogingConsumer.as_asgi()),
+deployments_urlpatterns = [
+
+    # A re_path for NodeLogsConsumer (which is async) that has route params and node_id of `int` type.
+    re_path(
+        r'^logs/node/(?P<node_id>\d+)/(?P<token>[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*)/$',
+        NodeLogsConsumer.as_asgi()
+    )
+
 ]

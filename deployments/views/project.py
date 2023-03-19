@@ -5,12 +5,15 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
+from intergrations.github.installation_access import get_installation_token
+from intergrations.models import GithubInstallation
 from users.models import Notification
 from deployments.utils.ws_token import encrypt
 from ..models import *
 from ..serializers import *
 from rest_framework.renderers import JSONRenderer
 from .cli import create_from_deployment, getUserProfile
+import httpx
 
 
 class ReDeployLatestDeployment(APIView):
@@ -94,4 +97,32 @@ class DeleteNode(APIView):
             return Response(status=status.HTTP_200_OK)
         return Response(data={
             'message': 'Node does not Exist'
+        }, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class ListInstallationGHRepositories(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_repositories(self, user: UserProfile):
+        installation: GithubInstallation = GithubInstallation.objects.get(
+            account=user
+        )
+        installation_token = get_installation_token(
+            installation.github_id)
+        resp = httpx.get(
+            f"https://api.github.com/installation/repositories", headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": f"Bearer {installation_token}",
+                "X-GitHub-Api-Version": "2022-11-28"
+            }, timeout=None
+        )
+        return resp.json()
+
+    def get(self, request: Request):
+        user = getUserProfile(request.user)
+        if GithubInstallation.objects.filter(account=user).exists():
+            repositories = self.get_repositories(user)
+            return Response(data=repositories["repositories"], status=status.HTTP_200_OK)
+        return Response(data={
+            'message': 'No Github Installation Found'
         }, status=status.HTTP_406_NOT_ACCEPTABLE)

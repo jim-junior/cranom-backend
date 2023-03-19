@@ -15,14 +15,15 @@ from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-55pd&v_pb@na(x%ar@pm&k2%dvlo3qn+^0@lo$-v6qd3y99c=6'
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY", 'django-insecure-55pd&v_pb@na(x%ar@pm&k2%dvlo3qn+^0@lo$-v6qd3y99c=6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -100,7 +101,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": ["redis://:0R91WRdBx7zcCKO05U3Ekz5M3lbT51vX@redis-19117.c12.us-east-1-4.ec2.cloud.redislabs.com:19117/0"],
+            "hosts": ["redis://localhost:6379"],
         },
     },
 }
@@ -108,13 +109,13 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
-""" 
+} """
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -124,7 +125,8 @@ DATABASES = {
         'HOST': "rosie.db.elephantsql.com",
         'PORT': "5432",
     }
-} """
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -135,6 +137,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 6,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -213,6 +218,14 @@ REST_FRAMEWORK = {
 }
 
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
+
 MEDIA_URL = '/useruploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'useruploads')
 
@@ -223,4 +236,45 @@ FLUTTERWAVE_ENDPOINT = "https://api.flutterwave.com/v3"
 FLUTTERWAVE_HASH = ""
 FLUTTERWAVE_ENCRYPTION_KEY = "FLWSECK_TEST5b63f3a70b92"
 
+GITHUB_WEBHOOK_SECRET = "b3d9b3b0b3d9b3b0b3d9b3b0b3b0b3d9b3bb3d9"
+
 GITHUB_SECRET_HASH = "b3d9b3b0b3d9b3b0b3d9b3b0b3b0b3d9b3bb3d9"
+GH_PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAyHV1bh9Fx3+r3DvYSY3mOrlU7MwbASpGyEIvlZWDAqDQvKbq
+xvT6eF6GvK9MK/0ODLubsPHWC2vqNUMKWfOd7j6uZHPgrfkHmK4Esh3XSavy1tPk
+ryzFt5L+dpvbWLwruNXIuxJlJWOpJH+gdH9gV2+HYgKkKHkHRt6FO0qz/UjwYlPL
+7z6LYXr+UxN05FIDV9X+bfNHEQcaszdQaqedu5DIad4M1PzXxsplvwbMtl4XCv1v
+6eSz1sWwKZbpbt1YqBNiCbV/xM0pe6XN9D4M4YF27HEvZCqNIKnMkF3jisKTABVD
+K+WRQJ6KdOGD3+PolK01VN/aXKRTNpqC1jv5awIDAQABAoIBABmik8Licu0BUbwX
+VyCI6gFmhArIS0fJ3UVs2WL6vMdQQ4FsoyeQWpucEwT8MfSKJwrPzyhAtQu+4DOx
+gBhixDacg3bLLtdwulz3HBifIlIEkEiSznLsedhxDuOiKNnfLoQzqrjpsE+owA+v
+1pgvVeW4mIqbJd0bJSgV+tnLQttIB5rVyLLSEIMuVu7gjiiyf5KcRcwU7EczLK8K
+PWqECheLfuJ0kiZiWCn+2JNNdlJZC2vnvhqT7FO/X2gejHhWHqcTgzqLEDgasc+W
+B5Jnaw5Owd+h+Tq0WqNHsXe+qlfEVrFXmaOqwAR7AtFqS+4/QWYdQ3QGnJcKPlsL
+5Y0WILECgYEA7g5EwyLUCQsunWYnRH2vMBMj6B4tiCMDkxIOvD8buHqO/IGJflqA
+z1szZ7UWmb6a/PDxjUJ772BZ75ubwrGASJigUNga1a0YGGBJOrqh3ygn0WeE3O+f
+nrVGyCBQO6dRNrQ/kj04HXAGfEpBKvtJur/6LkwzV3L5pzM6lU0drjkCgYEA15Gv
+7jx2oBx7DF6Y5BdSBlYz7DWaizZ74btG7Uc04k3ByoEDIohl5r+947wblbn9BdoM
+jp000BRw2ThdLwVfDGtivyW+YQ3Aje/W53SnhwQpSbAuD0vHCLMY1J73gf/EnOjE
+dtO5hwVQcrVj22V3lQBjrx2gPnDdfLhg20UiZMMCgYA0EQ7dFzsFF1sEthkUk+DD
+RQxvclpHElFv011BsxPfD39Cnxpxdl4B/FKL9kGRMu03MYPDf60XuB0zmPdCaAxE
+1I0L4ZhM7+T7P+QEYlmRM3kyBdA7enWRAtkOYHLr+TZ8HoRg+d7SIXRprtv+CKQh
+omeXxLbeA5mzBjNkAE/jkQKBgQCbIBrDTL1swLIHl7dcRC/hoXzh2T0qOv3w1ezX
+aSt0QtJW4HoaCp+R6p9CV6ZeG6Yp5NyucBCGQH9owXfFE49vh4Na3FVg0B2lxlcW
+3kqEDYmMnny2wygqaX9P2klwQlcBNzvR6tCSik93DHMceasRDWOuq5oZ9OxeCOyi
+PeDfMwKBgQCptbXpRyHKbInQUg0LxrZdiUU+G6EqEUtonTFNqQq3ekRZcNpZJmx+
+9stu/Api2hw6gGvENweoWmEv3TmpTzAM9gyXt/1M3xvGrg3SJcI3ONiNlQLTuxx2
+DSKQdKVj9AdyfmPQKcyRYOO0XDMDTWd8tctohmAuOEjKqkGCJydKPQ==
+-----END RSA PRIVATE KEY-----"""
+
+# Kpack settings
+KPACK_URL = "https://kpack.io"
+KPACK_DOCKER_REGISTRY = "jimjuniorb/"
+
+
+# PLatform settings
+APP_DEPLOYMENTS_DOMAIN = "cranomapp.ml"
+
+
+if DEBUG == False:
+    from .production import *

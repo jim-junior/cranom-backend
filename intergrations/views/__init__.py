@@ -11,6 +11,7 @@ from users.models import UserProfile
 import httpx
 from deployments.views.cli import create_from_deployment
 import datetime
+from .platform import GithubInstallationList
 
 # A classbased API view that handles all webhook requests from Github
 

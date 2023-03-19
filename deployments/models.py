@@ -28,6 +28,12 @@ NODE_TYPES = (
     ("template", "template"),
 )
 
+NETWORK_PROTOCOLS = (
+    ("TCP", "TCP"),
+    ("UDP", "UDP"),
+    ("SCTP", "SCTP"),
+)
+
 
 class Project(models.Model):
     project_uuid = models.UUIDField(
@@ -130,6 +136,10 @@ class Node(models.Model):
     bill_accumulated = models.FloatField(blank=True, null=True)
     running = models.BooleanField(blank=True, default=False)
     custom_git_repo = models.BooleanField(default=False)
+    build_status = models.CharField(max_length=100, blank=True, null=True)
+    network_protocol = models.CharField(
+        max_length=10, choices=NETWORK_PROTOCOLS, default="TCP")
+    git_config = models.JSONField(blank=True, null=True)
 
 
 class DomainName(models.Model):

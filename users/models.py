@@ -48,6 +48,10 @@ class Team(models.Model):
 
 
 class Notification(models.Model):
+
+    class Meta:
+        ordering = ['-created_at']
+
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     message = models.TextField()
     title = models.CharField(max_length=20, blank=True)

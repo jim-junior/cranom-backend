@@ -1,8 +1,8 @@
 from .views import CreateUser, SignInWithGithub, GetUserProfile, ActivateAccount, ResendActivationEmail, IsVerified, LinkGithubAccount
 from .views.cli import GetCLIToken, LoginWithCli
 from django.urls import path
-from .views import auth
 from .views.base import GetUnreadNotifications, MarkNotificationAsRead, MarkAllNotificationsAsRead
+from .views.auth import GetWebSocketToken
 
 
 urlpatterns = [
@@ -13,8 +13,6 @@ urlpatterns = [
     path("activate/", ActivateAccount.as_view(), name="Activate Account"),
     path("token/cli/", GetCLIToken.as_view(), name="Get CLI Token"),
     path("login/cli/", LoginWithCli.as_view(), name="Login with cli"),
-    path("session/", auth.session_info, name="sesion info"),
-    path("sessionauth/", auth.session_auth, name="session auth"),
     path("notifications/unread/", GetUnreadNotifications.as_view(),
          name="Get Unread Notifications"),
     path("notifications/read/", MarkNotificationAsRead.as_view(),
@@ -26,5 +24,7 @@ urlpatterns = [
     path("isverified/", IsVerified.as_view(), name="Is Verified"),
     path("linkgithubaccount/", LinkGithubAccount.as_view(),
          name="Link Github Account"),
+    path("get/ws/token/", GetWebSocketToken.as_view(),
+         name="Get Websocket Auth Token")
 
 ]

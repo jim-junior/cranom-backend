@@ -100,6 +100,7 @@ class Deployment(models.Model):
     deployment_cfg = models.JSONField(blank=True, null=True)
     pipeline_cfg = models.JSONField(blank=True, null=True)
     nodes = models.JSONField(blank=True, null=True)
+    build_status = models.CharField(max_length=10, default="scheduled")
 
     def __str__(self):
         return self.deployment_uuid

@@ -1,6 +1,8 @@
 from users.models import Notification
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from users.utils.notifications import create_notification
 from .models import Deployment, Project
 
 
@@ -8,11 +10,11 @@ from .models import Deployment, Project
 def send_deployment_notification(sender, instance, created, **kwargs):
     if created:
         project: Project = instance.project
-        Notification.objects.create(
-            user=project.user,
-            message=f"Project <b>{project.name}</b> has been deployed successfully.",
-            project_uuid=project.project_uuid,
-            link=f'/projects/p/{project.project_uuid}',
-            link_text='View Project',
-            title='Project Deployed'
+        create_notification(
+            project.user,
+            'New Deployment',
+            f"""A new Deployment for <b>{project.name}<b> has been deployed successfully.""",
+            f'/projects/p/{project.project_uuid}',
+            'success',
+            'View Project'
         )

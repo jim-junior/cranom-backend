@@ -46,10 +46,9 @@ def sendActivationEmail(userprofile):
     send_mail(
         "Activate your account",
         "Visit the link to activate your account: http://localhost:8000/activate/" + user_token,
-        "system@cranom.ml",
+        '"Cranom INC" <system@cranom.ml>',
         [userprofile.email],
         fail_silently=True,
-        auth_user="Cranom INC",
         html_message="""<!DOCTYPE html><html lang="en"><head>
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">

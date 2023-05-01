@@ -1,46 +1,29 @@
-import time
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.request import Request
 from rest_framework import status
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+from users.serializers import UserSerializer
+from ..models import UserProfile
 from rest_framework import permissions
-from django.contrib.auth import login
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-from rest_framework.decorators import api_view, permission_classes
+import random
+import string
+from users.utils.ws_auth import encrypt
 
 
-@api_view()
-@permission_classes([permissions.AllowAny])
-@ensure_csrf_cookie
-@csrf_exempt
-def session_info(request):
-    """
-    View to retrieve user info for current user. (Can be adapted to your needs). If user is not logged in, view will
-    still return CSRF cookie which in neccessary for authentication.
-    """
-    if not request.user.is_authenticated:
-        return Response({"message": "Not authenticated.", "authenticated": False})
-    return Response(
-        {"message": "Authenticated.", "authenticated": True,
-            "user": str(request.user)}
-    )
+class GetWebSocketToken(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
 
+    def get(self, request):
+        user = request.user
+        # check if a UserProfile object with user as user exists
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            return Response({"error": "User profile does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def session_auth(request):
-    """
-    Login-view.
-    """
-    user = request.user
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            request.session['authenticated_user'] = user.username
-            return Response(
-                data={
-                    "message": "Authenticated.",
-                    "authenticated": True,
-                    "name": user.name,
-                },
-                status=status.HTTP_202_ACCEPTED
-            )
-    return Response(data={"message": "Not authenticated", "authenticated": False}, status=status.HTTP_401_UNAUTHORIZED)
+        # Get Token from encrypt function
+        token = encrypt(user_profile)
+
+        return Response({"token": token}, status=status.HTTP_200_OK)

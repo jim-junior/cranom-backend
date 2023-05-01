@@ -25,6 +25,7 @@ class GithubInstallation(models.Model):
     account_type = models.CharField(max_length=255, blank=True, null=True)
     gh_account_id = models.IntegerField()
     suspended = models.BooleanField(default=False)
+    sender_name = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"Github Installation {self.github_id}"

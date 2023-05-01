@@ -9,6 +9,7 @@ from users.models import Notification
 from deployments.utils.deployment import create_deployment_task
 from rest_framework.renderers import JSONRenderer
 from deployments.serializers import ProjectNodeSerializer
+from users.utils.notifications import create_notification
 
 
 def verify_signature(request: Request):
@@ -65,6 +66,7 @@ def install_app(data: dict):
             account=user,
             account_type=data["installation"]["account"]["type"],
             gh_account_id=data["installation"]["account"]["id"],
+            sender_name=data["installation"]["account"]["login"]
         )
         installation_obj.save()
         # CReate a notification
@@ -132,13 +134,13 @@ def handle_push_event(data: dict):
             node.git_revision = data["head_commit"]["id"]
             node.save()
             not_msg = f"""A new Deployment of node <b>{node.name}</b> in <b>{project.name}</b> was created through GitHub by <a href="https://github.com/{data["pusher"]["username"]}">{data["pusher"]["username"]}</a>"""
-            Notification.objects.create(
-                user=project.user,
-                title=f"New deployment  created for {project.name}",
-                message=not_msg,
-                link=data["head_commit"]["url"],
-                link_text="View commit on Github",
-                notification_type="success",
+            create_notification(
+                project.user,
+                f"New deployment  created for {project.name}",
+                not_msg,
+                data["head_commit"]["url"],
+                "success",
+                "View commit on Github",
             )
         # Create a new deployment
         project.nodes = project.node_set.all()
@@ -153,7 +155,7 @@ def handle_push_event(data: dict):
         )
 
         # Run the deployment task
-        create_deployment_task.delay(deployment.id)
+        # create_deployment_task.delay(deployment.deployment_uuid)
 
 
 def handle_release_published(data: dict):

@@ -10,7 +10,7 @@ def encrypt(user: UserProfile):
     t = timedelta(minutes=10)
     exp_time = int(time.time() + t.total_seconds())
     payload = {
-        "user": user.user,
+        "user": user.user.id,
         "created_at": time.time(),
         "exp": exp_time
     }
@@ -19,15 +19,12 @@ def encrypt(user: UserProfile):
 
 
 def is_token_valid(token):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user = payload["user"]
-        exp = payload["exp"]
-        if UserProfile.objects.filter(user=user).exists():
-            return True
-        return False
-    except:
-        return False
+    payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    user = payload["user"]
+    exp = payload["exp"]
+    if UserProfile.objects.filter(user=user).exists():
+        return True
+    return False
 
 
 def getUser(token):

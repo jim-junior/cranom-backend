@@ -16,7 +16,7 @@ from .views.base import (
     DeleteProject,
     CreateGitHubProjectNew,
 )
-from .views.project import ReDeployLatestDeployment, TurnNodeOffAndOn, UpdateEnvironmentVariables, DeleteNode, ListInstallationGHRepositories
+from .views.project import ReDeployLatestDeployment, TurnNodeOffAndOn, UpdateEnvironmentVariables, DeleteNode, ListInstallationGHRepositories, CheckNodeName, ListUserAllGitHubInstallations
 
 urlpatterns = [
     path("create/", CreateDeployment.as_view(), name="Create deployment"),
@@ -50,5 +50,8 @@ urlpatterns = [
          name="Delete Node"),
     path("get/installation/repositories/", ListInstallationGHRepositories.as_view(),
          name="List Installation Repositories"),
+    path("check/node/name/", CheckNodeName.as_view(), name="Check Node Name"),
+    path("get/installations/all/", ListUserAllGitHubInstallations.as_view(),
+         name="List User All GitHub Installations"),
 
 ]

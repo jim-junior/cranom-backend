@@ -62,7 +62,7 @@ octokitpy==0.15.0
 octokitpy-routes==2.5.0
 packaging==21.3
 prompt-toolkit==3.0.31
-#psycopg2-binary==2.9.3
+psycopg2-binary==2.9.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.8.0

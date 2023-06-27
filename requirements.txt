@@ -13,7 +13,7 @@ billiard==3.6.4.0
 cachetools==5.2.0
 celery==5.2.7
 certifi==2022.5.18.1
-cffi==1.15.0
+#cffi==1.15.0
 channels==3.0.4
 channels-redis==3.4.1
 chardet==4.0.0
@@ -62,7 +62,7 @@ octokitpy==0.15.0
 octokitpy-routes==2.5.0
 packaging==21.3
 prompt-toolkit==3.0.31
-psycopg2-binary==2.9.3
+#psycopg2-binary==2.9.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.8.0

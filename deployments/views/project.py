@@ -17,6 +17,25 @@ from .cli import create_from_deployment, getUserProfile
 import httpx
 
 
+class CreateProject(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request: Request):
+        data = request.data
+        data['user'] = request.user.id
+        serializer = ProjectSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                data=serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            data=serializer.errors,
+            status=status.HTTP_406_NOT_ACCEPTABLE
+        )
+
+
 class ReDeployLatestDeployment(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 

@@ -16,7 +16,7 @@ from .views.base import (
     DeleteProject,
     CreateGitHubProjectNew,
 )
-from .views.project import ReDeployLatestDeployment, TurnNodeOffAndOn, UpdateEnvironmentVariables, DeleteNode, ListInstallationGHRepositories, CheckNodeName, ListUserAllGitHubInstallations
+from .views.project import ReDeployLatestDeployment, TurnNodeOffAndOn, UpdateEnvironmentVariables, DeleteNode, ListInstallationGHRepositories, CheckNodeName, ListUserAllGitHubInstallations, CreateProject
 
 from .views.nodes import CreateNode
 
@@ -57,5 +57,6 @@ urlpatterns = [
          name="List User All GitHub Installations"),
     path("create-node/<project_uuid>/", CreateNode.as_view(),
          name="Create Node for Project"),
+    path("project/create/", CreateProject.as_view(), name="Create Project"),
 
 ]

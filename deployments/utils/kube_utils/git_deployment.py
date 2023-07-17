@@ -6,16 +6,16 @@ from deployments.models import Deployment, Project, Node
 from users.models import UserProfile
 from django.conf import settings
 
-apiConfig = get_api_client_config()
+""" apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 v1 = client.CoreV1Api(apiclient)
 apps_v1_api = client.AppsV1Api(apiclient)
-networking_v1_api = client.NetworkingV1Api(apiclient)
+networking_v1_api = client.NetworkingV1Api(apiclient) """
 
-""" config.load_kube_config()
+config.load_kube_config()
 v1 = client.CoreV1Api()
 apps_v1_api = client.AppsV1Api()
-networking_v1_api = client.NetworkingV1Api() """
+networking_v1_api = client.NetworkingV1Api()
 
 
 def create_git_node_deployment(node: Node):
@@ -24,8 +24,13 @@ def create_git_node_deployment(node: Node):
     project: Project = node.project
     user: UserProfile = project.user
 
-    # Node KP docker image
-    docker_image = f"{settings.KPACK_DOCKER_REGISTRY}{user.username}-{project.name}-{node.id}-kp-image"
+    # Get Docker Image
+    docker_image = ""
+    if node.node_type == "docker":
+        docker_image = node.image
+    else:
+        docker_image = f"{settings.KPACK_DOCKER_REGISTRY}{user.username}-{project.name}-{node.id}-kp-image"
+
     # Get Environment Variables
     environVars = []
     for var in envs:
@@ -40,7 +45,7 @@ def create_git_node_deployment(node: Node):
     container = {
         "name": f"{node.name}-{node.id}",
         "image": docker_image,
-        "imagePullPolicy": "Always",
+        "imagePullPolicy": "Never",
         "env": environVars
     }
 
@@ -88,9 +93,15 @@ def create_git_node_deployment(node: Node):
             )
             node.build_status = "Success"
             node.save()
+            print(
+                f"Deployed {node.name} {node.id} successefuly"
+            )
         except:
             node.build_status = "Failed"
             node.save()
+            print(
+                f"FAILED: {node.name} {node.id} failed to deploy"
+            )
     else:
 
         try:
@@ -99,19 +110,26 @@ def create_git_node_deployment(node: Node):
                 namespace=user.username
             )
             if api_response.status == "Success":
-                node.running = True
                 node.build_status = "Success"
                 node.save()
-            node.running = True
             node.build_status = "Success"
             node.save()
+            print(
+                f"Deployed {node.name} {node.id} successefuly"
+            )
         except:
             node.build_status = "Failed"
             node.save()
+            print(
+                f"FAILED: {node.name} {node.id} failed to deploy"
+            )
 
 
 def create_git_node_service(node: Node):
     # Get node Metadata
+    print(node)
+    print(node.name)
+    print(node.port)
     name = node.name
     project: Project = node.project
     user: UserProfile = project.user
@@ -128,7 +146,7 @@ def create_git_node_service(node: Node):
                 client.V1ServicePort(
                     port=node.port,
                     target_port=f"{project.name}-{node.id}-port",
-                    protocol=node.network_protocol
+                    # protocol=node.network_protocol
                 )
             ],
             # type="LoadBalancer"
@@ -137,14 +155,14 @@ def create_git_node_service(node: Node):
 
     if node.running == True:
         v1.patch_namespaced_service(
-            namespace=user,
+            namespace=user.username,
             body=body
         )
         print("Service patched")
     else:
         api_response = v1.create_namespaced_service(
             body=body,
-            namespace=user
+            namespace=user.username
         )
         print(f"Service created. status='{api_response.status}'")
 
@@ -245,4 +263,3 @@ def delete_git_node_ingress(node: Node):
         )
     except:
         pass
-

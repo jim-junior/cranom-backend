@@ -36,6 +36,7 @@ def gh_initialize(request: Request):
     delivery = request.headers.get("X-GitHub-Delivery")
     # Get Payload
     data = request.data
+    print(data)
 
     if event == "installation":
         if data["action"] == "created":

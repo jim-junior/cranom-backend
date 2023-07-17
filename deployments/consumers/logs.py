@@ -8,14 +8,17 @@ from channels.db import database_sync_to_async
 from deployments.models import Project, Node
 from deployments.utils.ws_token import decrypt
 from kube.config import get_api_client_config
+import asyncio
 
 
-def get_logs(obj, name, username):
-    apiConfig = get_api_client_config()
+def get_logs(obj, name, nodeId, username):
+    """ apiConfig = get_api_client_config()
     apiclient = client.ApiClient(apiConfig)
-    v1 = client.CoreV1Api(apiclient)
+    v1 = client.CoreV1Api(apiclient) """
+    config.load_kube_config()
+    v1 = client.CoreV1Api()
     w = watch.Watch()
-    depname = name + "-deployment"
+    depname = f"{name}-{nodeId}-deployment"
     podname = ""
     pods = v1.list_namespaced_pod(username)
     for pod in pods.items:
@@ -32,13 +35,15 @@ def get_logs(obj, name, username):
             w.stop()
 
 
-def get_node_logs(obj, node, username):
+async def get_node_logs(obj, node, username):
     """
     Get Logs for a specific node. This should be run in a Thread
     """
-    apiConfig = get_api_client_config()
+    """ apiConfig = get_api_client_config()
     apiclient = client.ApiClient(apiConfig)
-    v1 = client.CoreV1Api(apiclient)
+    v1 = client.CoreV1Api(apiclient) """
+    config.load_kube_config()
+    v1 = client.CoreV1Api()
     w = watch.Watch()
 
     deploymentName = f"{node['name']}-{node['id']}-deployment"
@@ -48,74 +53,12 @@ def get_node_logs(obj, node, username):
         if pod.metadata.labels["app"] == deploymentName:
             podname = pod.metadata.name
             break
-
     for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, tail_lines=6):
+
         if obj.logging == True:
-            obj.send(text_data=json.dumps({
-                'message': e
-            }))
+            await obj.sendMessage(e)
         else:
             w.stop()
-
-
-class LogingConsumer(WebsocketConsumer):
-    def connect(self):
-        self.proj_uuid = self.scope['url_route']['kwargs']['uuid']
-        self.token = self.scope['url_route']['kwargs']['token']
-        userObj = decrypt(self.token)
-        if userObj["username"] == None:
-            self.close()
-        else:
-            self.accept()
-            proj = self.get_project_info()
-            print(proj)
-            if proj["exists"] == True:
-                if proj["deployed"] == True:
-                    self.logging = True
-                    logging_thread = Thread(target=get_logs, args=(
-                        self, proj["name"], userObj["username"],))
-                    logging_thread.start()
-                else:
-                    self.send(text_data=json.dumps({
-                        'message': "Project Has Not yet been Deployed"
-                    }))
-                    self.close()
-            else:
-                self.send(text_data=json.dumps({
-                    'message': "Project does not Exists"
-                }))
-                self.close()
-
-    def disconnect(self, close_code):
-        if self.logging == True:
-            self.logging = False
-        pass
-
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        self.logging = False
-
-    def get_project_info(self):
-        proj = self.get_obj()
-        if proj is not None:
-            print(proj)
-            return {
-                "exists": True,
-                "name": proj.name,
-                "deployed": proj.deployed
-            }
-        else:
-            return {
-                "exists": False
-            }
-
-    def get_obj(self):
-        uuid = self.proj_uuid
-        if Project.objects.filter(project_uuid=uuid).exists():
-            proj = Project.objects.get(project_uuid=uuid)
-            return proj
-        return None
 
 
 class NodeLogsConsumer(AsyncWebsocketConsumer):
@@ -133,13 +76,12 @@ class NodeLogsConsumer(AsyncWebsocketConsumer):
                     self.logging = True
                     # Open new thread to watch and send pod logs
                     # This is because running it directly in the consumer will block the consumer
-                    """ logging_thread = Thread(target=get_node_logs, args=(
-                        self, nodeInfo, userObj["username"],))
-                    logging_thread.start() """
-                    await self.send(text_data=json.dumps({
-                        'message': "Node is not Running"
-                    }))
-                    print("Node is Running")
+                    logging_thread = Thread(target=self.between_callback, args=(
+                        nodeInfo, userObj["username"],))
+                    logging_thread.start()
+                    """ await self.send(text_data=json.dumps({
+                        'message': "CRANOM::: Node is not Running"
+                    })) """
 
                 else:
                     await self.send(text_data=json.dumps({
@@ -151,6 +93,11 @@ class NodeLogsConsumer(AsyncWebsocketConsumer):
                     'message': "Node does not Exists"
                 }))
                 await self.close()
+
+    async def sendMessage(self, message):
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))
 
     @database_sync_to_async
     def get_node_info(self):
@@ -178,3 +125,10 @@ class NodeLogsConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         self.logging = False
+
+    def between_callback(self, node, username):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+        loop.run_until_complete(get_node_logs(self, node, username))
+        loop.close()

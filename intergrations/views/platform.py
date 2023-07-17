@@ -40,3 +40,30 @@ class GithubInstallationList(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = GithubInstallationSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+# Check if user has a github installation
+class CheckGithubInstallation(APIView):
+    """
+    An API endpoint that checks if a user has a github installation
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        """
+        Checks if a user has a github installation
+        """
+        user_profile = UserProfile.objects.get(user=request.user)
+        if GithubInstallation.objects.filter(account=user_profile).exists():
+            return Response(
+                data={
+                    "exists": True
+                },
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            data={
+                "exists": False
+            },
+            status=status.HTTP_200_OK
+        )

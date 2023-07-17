@@ -1,12 +1,13 @@
 from kubernetes import client, config
+from django.conf import settings
 
 
 def get_api_client_config():
-    aToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6Im54ZVRSMnVobjhZSENQcUZ2OE5HNmVqT2J2TUxOdjNLYzZjS0pQaWhYM0kifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJsa2UtYWRtaW4tdG9rZW4tdndzanIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibGtlLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMDdjYWVhNTEtNTRlMy00MDQ3LTlmNjQtZjk4MGI2YTcwYTg2Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmxrZS1hZG1pbiJ9.ms8URZm_8xL-pyp2SwgxIJ62DNawNoe8OO5Tk75b5ieXzmYilmjcpnJLut06H4-oY0pqSzmcPAll3i-zN_lvJuZrz9oSLmRWXu0T96AXtfy_i7yqjizIZRYxhgQmAZpjD3dyhi2CbWL3rccaFHKJMYORECFBo3q84XkgSqS4ggVOzI6Z0n7flDYDbFJMvhMur8Lf7DDcIqUaD2eq8VIog_CpTScLES-ldMGHu9yXtpeciBSlZ3nV_hXEeq5PX3q3NeB-dlaFpDzxG3OcWEXBvaTpS4AA_Wq9heIIaW2xI_3zz__6G0f7U4J1aI38paS5-nPmK4Kd2Fk4jovnK0pd7A"
+    aToken = settings.KUBE_CLUSTER_TOKEN
 
     aConfiguration = client.Configuration()
 
-    aConfiguration.host = "https://d0775118-fd93-404d-be46-1abe2ba35aba.ap-south-2.linodelke.net:443"
+    aConfiguration.host = settings.KUBE_CLUSTER_HOST
 
     aConfiguration.verify_ssl = False
     aConfiguration.api_key = {"authorization": "Bearer " + aToken}

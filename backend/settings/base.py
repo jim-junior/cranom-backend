@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,6 +31,7 @@ SECRET_KEY = os.getenv(
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -66,16 +69,16 @@ MIDDLEWARE = [
 
 ANYMAIL = {
     # (exact settings here depend on your ESP...)
-    "MAILGUN_API_KEY": "5665624917222649a8cd6d5bcc644cf7-2bab6b06-ef64d8fd",
-    "MAILGUN_SENDER_DOMAIN": 'sandbox1bab856e0f3d46a3a39af5b09cc0e948.mailgun.org',
+    "MAILGUN_API_KEY": os.getenv("MAILGUN_API_KEY"),
+    "MAILGUN_SENDER_DOMAIN": os.getenv("MAILGUN_SENDER_DOMAIN"),
 }
 
 # or sendgrid.EmailBackend, or...
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 # if you don't already have this in settings
-DEFAULT_FROM_EMAIL = "jimjunior854@gmail.com"
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 # ditto (default from-email for Django errors)
-SERVER_EMAIL = "jimjunior854@gmail.com"
+SERVER_EMAIL = os.getenv("SERVER_EMAIL")
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -102,7 +105,11 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": ["redis://localhost:6379"],
+            "hosts": [
+                os.getenv(
+                    "CHANNELS_REDIS_URL"
+                )
+            ],
         },
     },
 }
@@ -111,22 +118,14 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-""" DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-} """
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "wnypdbwz",
-        'USER': "wnypdbwz",
-        'PASSWORD': "xaE6lWJwxA6zhtIFKT1i-ETj7IVV380D",
-        'HOST': "rosie.db.elephantsql.com",
-        'PORT': "5432",
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 
@@ -174,8 +173,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 
 SIMPLE_JWT = {
@@ -233,41 +230,42 @@ MEDIA_URL = '/useruploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'useruploads')
 
 
-FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-c103ae5a1628c16c68bc77451af5c1f1-X"
-FLUTTERWAVE_SECRET = "FLWSECK_TEST-9dbffbbda5a3746b8e37eb4456886097-X"
+FLUTTERWAVE_PUBLIC_KEY = os.getenv("FLUTTERWAVE_PUBLIC_KEY")
+FLUTTERWAVE_SECRET = os.getenv("FLUTTERWAVE_SECRET")
 FLUTTERWAVE_ENDPOINT = "https://api.flutterwave.com/v3"
-FLUTTERWAVE_HASH = ""
-FLUTTERWAVE_ENCRYPTION_KEY = "FLWSECK_TEST5b63f3a70b92"
+FLUTTERWAVE_HASH = os.getenv("FLUTTERWAVE_HASH")
+FLUTTERWAVE_ENCRYPTION_KEY = os.getenv("FLUTTERWAVE_ENCRYPTION_KEY")
 
-GITHUB_WEBHOOK_SECRET = "b3d9b3b0b3d9b3b0b3d9b3b0b3b0b3d9b3bb3d9"
+GITHUB_WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET")
 
-GITHUB_SECRET_HASH = "b3d9b3b0b3d9b3b0b3d9b3b0b3b0b3d9b3bb3d9"
+GITHUB_SECRET_HASH = os.getenv("GITHUB_SECRET_HASH")
+
 GH_PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
-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
+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
 -----END RSA PRIVATE KEY-----"""
 
 # Kpack settings
@@ -278,6 +276,6 @@ KPACK_DOCKER_REGISTRY = "jimjuniorb/"
 # PLatform settings
 APP_DEPLOYMENTS_DOMAIN = "cranomapp.ml"
 
-
-if DEBUG == False:
-    from .production import *
+# Kube settings
+KUBE_CLUSTER_TOKEN = os.getenv("KUBE_CLUSTER_TOKEN")
+KUBE_CLUSTER_HOST = os.getenv("KUBE_CLUSTER_HOST")

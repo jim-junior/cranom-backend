@@ -1,12 +1,17 @@
 import os
 
 from celery import Celery
+from dotenv import load_dotenv
+load_dotenv()
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
+CELERY_REDIS_URL = os.getenv("CELERY_BROKER_REDIS_URL")
+print(CELERY_REDIS_URL)
+
 app = Celery(
-    'backend', broker="redis://:99fed4stqjcTSLEKsUOjI2hJsU0TKX0o@redis-19117.c12.us-east-1-4.ec2.cloud.redislabs.com:19117/0")
+    'backend', broker=CELERY_REDIS_URL)
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

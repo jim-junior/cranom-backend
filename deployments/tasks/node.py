@@ -16,6 +16,6 @@ def deploy_node(node_id):
     node.save()
     create_git_node_deployment(node)
     create_git_node_service(node)
-    # create_node_ingress(node)
+    create_node_ingress(node)
     node.running = True
     node.save()

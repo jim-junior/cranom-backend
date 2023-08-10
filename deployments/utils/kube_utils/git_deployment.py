@@ -2,7 +2,7 @@ import json
 import httpx
 from kubernetes import client, config
 from kube.config import get_api_client_config
-from deployments.models import Deployment, Project, Node
+from deployments.models import Deployment, Project, Node, DomainName
 from users.models import UserProfile
 from django.conf import settings
 
@@ -207,17 +207,29 @@ def create_node_ingress(node: Node):
         }
     }
 
-    if node.running == True:
-        api_response = networking_v1_api.patch_namespaced_ingress(
-            name=f"{name}-{user}-ingress",
-            body=ing_obj,
-            namespace=user
-        )
-    else:
-        api_response = networking_v1_api.create_namespaced_ingress(
-            body=ing_obj,
-            namespace=user
-        )
+    try:
+
+        if node.running == True:
+            api_response = networking_v1_api.patch_namespaced_ingress(
+                name=f"{name}-{user}-ingress",
+                body=ing_obj,
+                namespace=user
+            )
+            domainName = f"{name}-{user}.{settings.APP_DEPLOYMENTS_DOMAIN}"
+            domain = DomainName.objects.create(
+                name=domainName,
+                project=project.project_uuid,
+                node=node.pk
+            )
+            domain.save()
+        else:
+            api_response = networking_v1_api.create_namespaced_ingress(
+                body=ing_obj,
+                namespace=user
+            )
+
+    except:
+        pass
 
 
 def delete_git_node_deployment(node: Node):

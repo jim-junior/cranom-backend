@@ -38,5 +38,6 @@ class CreateNode(APIView):
             print(node.id)
             deploy_node(node.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+        print("============= Serializer not valid")
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

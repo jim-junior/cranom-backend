@@ -18,7 +18,7 @@ def get_logs(obj, name, nodeId, username):
     config.load_kube_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
-    depname = f"{name}-{nodeId}-deployment"
+    depname = f"{name}-{nodeId}"
     podname = ""
     pods = v1.list_namespaced_pod(username)
     for pod in pods.items:

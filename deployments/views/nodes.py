@@ -18,6 +18,7 @@ class CreateNode(APIView):
     def post(self, request: Request, project_uuid: int):
         # Check if the user is the owner of the project
         data = request.data
+        print(data)
         nodename = data["name"]
 
         # Check if the node name is already in use

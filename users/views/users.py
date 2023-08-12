@@ -194,8 +194,8 @@ class ActivateAccount(APIView):
         userprofile = UserProfile.objects.get(user=user)
         data = request.data
         token = data['token']
-        if userprofile.is_active:
-            return Response({"message": "Account already activated"}, status=status.HTTP_400_BAD_REQUEST)
+        """ if userprofile.is_active:
+            return Response({"message": "Account already activated"}, status=status.HTTP_400_BAD_REQUEST) """
         decrypted_obj = decrypt(token)
         if decrypted_obj['email'] != userprofile.email or decrypted_obj['username'] != userprofile.username:
             return Response({"message": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
@@ -206,8 +206,8 @@ class ActivateAccount(APIView):
         userprofile.is_active = True
         userprofile.save()
         # create kube namespace for the user
-        """ create_namespace(userprofile)
-        create_docker_pull_secret(userprofile) """
+        create_namespace(userprofile)
+        create_docker_pull_secret(userprofile)
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 
 

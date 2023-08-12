@@ -52,7 +52,7 @@ def create_git_node_deployment(node: Node):
     if node.process_type == "web":
         container["ports"] = [
             {
-                "name": f"{project.name}-{node.id}-port",
+                "name": f"{project.name}-{node.id}",
                 "containerPort": node.port
             }
         ]
@@ -61,22 +61,22 @@ def create_git_node_deployment(node: Node):
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "metadata": {
-            "name": f"{name}-{node.id}-deployment",
+            "name": f"{name}-{node.id}",
             "labels": {
-                "app": f"{name}-{node.id}-deployment"
+                "app": f"{name}-{node.id}"
             }
         },
         "spec": {
             "replicas": 1,
             "selector": {
                 "matchLabels": {
-                    "app": f"{name}-{node.id}-deployment"
+                    "app": f"{name}-{node.id}"
                 }
             },
             "template": {
                 "metadata": {
                     "labels": {
-                        "app": f"{name}-{node.id}-deployment"
+                        "app": f"{name}-{node.id}"
                     }
                 },
                 "spec": {
@@ -136,16 +136,16 @@ def create_git_node_service(node: Node):
 
     body = client.V1Service(
         metadata=client.V1ObjectMeta(
-            name=f"{name}-{node.id}-service",
+            name=f"{name}-{node.id}",
         ),
         spec=client.V1ServiceSpec(
             selector={
-                "app": f"{name}-{node.id}-deployment"
+                "app": f"{name}-{node.id}"
             },
             ports=[
                 client.V1ServicePort(
                     port=node.port,
-                    target_port=f"{project.name}-{node.id}-port",
+                    target_port=f"{project.name}-{node.id}",
                     # protocol=node.network_protocol
                 )
             ],
@@ -176,7 +176,7 @@ def create_node_ingress(node: Node):
         "apiVersion": "networking.k8s.io/v1",
         "kind": "Ingress",
         "metadata": {
-            "name": f"{name}-{user.username}-ingress",
+            "name": f"{name}-{user.username}",
             "annotations": {
                 "kubernetes.io/ingress.class": "nginx",
                 "external-dns.alpha.kubernetes.io/hostname": f"{name}-{user.username}.{settings.APP_DEPLOYMENTS_DOMAIN}"
@@ -193,7 +193,7 @@ def create_node_ingress(node: Node):
                                 "path": "/",
                                 "backend": {
                                     "service": {
-                                        "name": f"{name}-{node.id}-service",
+                                        "name": f"{name}-{node.id}",
                                         "port": {
                                             "number": node.port
                                         }
@@ -211,7 +211,7 @@ def create_node_ingress(node: Node):
 
         if node.running == True:
             api_response = networking_v1_api.patch_namespaced_ingress(
-                name=f"{name}-{user}-ingress",
+                name=f"{name}-{user}",
                 body=ing_obj,
                 namespace=user
             )
@@ -239,7 +239,7 @@ def delete_git_node_deployment(node: Node):
 
     try:
         api_response = apps_v1_api.delete_namespaced_deployment(
-            name=f"{name}-{node.id}-deployment",
+            name=f"{name}-{node.id}",
             namespace=user.username
         )
         node.running = False
@@ -256,7 +256,7 @@ def delete_git_node_service(node: Node):
 
     try:
         api_response = v1.delete_namespaced_service(
-            name=f"{name}-{node.id}-service",
+            name=f"{name}-{node.id}",
             namespace=user.username
         )
     except:
@@ -270,7 +270,7 @@ def delete_git_node_ingress(node: Node):
 
     try:
         api_response = networking_v1_api.delete_namespaced_ingress(
-            name=f"{name}-{user.username}-ingress",
+            name=f"{name}-{user.username}",
             namespace=user.username
         )
     except:

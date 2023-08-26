@@ -4,6 +4,6 @@ metadata:
   name: default-store
 spec:
   sources:
-  - image: heroku/buildpacks:20
+  - image: heroku/builder:22
   - image: gcr.io/paketo-buildpacks/java
   - image: gcr.io/paketo-buildpacks/nodejs

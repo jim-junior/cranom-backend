@@ -3,8 +3,8 @@ kind: ClusterStack
 metadata:
   name: base-stack
 spec:
-  id: "heroku-20"
+  id: "heroku-22"
   buildImage:
-    image: "heroku/heroku:20-cnb-build"
+    image: "heroku/heroku:22-cnb-build"
   runImage:
-    image: "heroku/heroku:20-cnb"
+    image: "heroku/heroku:22-cnb"

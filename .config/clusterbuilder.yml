@@ -9,7 +9,7 @@ spec:
     name: kpack-sva
     namespace: default
   # Builder tag
-  tag: jimjuniorb/buildpacks:20
+  tag: jimjuniorb/buildpacks:22
   stack:
     name: base-stack
     kind: ClusterStack
@@ -19,3 +19,8 @@ spec:
   order:
   - group:
     - id: heroku/nodejs
+    - id: heroku/nodejs-yarn
+    - id: heroku/python
+    - id: heroku/java
+    - id: heroku/go
+    - id: heroku/php

@@ -52,7 +52,7 @@ def deploy_git_node(node: Node):
     user: UserProfile = project.user
     git_username = ""
     git_password = ""
-    if node.custom_git_repo == False:
+    if node.custom_git_repo == False and node.is_public_repo == False:
         # If the node repo is a Github Repository
         gh_installation: GithubInstallation = GithubInstallation.objects.get(
             account=project.user)
@@ -60,16 +60,21 @@ def deploy_git_node(node: Node):
         token = get_installation_token(gh_installation.github_id)
         git_username = "x-access-token"
         git_password = token
-    else:
+    elif node.custom_git_repo == True:
         git_username = node.git_repo_username
         git_password = node.git_repo_pswd
-    create_git_secret(git_password, git_username, node.id, user.username)
-    # create service account
-    create_proj_sva(project, user.username)
-    # create builder
-    create_kp_builder(project, node, user.username)
-    # create image
-    create_kp_image(project, node, user.username)
+    
+    if node.is_public_repo == True:
+        create_proj_sva(node, user.username)
+        # create image
+        create_kp_image(project, node, user.username)
+    else: 
+        create_git_secret(git_password, git_username, node.id, user.username)
+        # create service account
+        create_proj_sva(node, user.username)
+        # create image
+        create_kp_image(project, node, user.username)
+
 
     current = None
 

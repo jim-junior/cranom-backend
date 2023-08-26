@@ -19,6 +19,19 @@ docker volume create cranom-pg-data
 docker run --name cranom-postgres -v cranom-pg-data:/var/lib/postgresql/data -p 5455:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=cranom -e POSTGRES_DB=cranom -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres
 ```
 
+## Setting up KPACK
+
+```sh
+kubectl apply -f .config/clusterstore.yml
+
+kubectl apply -f .config/clusterstack.yml
+
+kubectl apply -f .config/kpack-secrets.yml 
+
+kubectl apply -f .config/clusterbuilder.yml
+
+```
+
 ## Running
 
 ```bash

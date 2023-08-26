@@ -26,10 +26,7 @@ def create_kp_image(project: Project, node: Node, username: str):
         },
         "spec": {
             "tag": f"{settings.KPACK_DOCKER_REGISTRY}{username}-{project.name}-{node.id}-kp-image",
-            "serviceAccountRef": {
-                "name": f"{node.id}-sva",
-                "namespace": username
-            },
+            "serviceAccountName":f"{node.id}-sva",
             "builder": {
                 "name": "default-builder",
                 "kind": "ClusterBuilder"
@@ -47,7 +44,9 @@ def create_kp_image(project: Project, node: Node, username: str):
             }
         }
         if revision != "" and revision is not None:
-            img_obj["spec"]["source"]["git"]["revision"] = revision
+            img_obj["spec"]["source"]["git"]["revision"] = "main"
+        else:
+            img_obj["spec"]["source"]["git"]["revision"] = "main"
     elif node.node_type == "local":
         airtifact = node.zipped_project
         img_obj["spec"]["source"] = {
@@ -63,7 +62,6 @@ def create_kp_image(project: Project, node: Node, username: str):
         plural="images",
         body=img_obj,
     )
-    print(resp.status)
 
 
 def create_git_secret(token: str, gh_username: str, node_id, namespace: str):
@@ -124,20 +122,20 @@ def create_proj_sva(node, namespace: str):
         "metadata": {
             "name": f"{node.id}-sva",
             "namespace": namespace,
-            "secrets": [
-                {
-                    "name": "docker-configjson"
-                }
-            ],
-            "imagePullSecrets": [
-                {
-                    "name": "docker-configjson"
-                }
-            ]
-        }
+        },
+        "secrets": [
+            {
+                "name": "docker-configjson"
+            }
+        ],
+        "imagePullSecrets": [
+            {
+                "name": "docker-configjson"
+            }
+        ]
     }
     if node.is_public_repo == False:
-        nodesva_obj["metadata"]["secrets"].append(
+        nodesva_obj["secrets"].append(
             {
                 "name": f"{node.id}-gh-secret"
             }

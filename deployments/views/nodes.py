@@ -18,7 +18,6 @@ class CreateNode(APIView):
     def post(self, request: Request, project_uuid: int):
         # Check if the user is the owner of the project
         data = request.data
-        print(data)
         nodename = data["name"]
 
         # Check if the node name is already in use
@@ -36,9 +35,6 @@ class CreateNode(APIView):
         serializer = NodeSerializer(data=data)
         if serializer.is_valid():
             node = serializer.save(project=project)
-            print(node.id)
             deploy_node(node.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print("============= Serializer not valid")
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

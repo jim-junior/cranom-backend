@@ -141,6 +141,7 @@ class Node(models.Model):
     network_protocol = models.CharField(
         max_length=10, choices=NETWORK_PROTOCOLS, default="TCP")
     git_config = models.JSONField(blank=True, null=True)
+    is_public_repo = models.BooleanField(default=False)
 
 
 class DomainName(models.Model):

@@ -207,7 +207,6 @@ class ActivateAccount(APIView):
         userprofile.save()
         # create kube namespace for the user
         create_namespace(userprofile)
-        create_docker_pull_secret(userprofile)
         return Response({"message": "Account activated"}, status=status.HTTP_200_OK)
 
 

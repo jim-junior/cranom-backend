@@ -5,3 +5,5 @@ metadata:
 spec:
   sources:
   - image: heroku/buildpacks:20
+  - image: gcr.io/paketo-buildpacks/java
+  - image: gcr.io/paketo-buildpacks/nodejs

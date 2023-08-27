@@ -1,5 +1,9 @@
 {
     "recommendations": [
-        "johnpapa.winteriscoming"
+        "johnpapa.winteriscoming",
+        "github.copilot",
+        "ms-python.python",
+        "oderwat.indent-rainbow",
+        "vscode-icons-team.vscode-icons"
     ]
 }

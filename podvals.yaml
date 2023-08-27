@@ -1,0 +1,1201 @@
+Name:         default-store
+Namespace:    
+Labels:       <none>
+Annotations:  <none>
+API Version:  kpack.io/v1alpha2
+Kind:         ClusterStore
+Metadata:
+  Creation Timestamp:  2023-08-27T13:54:01Z
+  Generation:          1
+  Resource Version:    1852
+  UID:                 c0b9644a-84d9-4ecb-9eb5-cf3f1de2dda7
+Spec:
+  Sources:
+    Image:  heroku/builder:22
+    Image:  gcr.io/paketo-buildpacks/java
+    Image:  gcr.io/paketo-buildpacks/nodejs
+Status:
+  Buildpacks:
+    API:  0.9
+    Buildpackage:
+    Diff Id:   sha256:1bf0fb19fa73724061084fcd7251f885d887be7b834719a9860e1d15b584d41b
+    Digest:    sha256:ed9047414af9afda303249eb31002a8f65f548dbd153e763a71e35cfc2125baa
+    Homepage:  https://github.com/heroku/buildpacks-go
+    Id:        heroku/go
+    Size:      6076051
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  0.1.8
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:0a98bd0dc70f527acfa88bef58dcc3d647307891f0ecf19a4d76715f94d1de43
+    Digest:    sha256:c8517695afd7b1739cea8ed25e5b3a452da8a18a8537e5551fa7c5ac00b855af
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/java-function
+    Order:
+      Group:
+        Id:       heroku/jvm
+        Version:  3.0.0
+        Id:       heroku/maven
+        Version:  3.0.0
+        Id:       heroku/jvm-function-invoker
+        Version:  3.0.0
+    Size:         507
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:762cbb27f165147472f65e60c42da201fe3a366a99eb4afcb181b20106d04eaf
+    Digest:    sha256:e1b8fb34b68e4e10bfbbcea1fe2620a33939fae78b19da96a705da84df760e93
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/java
+    Order:
+      Group:
+        Id:        heroku/jvm
+        Version:   3.0.0
+        Id:        heroku/maven
+        Version:   3.0.0
+        Id:        heroku/procfile
+        Optional:  true
+        Version:   2.0.0
+    Size:          553
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:6ef53f27797fb22c2dd8becc0fa72a9756ff60ab0bc52b48c1ca757de72453d7
+    Digest:    sha256:ae01a7ee2bcb0f7ef83f51fd88188cc749a4a25fc157bc603845ede8c181593f
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/jvm-function-invoker
+    Size:      1760856
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:f947befdc1d7b7ce28032d3760b9111c689bf91311a53ba2d3ddcd67b28adc1a
+    Digest:    sha256:12cae362db6b1c9b6a629a18f02e787b77b150eb9ac5205879e60a2a86656079
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/jvm
+    Size:      3829036
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:cd0c05561c5bdfeb0b0c2b9366d5dc47e44e9d26feafe749e867a850cc749d18
+    Digest:    sha256:e85fd1c4598bc7e36c2bb80fdbfc6f72f8828541d279be236053075b111a1da9
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/maven
+    Size:      2284726
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:5c6a3857f86558c61f5341f2d2c1ea3921dfb3030e0c12ef6530a53fce491086
+    Digest:    sha256:b54aafd58def1cbdddd4414fd229af30030331048948fe6cc35fe1182371e21a
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-corepack
+    Size:      1339219
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+      Id:  io.buildpacks.stacks.bionic
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:f1665f249860636e1956c5ad6f86f7b26436ed4b716fab58fb1bfd7eb28ef1fb
+    Digest:    sha256:257c204de3811f0ed5ddb86a4d0a88a148b18d0d585f4d4e063c66eb82f1ff24
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-engine
+    Size:      2598403
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+      Id:  io.buildpacks.stacks.bionic
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:8265a018d11145497060477ff50e1dd6f7659f45bd55b26c8a4d6a01bd4bdf63
+    Digest:    sha256:94b1a592339744a49595964cfb35d1c529bb7439fdc9f2f2f8e959e27f988517
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-function-invoker
+    Size:      1328990
+    Stacks:
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:b8df9694eccc8d306cb8394363887f89b15a07d52640146ef0461a1f4b06c87f
+    Digest:    sha256:92ad65e352f53630789b71deb9a8b865642b8db8bfe023912783f62312837562
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-function
+    Order:
+      Group:
+        Id:       heroku/nodejs-engine
+        Version:  1.1.4
+        Id:       heroku/nodejs-npm
+        Version:  1.1.4
+        Id:       heroku/nodejs-function-invoker
+        Version:  1.1.4
+    Size:         486
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.6
+    Buildpackage:
+    Diff Id:   sha256:ac9f587c9d436954d3d24fa2663dd5ba35c3647cbfab5aa856e4fe12b5072998
+    Digest:    sha256:27029e9dff8185b1b8fb7173252b2487e5a6762c3dfe9a0e23cd2a72e108f062
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-npm
+    Size:      10012
+    Stacks:
+      Id:  *
+      Id:  heroku-20
+      Id:  heroku-22
+      Id:  io.buildpacks.stacks.bionic
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:9e142a4e8ee068ef0d0422e5aa2d9f5524e47f3644eb338068b323369b842768
+    Digest:    sha256:a5c4bd5bf49be2618b4f5e61e5d82c162c07cb9542568a21efe63a420f3a5dba
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-pnpm-install
+    Size:      1318923
+    Stacks:
+      Id:  *
+      Id:  heroku-20
+      Id:  heroku-22
+      Id:  io.buildpacks.stacks.bionic
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:220572b5c3cb42d23e8f18fa70249b1e63d7cddb0726a1ae8c1630e0eb88e44d
+    Digest:    sha256:bc8152ec732dbed13bd899aed5588d813839e0d4830d24c082c2deee2ab8b1c3
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs-yarn
+    Size:      2322334
+    Stacks:
+      Id:  *
+      Id:  heroku-20
+      Id:  heroku-22
+      Id:  io.buildpacks.stacks.bionic
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:48c82f12e68de666ffee5c9c2b8ec096cd842d942e01a01e5e5b2d43b9c0ff5d
+    Digest:    sha256:91fd61a3aa55b55ab574644a58d0243b23aa1fae76a8e6ed939e172a7bee91af
+    Homepage:  https://github.com/heroku/buildpacks-nodejs
+    Id:        heroku/nodejs
+    Order:
+      Group:
+        Id:        heroku/nodejs-engine
+        Version:   1.1.4
+        Id:        heroku/nodejs-corepack
+        Version:   1.1.4
+        Id:        heroku/nodejs-pnpm-install
+        Version:   1.1.4
+        Id:        heroku/procfile
+        Optional:  true
+        Version:   2.0.0
+      Group:
+        Id:        heroku/nodejs-engine
+        Version:   1.1.4
+        Id:        heroku/nodejs-corepack
+        Optional:  true
+        Version:   1.1.4
+        Id:        heroku/nodejs-yarn
+        Version:   1.1.4
+        Id:        heroku/procfile
+        Optional:  true
+        Version:   2.0.0
+      Group:
+        Id:        heroku/nodejs-engine
+        Version:   1.1.4
+        Id:        heroku/nodejs-npm
+        Version:   1.1.4
+        Id:        heroku/procfile
+        Optional:  true
+        Version:   2.0.0
+    Size:          549
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  1.1.4
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:667b752df511b9d005d280c2f09bc966005f5936699fee8b3313cd7475d325c0
+    Digest:    sha256:43a2b60ac0428f8172ed267d18914f223bb0a4053783254e2e8b84cb42b1f082
+    Homepage:  https://github.com/heroku/buildpacks-php
+    Id:        heroku/php
+    Size:      2393336
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  0.1.1
+    API:      0.8
+    Buildpackage:
+    Diff Id:   sha256:5a32dcd05279534592ceeae6b2b25a5307477f604f6b5f96706abad2ea2fab66
+    Digest:    sha256:f10dea63a38d4231cfae0d4d2df101e0d0cb1b8cad301a473ed2cc66c7a75520
+    Homepage:  https://github.com/heroku/procfile-cnb
+    Id:        heroku/procfile
+    Size:      900886
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  2.0.0
+    API:      0.8
+    Buildpackage:
+    Diff Id:   sha256:bc090a6491d19dfaeada5d9dab4f0875ae5c8ffb22a39dd601c7bf1359b8250e
+    Digest:    sha256:1ea967210d271e985a02678f678ecc2903d6c8c9c27abfba5e567c3736b48e2a
+    Homepage:  https://github.com/heroku/procfile-cnb
+    Id:        heroku/procfile
+    Size:      1178978
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  2.0.1
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:b09a2c0203e01c34d3e5b564cfa4062bb5f4aef8db0f2c8cce51aefbd3a49fc3
+    Digest:    sha256:f103be6955b882d01d9741260b89b0911f36d97ed3eec1457a6459e08f8c32a2
+    Homepage:  https://github.com/heroku/buildpacks-python
+    Id:        heroku/python
+    Size:      1887463
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  0.6.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:4ed56a085a109dcbf69ab488d706ec0e05e2850ed94369bc3a09779d7ad62315
+    Digest:    sha256:56c59397d53e890e5a8c0fb8bd1dfb27bce5115ceab6cb000d7c79e29137fe9e
+    Homepage:  https://github.com/heroku/buildpacks-ruby
+    Id:        heroku/ruby
+    Size:      2612359
+    Stacks:
+      Id:  heroku-20
+      Id:  heroku-22
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  2.0.1
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:4d0d4feab7989267e87734d2d76efce6a70dd003bcd6b3cf022e7db8862a9bdf
+    Digest:    sha256:91349e3552c58d4b0a334890cba184a7437e0bf8b36810f1c1cd2f7eb0694cfb
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/sbt
+    Size:      1368966
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.9
+    Buildpackage:
+    Diff Id:   sha256:7062fa107ed3dc6f5d5d5f17ccbb70d94da9ce6ea7933377572c36b6c81e787f
+    Digest:    sha256:2943d29708598f869ce1d43d542be7b36a1e1ed34a8e8cbbec69ff8ae803bc9c
+    Homepage:  https://github.com/heroku/buildpacks-jvm
+    Id:        heroku/scala
+    Order:
+      Group:
+        Id:        heroku/jvm
+        Version:   3.0.0
+        Id:        heroku/sbt
+        Version:   3.0.0
+        Id:        heroku/procfile
+        Optional:  true
+        Version:   2.0.0
+    Size:          550
+    Store Image:
+      Image:  heroku/builder:22
+    Version:  3.0.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:d63e77ff3777e426618d12a3a01a9532b7e00ab915e88704c7d86d5812a85c55
+    Digest:      sha256:29e12cbfe0e123958d3ebaff2b3bb2011e15ba68792ba0b18fc7db75103327e6
+    Homepage:    https://github.com/paketo-buildpacks/apache-tomcat
+    Id:          paketo-buildpacks/apache-tomcat
+    Size:        3882936
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  7.13.8
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:9d06d8bfd1ff7131cb51c0b36cb73e1839ba7cabf475242e2f75abba7cff2b35
+    Digest:      sha256:47d6ebba91b604882dcc164e5845ca83b39a4eada5bfb3fd2008930d582ebe29
+    Homepage:    https://github.com/paketo-buildpacks/apache-tomee
+    Id:          paketo-buildpacks/apache-tomee
+    Size:        3881022
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.7.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:d3449dd22b6225c645834e26dbcfd564dac6f3d7881d53724b53acb440ddc3cf
+    Digest:      sha256:7c7a2f0f872530152b636da95dad0d72388c3739b7acfd7357f10dad5c707bd4
+    Homepage:    https://github.com/paketo-buildpacks/azure-application-insights
+    Id:          paketo-buildpacks/azure-application-insights
+    Size:        3850161
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  5.15.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:bda124294d02dad9cdda903aabce6cc128d2317a24ff39b155671cc325682ec4
+    Digest:      sha256:e42518d7d1cd785419b341000221bbf18315b3d7f2751b7550ccc64413144078
+    Homepage:    https://github.com/paketo-buildpacks/bellsoft-liberica
+    Id:          paketo-buildpacks/bellsoft-liberica
+    Size:        4995111
+    Stacks:
+      Id:  io.paketo.stacks.tiny
+      Id:  io.buildpacks.stacks.bionic
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  10.2.8
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:b60541d13f4fa3fddd3783a1cb77de4c502e590a34c0265becc0d1819ea0f664
+    Digest:      sha256:a0599a2324c7857f10304254a1050554247ca7cdce0bb97d6081bfd5742a65c5
+    Homepage:    https://github.com/paketo-buildpacks/ca-certificates
+    Id:          paketo-buildpacks/ca-certificates
+    Size:        3795252
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  3.6.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:b60541d13f4fa3fddd3783a1cb77de4c502e590a34c0265becc0d1819ea0f664
+    Digest:      sha256:b60ca1af4df3e7699915a8c596347491a2b126903e86b758478c494e39948eb3
+    Homepage:    https://github.com/paketo-buildpacks/ca-certificates
+    Id:          paketo-buildpacks/ca-certificates
+    Size:        3434932
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  3.6.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:d901676787dc3f7dbda316c261c54c8655f71b6e4860feff10eb7a7dc7a1462c
+    Digest:      sha256:ec3e610c2079c40f05b1897ac5f7bd08299ece3859347155e57f047c873aec07
+    Homepage:    https://github.com/paketo-buildpacks/clojure-tools
+    Id:          paketo-buildpacks/clojure-tools
+    Size:        2937505
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  2.8.8
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:8be8b98cf179e11a5cfbc8c6517062c47bea0f2799332f0939e960c230fcb90a
+    Digest:      sha256:56a92c4a3faf9e9b58f2a4ee99513d7fbe55ba1e9511f2c267f8ccba1bf36c72
+    Homepage:    https://github.com/paketo-buildpacks/datadog
+    Id:          paketo-buildpacks/datadog
+    Size:        3641744
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  3.16.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:b351bc73239608a09c7523656594df065fd2a6aacaee90254945d9e3070122ca
+    Digest:      sha256:faf8745a9c0d032dbb6fe19834f150ce4e355d9bde27ceacea215c415608b6e5
+    Homepage:    https://github.com/paketo-buildpacks/datadog
+    Id:          paketo-buildpacks/datadog
+    Size:        2527625
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  3.6.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:9c2513a3481c8a568301627b8ee6a00db44341a69f599fdea4993d75fface10d
+    Digest:      sha256:76629e37b802166036c92b537192871ddc99c0204920aa5be75397a08ee57bba
+    Homepage:    https://github.com/paketo-buildpacks/dist-zip
+    Id:          paketo-buildpacks/dist-zip
+    Size:        1864279
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  5.6.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:c0dbfd2786f2da3430c2e06aa14dab332196bdf31e170ef88519da6e08f9fb23
+    Digest:      sha256:93f224108056059edecf731e7b46fe08323d8a54e184d22c02e2f417d6fbbbfb
+    Homepage:    https://github.com/paketo-buildpacks/encrypt-at-rest
+    Id:          paketo-buildpacks/encrypt-at-rest
+    Size:        3097754
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  4.5.5
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:e0b403660a34970e9f33fbfca76e5f60f900243797be86ce381746b6197771d3
+    Digest:      sha256:bc3d02024b602e3e069dc1ba3df3abae8b006266f5a769430cb6ac7d53f64f12
+    Homepage:    https://github.com/paketo-buildpacks/environment-variables
+    Id:          paketo-buildpacks/environment-variables
+    Size:        1716739
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  4.5.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:e0b403660a34970e9f33fbfca76e5f60f900243797be86ce381746b6197771d3
+    Digest:      sha256:6d44d3321db881e05316375aa6b6ec0c703a5339607e698f1eac108b584d3610
+    Homepage:    https://github.com/paketo-buildpacks/environment-variables
+    Id:          paketo-buildpacks/environment-variables
+    Size:        1556260
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  4.5.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:9164db8fc82a1acc36e6405bff527dd4749b86cde49596a4d7723ee77069741f
+    Digest:      sha256:c2b56ffd46c08dec7351f456c575de1b1bed7fcf10619c2fb06f8abf51eacec1
+    Homepage:    https://github.com/paketo-buildpacks/executable-jar
+    Id:          paketo-buildpacks/executable-jar
+    Size:        2039356
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  6.7.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:4076af6384759f5e57e3cc68838e3bd7de45c6971d817e3391b09edda74ca7bb
+    Digest:      sha256:dd00072835c5fbc650534ce8e98ad449249c4527fa7418afc881714e40f4fc10
+    Homepage:    https://github.com/paketo-buildpacks/google-stackdriver
+    Id:          paketo-buildpacks/google-stackdriver
+    Size:        3952496
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  7.7.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:1dd2ddee746dc01a7fc903bce97979aad9e3c26ce2d4e96de1d055d84f308e9a
+    Digest:      sha256:ed2639eef8e49c817f72874b21ad6e53812195735bb47d66c49ccd0e347f1d3c
+    Homepage:    https://github.com/paketo-buildpacks/gradle
+    Id:          paketo-buildpacks/gradle
+    Size:        2975757
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  7.4.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:3e44c3f0963ed0bb2d0c64ecfaff2d706db8c156ae77924156befc9d4517c754
+    Digest:      sha256:1a766d1ae466aa5d7e679965abf3575e5451d6072ee6936e2d4153f644ac4ec8
+    Homepage:    https://github.com/paketo-buildpacks/image-labels
+    Id:          paketo-buildpacks/image-labels
+    Size:        1716113
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  4.5.2
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:3e44c3f0963ed0bb2d0c64ecfaff2d706db8c156ae77924156befc9d4517c754
+    Digest:      sha256:d153e327e6f7f7520f9fff7a2d10f33144d883f76f6b823f053550e42a4099c5
+    Homepage:    https://github.com/paketo-buildpacks/image-labels
+    Id:          paketo-buildpacks/image-labels
+    Size:        1551193
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  4.5.2
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:5a0503f05e7572bf56d05032a7731db8645024b56adc3e2b0300147339347a23
+    Digest:      sha256:56863b3aa0c31b38a0289a65c9d2884947763cefcd3b76286ad7f3750e04c0e9
+    Homepage:    https://github.com/paketo-buildpacks/jattach
+    Id:          paketo-buildpacks/jattach
+    Size:        2724730
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.4.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:f397c0703d00eb24ef091ec917ab4eff8f324044dd66cf1950b92545b59d96bc
+    Digest:      sha256:a84ac67bebb0ecdbabf46e89d43b3c949e64f6eaebff4f87469fb629504f882c
+    Homepage:    https://github.com/paketo-buildpacks/java-memory-assistant
+    Id:          paketo-buildpacks/java-memory-assistant
+    Size:        3639386
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.4.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:24658d13bc7ce04567476323ccca6a533cd78542e2260ee6f22433a3dbc013d6
+    Digest:      sha256:aaf2cd7cf5a89880de954475db7a5784b4d6aab1f7af6f42b0459cfd25fd2468
+    Homepage:    https://paketo.io/docs/howto/java
+    Id:          paketo-buildpacks/java
+    Order:
+      Group:
+        Id:        paketo-buildpacks/ca-certificates
+        Optional:  true
+        Version:   3.6.3
+        Id:        paketo-buildpacks/bellsoft-liberica
+        Version:   10.2.8
+        Id:        paketo-buildpacks/yarn
+        Optional:  true
+        Version:   1.1.10
+        Id:        paketo-buildpacks/node-engine
+        Optional:  true
+        Version:   1.8.0
+        Id:        paketo-buildpacks/syft
+        Optional:  true
+        Version:   1.34.1
+        Id:        paketo-buildpacks/leiningen
+        Optional:  true
+        Version:   4.6.4
+        Id:        paketo-buildpacks/clojure-tools
+        Optional:  true
+        Version:   2.8.8
+        Id:        paketo-buildpacks/gradle
+        Optional:  true
+        Version:   7.4.0
+        Id:        paketo-buildpacks/maven
+        Optional:  true
+        Version:   6.15.6
+        Id:        paketo-buildpacks/sbt
+        Optional:  true
+        Version:   6.12.3
+        Id:        paketo-buildpacks/watchexec
+        Optional:  true
+        Version:   2.8.3
+        Id:        paketo-buildpacks/executable-jar
+        Optional:  true
+        Version:   6.7.4
+        Id:        paketo-buildpacks/apache-tomcat
+        Optional:  true
+        Version:   7.13.8
+        Id:        paketo-buildpacks/apache-tomee
+        Optional:  true
+        Version:   1.7.4
+        Id:        paketo-buildpacks/liberty
+        Optional:  true
+        Version:   3.8.4
+        Id:        paketo-buildpacks/dist-zip
+        Optional:  true
+        Version:   5.6.4
+        Id:        paketo-buildpacks/spring-boot
+        Optional:  true
+        Version:   5.27.1
+        Id:        paketo-buildpacks/procfile
+        Optional:  true
+        Version:   5.6.4
+        Id:        paketo-buildpacks/jattach
+        Optional:  true
+        Version:   1.4.4
+        Id:        paketo-buildpacks/azure-application-insights
+        Optional:  true
+        Version:   5.15.3
+        Id:        paketo-buildpacks/google-stackdriver
+        Optional:  true
+        Version:   7.7.0
+        Id:        paketo-buildpacks/datadog
+        Optional:  true
+        Version:   3.16.3
+        Id:        paketo-buildpacks/java-memory-assistant
+        Optional:  true
+        Version:   1.4.4
+        Id:        paketo-buildpacks/encrypt-at-rest
+        Optional:  true
+        Version:   4.5.5
+        Id:        paketo-buildpacks/environment-variables
+        Optional:  true
+        Version:   4.5.3
+        Id:        paketo-buildpacks/image-labels
+        Optional:  true
+        Version:   4.5.2
+    Size:          6035
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  9.19.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:51a1d14190072b27247e6190c08ea9b37d6cd3939e5079c9cea397728bd2934c
+    Digest:      sha256:604d82bedd54f483423cf212bdf5798bcdf1f3c3b2aed94152fe8015e2bbb65a
+    Homepage:    https://github.com/paketo-buildpacks/leiningen
+    Id:          paketo-buildpacks/leiningen
+    Size:        2936233
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  4.6.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:f71e4c7ced7c542a5abb081b67f822b49d875edac66bdd56d85f1854b23564a4
+    Digest:      sha256:ca7a87f99f2c3104983a31b7f0dc935f0be2b4dc2aaec7a3c945cafcc06ba817
+    Homepage:    https://github.com/paketo-buildpacks/liberty
+    Id:          paketo-buildpacks/liberty
+    Size:        5856582
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  3.8.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:eb028031c7707ac14e38218e10519bd3cfea8330b890beb4b883ad395fa5d35c
+    Digest:      sha256:1da5c89f77f311e639953346798a1677d375a1a7256233d4800e0a3c66f3a485
+    Homepage:    https://github.com/paketo-buildpacks/maven
+    Id:          paketo-buildpacks/maven
+    Size:        2996728
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  6.15.6
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:3b37e4993742c94129a5bd0aaed1411ef9c2fd8fb55cddbcba27ec4aafbb246d
+    Digest:      sha256:b7385e2ba228d226c4482afdc44110b3c239444c7c8888500fc10b9b3a1ffebc
+    Homepage:    https://github.com/paketo-buildpacks/node-engine
+    Id:          paketo-buildpacks/node-engine
+    Size:        9317676
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.buildpacks.stacks.jammy
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.7.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:c4b345a0cf5591fc162eada6aaa813f25e60773b3a3ff32848f3e970ed024066
+    Digest:      sha256:98fd0fd92d65ed2f3c4adeea8e9d7251326467d7d8cf85f2f49bd08c39b86381
+    Homepage:    https://github.com/paketo-buildpacks/node-engine
+    Id:          paketo-buildpacks/node-engine
+    Size:        10342657
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.buildpacks.stacks.jammy
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.8.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:d1232c9c2c4cc38893ccde1bd60cdd467e2a0af34307eb061e1d4dd4ee574c85
+    Digest:      sha256:896d3bc0962892f5002b16fb64a880284499b9c6838d9f341d49916675de3d08
+    Homepage:    https://github.com/paketo-buildpacks/node-run-script
+    Id:          paketo-buildpacks/node-run-script
+    Size:        1847606
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.0.11
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:b5b7d5ffdc99f6d0db2c685a0decffe408a352d700f259215d7f8a3fa1688ad4
+    Digest:      sha256:3b3e21bc7b552aa0eff36da78a4199da5a1f5ac7f259aa257d9d9ca10998466d
+    Homepage:    https://github.com/paketo-buildpacks/node-start
+    Id:          paketo-buildpacks/node-start
+    Size:        1817624
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.1.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:0f7da91103358562de6db07770ff9f3dfaf713d5eb10b3f4a8bbbf7ebfdcf1c1
+    Digest:      sha256:142ac4fb99f489b31ac7418db72cced6fb0fcb50b27855da3090d978737a7dd2
+    Homepage:    https://github.com/paketo-buildpacks/nodejs
+    Id:          paketo-buildpacks/nodejs
+    Order:
+      Group:
+        Id:        paketo-buildpacks/ca-certificates
+        Optional:  true
+        Version:   3.6.3
+        Id:        paketo-buildpacks/watchexec
+        Optional:  true
+        Version:   2.8.3
+        Id:        paketo-buildpacks/node-engine
+        Version:   1.7.0
+        Id:        paketo-buildpacks/yarn
+        Version:   1.1.10
+        Id:        paketo-buildpacks/yarn-install
+        Version:   1.1.3
+        Id:        paketo-buildpacks/node-run-script
+        Optional:  true
+        Version:   1.0.11
+        Id:        paketo-buildpacks/node-start
+        Optional:  true
+        Version:   1.1.0
+        Id:        paketo-buildpacks/yarn-start
+        Optional:  true
+        Version:   1.0.12
+        Id:        paketo-buildpacks/procfile
+        Optional:  true
+        Version:   5.6.4
+        Id:        paketo-buildpacks/datadog
+        Optional:  true
+        Version:   3.6.0
+        Id:        paketo-buildpacks/environment-variables
+        Optional:  true
+        Version:   4.5.3
+        Id:        paketo-buildpacks/image-labels
+        Optional:  true
+        Version:   4.5.2
+      Group:
+        Id:        paketo-buildpacks/ca-certificates
+        Optional:  true
+        Version:   3.6.3
+        Id:        paketo-buildpacks/watchexec
+        Optional:  true
+        Version:   2.8.3
+        Id:        paketo-buildpacks/node-engine
+        Version:   1.7.0
+        Id:        paketo-buildpacks/npm-install
+        Version:   1.2.0
+        Id:        paketo-buildpacks/node-run-script
+        Optional:  true
+        Version:   1.0.11
+        Id:        paketo-buildpacks/node-start
+        Optional:  true
+        Version:   1.1.0
+        Id:        paketo-buildpacks/npm-start
+        Optional:  true
+        Version:   1.0.12
+        Id:        paketo-buildpacks/procfile
+        Optional:  true
+        Version:   5.6.4
+        Id:        paketo-buildpacks/datadog
+        Optional:  true
+        Version:   3.6.0
+        Id:        paketo-buildpacks/environment-variables
+        Optional:  true
+        Version:   4.5.3
+        Id:        paketo-buildpacks/image-labels
+        Optional:  true
+        Version:   4.5.2
+      Group:
+        Id:        paketo-buildpacks/ca-certificates
+        Optional:  true
+        Version:   3.6.3
+        Id:        paketo-buildpacks/watchexec
+        Optional:  true
+        Version:   2.8.3
+        Id:        paketo-buildpacks/node-engine
+        Version:   1.7.0
+        Id:        paketo-buildpacks/node-start
+        Version:   1.1.0
+        Id:        paketo-buildpacks/procfile
+        Optional:  true
+        Version:   5.6.4
+        Id:        paketo-buildpacks/datadog
+        Optional:  true
+        Version:   3.6.0
+        Id:        paketo-buildpacks/environment-variables
+        Optional:  true
+        Version:   4.5.3
+        Id:        paketo-buildpacks/image-labels
+        Optional:  true
+        Version:   4.5.2
+    Size:          583
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.8.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:203897ddd0cbef0df7887c75984c280af746953ee6575d0516c02538fadfe5eb
+    Digest:      sha256:ea97d5190b38a5e36c9aabbf9e3b41907a9a4d14512eeed4f7d8e6d719d390c6
+    Homepage:    https://github.com/paketo-buildpacks/npm-install
+    Id:          paketo-buildpacks/npm-install
+    Size:        16916410
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.2.0
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:7b9f8788ae3094355cd78160be569236ddf0eace2125e859e4ea76b432ef43b8
+    Digest:      sha256:24d22a34254ec6b9c4b364d593e19da6de843186c8370200debdde248b10bbbd
+    Homepage:    https://github.com/paketo-buildpacks/npm-start
+    Id:          paketo-buildpacks/npm-start
+    Size:        1818820
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.0.12
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:549522d4bb1bbe20f18b678d3db1c71cb6013c26a8ce444998175fa8a75fde94
+    Digest:      sha256:0bdbc1e8b4019244c95d3a2500e6f73b895c1cde2c97628ab346c65d7f732111
+    Homepage:    https://github.com/paketo-buildpacks/procfile
+    Id:          paketo-buildpacks/procfile
+    Size:        3626882
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  5.6.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:549522d4bb1bbe20f18b678d3db1c71cb6013c26a8ce444998175fa8a75fde94
+    Digest:      sha256:4617cfc1d8f5ba51c810b3326ac2d2a71a28ccdf1cb3bc1096443de54c64d0a4
+    Homepage:    https://github.com/paketo-buildpacks/procfile
+    Id:          paketo-buildpacks/procfile
+    Size:        3284877
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  5.6.4
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:9454fe8b91fb5b6b4aea2a8d2b713a5401381136df6a99bc59b6a46bc90fd5b0
+    Digest:      sha256:8d2912fe6d9a0878be46a328ee95e54047912c36a80ec5e5d3b3dcdaae556f96
+    Homepage:    https://github.com/paketo-buildpacks/sbt
+    Id:          paketo-buildpacks/sbt
+    Size:        2971493
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  6.12.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:e60203ca6d992959635f40560dbd5565136de54db8e6bb3af94d95f73e9453d9
+    Digest:      sha256:8f2ae576c965fabee79f0fe60e94dd4aa1ab2c9114bfcabf62bd4688d3795c6c
+    Homepage:    https://github.com/paketo-buildpacks/spring-boot
+    Id:          paketo-buildpacks/spring-boot
+    Size:        3992265
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  5.27.1
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:63bbf433aae33076cb1f987cdee2dcea1ed90cfe80d7bb005d98f2610efe61aa
+    Digest:      sha256:4899194e047691c7363251f921ae8c86219692c62e2c7973fc59bdbdd4109bb1
+    Homepage:    https://github.com/paketo-buildpacks/syft
+    Id:          paketo-buildpacks/syft
+    Size:        2846425
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.34.1
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:7091071dbf9c60845a16f05a7c8edab69cc2c26aa13ba32c096f1f2097b91e72
+    Digest:      sha256:ae8ffd3a2be497abbe0247646648be9bbe93ada96aa2948cb67743bb31190d6d
+    Homepage:    https://github.com/paketo-buildpacks/watchexec
+    Id:          paketo-buildpacks/watchexec
+    Size:        2845932
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  2.8.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:7091071dbf9c60845a16f05a7c8edab69cc2c26aa13ba32c096f1f2097b91e72
+    Digest:      sha256:9dcbfe3bc531aef639dbf1d5f0bd2cd8b1398eb642250d96ec5ba40f330b75ea
+    Homepage:    https://github.com/paketo-buildpacks/watchexec
+    Id:          paketo-buildpacks/watchexec
+    Size:        2570575
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.paketo.stacks.tiny
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  2.8.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:094d697aec9965a45f943669fc32d87caa77037709e4525d0088d2c85be170fa
+    Digest:      sha256:96b2230ff9e6fb0b324928644517765881a85c9fb0dbb50a851fa7da7d5d61fe
+    Homepage:    https://github.com/paketo-buildpacks/yarn-install
+    Id:          paketo-buildpacks/yarn-install
+    Size:        10973539
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.1.3
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:c0b741bb0e1805f009f4ab1ca460a0169bf09333f076a27a8046a70035be8ae8
+    Digest:      sha256:78b0b45404077c36bc34b328d7158b827a71739051289978c858c7f115d89def
+    Homepage:    https://github.com/paketo-buildpacks/yarn-start
+    Id:          paketo-buildpacks/yarn-start
+    Size:        1816619
+    Stacks:
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.0.12
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://paketo.io/docs/howto/java
+      Id:        paketo-buildpacks/java
+      Version:   9.19.0
+    Diff Id:     sha256:157e3fd23685444cb329bd4c38f5e5b10823081c343c4fa45bacd2069f554647
+    Digest:      sha256:99580108876bca215f9da9a7c2959dcdac4e09cc5c0e9a399f1ba54d783b46d2
+    Homepage:    https://github.com/paketo-buildpacks/yarn
+    Id:          paketo-buildpacks/yarn
+    Size:        9546462
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.buildpacks.stacks.jammy
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/java
+    Version:  1.1.10
+    API:      0.7
+    Buildpackage:
+      Homepage:  https://github.com/paketo-buildpacks/nodejs
+      Id:        paketo-buildpacks/nodejs
+      Version:   1.8.0
+    Diff Id:     sha256:157e3fd23685444cb329bd4c38f5e5b10823081c343c4fa45bacd2069f554647
+    Digest:      sha256:01b5c1eb3dcf360a831480e84d63021df500d6c9a253846963d5c423723c1334
+    Homepage:    https://github.com/paketo-buildpacks/yarn
+    Id:          paketo-buildpacks/yarn
+    Size:        8589191
+    Stacks:
+      Id:  io.buildpacks.stacks.bionic
+      Id:  io.buildpacks.stacks.jammy
+      Id:  *
+    Store Image:
+      Image:  gcr.io/paketo-buildpacks/nodejs
+    Version:  1.1.10
+  Conditions:
+    Last Transition Time:  2023-08-27T13:54:06Z
+    Status:                True
+    Type:                  Ready
+  Observed Generation:     1
+Events:                    <none>

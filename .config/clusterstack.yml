@@ -1,7 +1,7 @@
 apiVersion: kpack.io/v1alpha2
 kind: ClusterStack
 metadata:
-  name: base-stack
+  name:  
 spec:
   id: "heroku-22"
   buildImage:

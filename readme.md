@@ -22,11 +22,13 @@ docker run --name cranom-postgres -v cranom-pg-data:/var/lib/postgresql/data -p 
 ## Setting up KPACK
 
 ```sh
+kubectl apply -f .config/kpack-secrets.yml 
+
+kubectl apply -f .config/serviceaccount.yml 
+
 kubectl apply -f .config/clusterstore.yml
 
 kubectl apply -f .config/clusterstack.yml
-
-kubectl apply -f .config/kpack-secrets.yml 
 
 kubectl apply -f .config/clusterbuilder.yml
 

@@ -119,7 +119,7 @@ class NodeLogsConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         if self.logging == True:
             self.logging = False
-        pass
+        return await super().disconnect(close_code)
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)

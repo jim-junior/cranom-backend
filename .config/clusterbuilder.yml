@@ -18,4 +18,4 @@ spec:
     kind: ClusterStore
   order:
   - group:
-    - id: heroku/builder:22
+    - id: heroku/nodejs

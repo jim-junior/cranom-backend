@@ -1,4 +1,5 @@
 from kubernetes import client, config, watch
+import json
 
 
 def main():
@@ -10,9 +11,16 @@ def main():
     w = watch.Watch()
     v1 = client.CoreV1Api()
     #w = Watch()
-    p = v1.read_namespaced_pod(
-        name="tutorial-image-3-build-8-build-pod", namespace="default")
-    print(p)
+    podname = ""
+    pods = v1.list_namespaced_pod("ehhazxowda")
+    for pod in pods.items:
+        for key, value in pod.metadata.labels.items():
+            if key == "image.kpack.io/image":
+                podname = pod.metadata.name
+                break
+    # change p to a dict
+    print(podname)
+
 
 
 if __name__ == '__main__':

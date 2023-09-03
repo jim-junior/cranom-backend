@@ -40,7 +40,39 @@ async def get_node_logs(obj, node, username):
     while True:
         temp_pod = v1.read_namespaced_pod(name=podname, namespace=username)
         if temp_pod.status.init_container_statuses != None:
-            print(">>>>>>>>> Init containers started")
+            while True:
+                status = ""
+                pod = v1.read_namespaced_pod(name=podname, namespace=username)
+                for container in pod.status.init_container_statuses:
+                    if container.name == "build":
+                        if container.state.running != None:
+                            await obj.send(text_data=json.dumps({
+                                    'message': "",
+                                    "type": "platfrom",
+                                    "status": "Building"
+                                }))
+                            for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
+                                
+                                await obj.send(text_data=json.dumps({
+                                        'message': e,
+                                        "type": "buildLogs"
+                                    }))
+                                
+                            status = "Building"
+                            break
+                        elif container.state.waiting != None:
+                            await obj.send(text_data=json.dumps({
+                                    'message': "",
+                                    "type": "platfrom",
+                                    "status": "Preparing"
+                                }))
+                            status = "Waiting"
+                            sleep(1)
+                            break
+                if status == "Waiting":
+                    continue
+                else:
+                    break
             break
         else:
             print(temp_pod.status)
@@ -51,31 +83,7 @@ async def get_node_logs(obj, node, username):
             }))
         sleep(1)
 
-    pod = v1.read_namespaced_pod(name=podname, namespace=username)
-    for container in pod.status.init_container_statuses:
-        if container.name == "build":
-            while True:
-                if container.state.running != None:
-                    print(">>>>>>>>>>> Building")
-                    await obj.send(text_data=json.dumps({
-                        'message': "",
-                        "type": "platfrom",
-                        "status": "Building"
-                    }))
-                    for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
-                        
-                        await obj.send(text_data=json.dumps({
-                            'message': e,
-                            "type": "buildLogs"
-                        }))
-                    break
-                elif container.state.waiting != None:
-                    print(">>>>>>>>>>> Waiting")
-                    await obj.send(text_data=json.dumps({
-                        'message': "",
-                        "type": "platfrom",
-                        "status": "Preparing"
-                    }))
+    
 
     
     await obj.send(text_data=json.dumps({
@@ -121,11 +129,7 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_node_info(self):
-        print("==================")
-        print(self.node_id)
         node_id = self.node_id
-        nodes1 = Node.objects.get(id=node_id)
-        print(nodes1)
         if Node.objects.filter(pk=node_id).exists():
             node = Node.objects.get(pk=node_id)
             project = node.project

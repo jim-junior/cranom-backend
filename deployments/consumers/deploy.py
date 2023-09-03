@@ -31,12 +31,37 @@ async def get_node_logs(obj, node, username):
                     podname = pod.metadata.name
                     break
     
-    for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
-        if e != None:
-            obj.send(text_data=json.dumps({
-                'message': e,
-                "type": "logs"
-            }))
+    pod = v1.read_namespaced_pod(name=podname, namespace=username)
+
+    for container in pod.status.init_container_statuses:
+        if container.name == "build":
+            while True:
+                if container.state.running != None:
+                    await obj.send(text_data=json.dumps({
+                        'message': "",
+                        "type": "platfrom",
+                        "status": "Building"
+                    }))
+                    for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
+                        
+                        await obj.send(text_data=json.dumps({
+                            'message': e,
+                            "type": "buildLogs"
+                        }))
+                    break
+                elif container.state.waiting != None:
+                    await obj.send(text_data=json.dumps({
+                        'message': "",
+                        "type": "platfrom",
+                        "status": "Preparing"
+                    }))
+
+    
+    await obj.send(text_data=json.dumps({
+        'message': "",
+        "type": "platfrom",
+        "status": "Deploying"
+    }))
 
 
 class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
@@ -53,25 +78,56 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
                 "type": "platfrom",
                 "status": "In Queue"
             }))
-            await asyncio.sleep(4)
-            await self.send(text_data=json.dumps({
-                'message': "",
-                "type": "platfrom",
-                "status": "Building"
-            }))
+            await asyncio.sleep(2)
+            nodeInfo = await self.get_node_info()
+            if nodeInfo["exists"] == True:
+                
 
-            await asyncio.sleep(4)
-            await self.send(text_data=json.dumps({
-                'message': "",
-                "type": "platfrom",
-                "status": "Deploying"
-            }))
-            await asyncio.sleep(4)
-            await self.send(text_data=json.dumps({
-                'message': "",
-                "type": "platfrom",
-                "status": "Deployed"
-            }))
+                logging_thread = Thread(target=self.between_callback, args=(
+                    nodeInfo, userObj["username"],))
+                logging_thread.start()
+            else:
+                await self.send(text_data=json.dumps({
+                    'message': "",
+                    "type": "platfrom",
+                    "status": "Failed"
+                }))
+                print("Node does not exists")
+
 
     async def disconnect(self, code):
         return await super().disconnect(code)
+
+    @database_sync_to_async
+    def get_node_info(self):
+        print("==================")
+        print(self.node_id)
+        node_id = self.node_id
+        if Node.objects.filter(pk=node_id).exists():
+            node = Node.objects.get(pk=node_id)
+            project = node.project
+            nodeInfo = {
+                "exists": True,
+                "running": node.running,
+                "name": node.name,
+                "id": node.id,
+                "project": project.name,
+            }
+            return nodeInfo
+        else:
+            return {
+                "exists": False
+            }
+
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        self.logging = False
+
+    def between_callback(self, node, username):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+        loop.run_until_complete(get_node_logs(self, node, username))
+        loop.close()

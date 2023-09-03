@@ -20,6 +20,7 @@ async def get_node_logs(obj, node, username):
     config.load_kube_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
+    api = client.ApiClient()
 
     imageName = f"{node['project']}-{node['id']}-kp-image"
     podname = ""
@@ -31,12 +32,31 @@ async def get_node_logs(obj, node, username):
                     podname = pod.metadata.name
                     break
     
-    pod = v1.read_namespaced_pod(name=podname, namespace=username)
+    
 
+    podDict = api.sanitize_for_serialization(pod)
+    
+
+    while True:
+        temp_pod = v1.read_namespaced_pod(name=podname, namespace=username)
+        if temp_pod.status.init_container_statuses != None:
+            print(">>>>>>>>> Init containers started")
+            break
+        else:
+            print(temp_pod.status)
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Preparing"
+            }))
+        sleep(1)
+
+    pod = v1.read_namespaced_pod(name=podname, namespace=username)
     for container in pod.status.init_container_statuses:
         if container.name == "build":
             while True:
                 if container.state.running != None:
+                    print(">>>>>>>>>>> Building")
                     await obj.send(text_data=json.dumps({
                         'message': "",
                         "type": "platfrom",
@@ -50,6 +70,7 @@ async def get_node_logs(obj, node, username):
                         }))
                     break
                 elif container.state.waiting != None:
+                    print(">>>>>>>>>>> Waiting")
                     await obj.send(text_data=json.dumps({
                         'message': "",
                         "type": "platfrom",
@@ -103,6 +124,8 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
         print("==================")
         print(self.node_id)
         node_id = self.node_id
+        nodes1 = Node.objects.get(id=node_id)
+        print(nodes1)
         if Node.objects.filter(pk=node_id).exists():
             node = Node.objects.get(pk=node_id)
             project = node.project

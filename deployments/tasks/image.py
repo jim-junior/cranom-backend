@@ -42,7 +42,9 @@ def deploy_kp_image(nodeid):
             # Deploy to kubernetes
             create_git_node_deployment(node)
             create_git_node_service(node)
-            create_node_ingress(node)
+            #create_node_ingress(node)
+            node.build_status = "Deployed"
+            node.save()
             break
         elif status == "False":
             node.build_status = "Failed"

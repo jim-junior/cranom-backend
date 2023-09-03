@@ -79,14 +79,34 @@ async def get_node_logs(obj, node, username):
             }))
         sleep(1)
 
-    
-
-    
     await obj.send(text_data=json.dumps({
         'message': "",
         "type": "platfrom",
         "status": "Deploying"
     }))
+
+    while True:
+        buildStatus = await obj.get_node_build_status()
+        if buildStatus == "Deployed":
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Deployed"
+            }))
+            break
+        elif buildStatus == "Failed":
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Failed"
+            }))
+            break
+        else:
+            sleep(3)
+            continue
+
+
+    
 
 
 class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
@@ -140,6 +160,12 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
             return {
                 "exists": False
             }
+
+    @database_sync_to_async
+    def get_node_build_status(self):
+        node_id = self.node_id
+        node = Node.objects.get(pk=node_id)
+        return node.build_status
 
 
     async def receive(self, text_data):

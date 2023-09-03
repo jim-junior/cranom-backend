@@ -20,6 +20,7 @@ async def get_node_logs(obj, node, username):
     config.load_kube_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
+    api = client.ApiClient()
 
     imageName = f"{node['project']}-{node['id']}-kp-image"
     podname = ""
@@ -30,38 +31,82 @@ async def get_node_logs(obj, node, username):
                 if value == imageName:
                     podname = pod.metadata.name
                     break
-    
-    pod = v1.read_namespaced_pod(name=podname, namespace=username)
 
-    for container in pod.status.init_container_statuses:
-        if container.name == "build":
+
+    while True:
+        temp_pod = v1.read_namespaced_pod(name=podname, namespace=username)
+        if temp_pod.status.init_container_statuses != None:
             while True:
-                if container.state.running != None:
-                    await obj.send(text_data=json.dumps({
-                        'message': "",
-                        "type": "platfrom",
-                        "status": "Building"
-                    }))
-                    for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
-                        
-                        await obj.send(text_data=json.dumps({
-                            'message': e,
-                            "type": "buildLogs"
-                        }))
+                status = ""
+                pod = v1.read_namespaced_pod(name=podname, namespace=username)
+                for container in pod.status.init_container_statuses:
+                    if container.name == "build":
+                        if container.state.running != None:
+                            await obj.send(text_data=json.dumps({
+                                    'message': "",
+                                    "type": "platfrom",
+                                    "status": "Building"
+                                }))
+                            for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
+                                
+                                await obj.send(text_data=json.dumps({
+                                        'message': e,
+                                        "type": "buildLogs"
+                                    }))
+                                
+                            status = "Building"
+                            break
+                        elif container.state.waiting != None:
+                            await obj.send(text_data=json.dumps({
+                                    'message': "",
+                                    "type": "platfrom",
+                                    "status": "Preparing"
+                                }))
+                            status = "Waiting"
+                            sleep(1)
+                            break
+                if status == "Waiting":
+                    continue
+                else:
                     break
-                elif container.state.waiting != None:
-                    await obj.send(text_data=json.dumps({
-                        'message': "",
-                        "type": "platfrom",
-                        "status": "Preparing"
-                    }))
+            break
+        else:
+            print(temp_pod.status)
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Preparing"
+            }))
+        sleep(1)
 
-    
     await obj.send(text_data=json.dumps({
         'message': "",
         "type": "platfrom",
         "status": "Deploying"
     }))
+
+    while True:
+        buildStatus = await obj.get_node_build_status()
+        if buildStatus == "Deployed":
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Deployed"
+            }))
+            break
+        elif buildStatus == "Failed":
+            await obj.send(text_data=json.dumps({
+                'message': "",
+                "type": "platfrom",
+                "status": "Failed"
+            }))
+            break
+        else:
+            sleep(3)
+            continue
+
+
+    
 
 
 class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
@@ -92,7 +137,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
                     "type": "platfrom",
                     "status": "Failed"
                 }))
-                print("Node does not exists")
 
 
     async def disconnect(self, code):
@@ -100,8 +144,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_node_info(self):
-        print("==================")
-        print(self.node_id)
         node_id = self.node_id
         if Node.objects.filter(pk=node_id).exists():
             node = Node.objects.get(pk=node_id)
@@ -118,6 +160,12 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
             return {
                 "exists": False
             }
+
+    @database_sync_to_async
+    def get_node_build_status(self):
+        node_id = self.node_id
+        node = Node.objects.get(pk=node_id)
+        return node.build_status
 
 
     async def receive(self, text_data):

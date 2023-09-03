@@ -6,20 +6,22 @@ def main():
     # Configs can be set in Configuration class directly or using helper
     # utility. If no argument provided, the config will be loaded from
     # default location.
+    print("hello")
     config.load_kube_config()
 
-    w = watch.Watch()
     v1 = client.CoreV1Api()
+
+    api = client.ApiClient()
     #w = Watch()
-    podname = ""
-    pods = v1.list_namespaced_pod("ehhazxowda")
+    pods = v1.list_namespaced_pod("pxyxrlyuvl")
     for pod in pods.items:
-        for key, value in pod.metadata.labels.items():
-            if key == "image.kpack.io/image":
-                podname = pod.metadata.name
-                break
+        di = api.sanitize_for_serialization(pod)
+        # write to file
+        with open("pod.json", "w") as f:
+            jsonoj = json.dumps(di, indent=4)
+            f.write(jsonoj)
+
     # change p to a dict
-    print(podname)
 
 
 

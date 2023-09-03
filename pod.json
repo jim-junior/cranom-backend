@@ -1,0 +1,1460 @@
+{
+    "metadata": {
+        "annotations": {
+            "image.kpack.io/buildChanges": "[{\"reason\":\"CONFIG\",\"old\":{\"resources\":{},\"source\":{}},\"new\":{\"resources\":{},\"source\":{\"git\":{\"url\":\"https://github.com/jim-junior/next-temp\",\"revision\":\"1c879b3e856cb9fe747298148a9d19cac923ab48\"}}}}]",
+            "image.kpack.io/builderKind": "ClusterBuilder",
+            "image.kpack.io/builderName": "default-builder",
+            "image.kpack.io/reason": "CONFIG",
+            "sidecar.istio.io/inject": "false"
+        },
+        "creationTimestamp": "2023-09-03T12:55:01+00:00",
+        "labels": {
+            "image.kpack.io/buildNumber": "1",
+            "image.kpack.io/image": "test-project-7-kp-image",
+            "image.kpack.io/imageGeneration": "1",
+            "kpack.io/build": "test-project-7-kp-image-build-1"
+        },
+        "managedFields": [
+            {
+                "apiVersion": "v1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:annotations": {
+                            ".": {},
+                            "f:image.kpack.io/buildChanges": {},
+                            "f:image.kpack.io/builderKind": {},
+                            "f:image.kpack.io/builderName": {},
+                            "f:image.kpack.io/reason": {},
+                            "f:sidecar.istio.io/inject": {}
+                        },
+                        "f:labels": {
+                            ".": {},
+                            "f:image.kpack.io/buildNumber": {},
+                            "f:image.kpack.io/image": {},
+                            "f:image.kpack.io/imageGeneration": {},
+                            "f:kpack.io/build": {}
+                        },
+                        "f:ownerReferences": {
+                            ".": {},
+                            "k:{\"uid\":\"d7098f33-be57-4bdb-b1cb-a4dc6901ecba\"}": {}
+                        }
+                    },
+                    "f:spec": {
+                        "f:containers": {
+                            "k:{\"name\":\"completion\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CACHE_TAG\"}": {
+                                        ".": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"name\":\"HOME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"TERMINATION_MESSAGE_PATH\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/builder/home\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/var/build-secrets/docker-configjson\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/var/notary/v1\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {},
+                                        "f:readOnly": {}
+                                    },
+                                    "k:{\"mountPath\":\"/var/report\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            }
+                        },
+                        "f:dnsPolicy": {},
+                        "f:enableServiceLinks": {},
+                        "f:initContainers": {
+                            ".": {},
+                            "k:{\"name\":\"analyze\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CNB_PLATFORM_API\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"HOME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"SERVICE_BINDING_ROOT\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/builder/home\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/layers\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/workspace\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            },
+                            "k:{\"name\":\"build\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CNB_PLATFORM_API\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"SERVICE_BINDING_ROOT\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/layers\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/platform\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/workspace\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            },
+                            "k:{\"name\":\"detect\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CNB_PLATFORM_API\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/layers\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/platform\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/workspace\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            },
+                            "k:{\"name\":\"export\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CNB_PLATFORM_API\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"CNB_RUN_IMAGE\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"HOME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/builder/home\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/cache\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/layers\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/var/report\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/workspace\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            },
+                            "k:{\"name\":\"prepare\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"BUILDER_IMAGE\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"BUILDER_KIND\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"BUILDER_NAME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"BUILD_CHANGES\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"DNS_PROBE_HOSTNAME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"GIT_REVISION\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"GIT_URL\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"IMAGE_TAG\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"INSECURE_SSH_TRUST_UNKNOWN_HOSTS\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"PROJECT_DESCRIPTOR_PATH\"}": {
+                                        ".": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"name\":\"RUN_IMAGE\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"SOURCE_SUB_PATH\"}": {
+                                        ".": {},
+                                        "f:name": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/builder/home\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/platform\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/projectMetadata\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/registrySourcePullSecrets\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {},
+                                        "f:readOnly": {}
+                                    },
+                                    "k:{\"mountPath\":\"/var/build-secrets/docker-configjson\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/workspace\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                },
+                                "f:workingDir": {}
+                            },
+                            "k:{\"name\":\"restore\"}": {
+                                ".": {},
+                                "f:args": {},
+                                "f:command": {},
+                                "f:env": {
+                                    ".": {},
+                                    "k:{\"name\":\"CNB_PLATFORM_API\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    },
+                                    "k:{\"name\":\"HOME\"}": {
+                                        ".": {},
+                                        "f:name": {},
+                                        "f:value": {}
+                                    }
+                                },
+                                "f:image": {},
+                                "f:imagePullPolicy": {},
+                                "f:name": {},
+                                "f:resources": {},
+                                "f:securityContext": {
+                                    ".": {},
+                                    "f:allowPrivilegeEscalation": {},
+                                    "f:capabilities": {
+                                        ".": {},
+                                        "f:drop": {}
+                                    },
+                                    "f:privileged": {},
+                                    "f:runAsNonRoot": {},
+                                    "f:seccompProfile": {
+                                        ".": {},
+                                        "f:type": {}
+                                    }
+                                },
+                                "f:terminationMessagePath": {},
+                                "f:terminationMessagePolicy": {},
+                                "f:volumeMounts": {
+                                    ".": {},
+                                    "k:{\"mountPath\":\"/builder/home\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/cache\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    },
+                                    "k:{\"mountPath\":\"/layers\"}": {
+                                        ".": {},
+                                        "f:mountPath": {},
+                                        "f:name": {}
+                                    }
+                                }
+                            }
+                        },
+                        "f:nodeSelector": {},
+                        "f:restartPolicy": {},
+                        "f:schedulerName": {},
+                        "f:securityContext": {
+                            ".": {},
+                            "f:fsGroup": {},
+                            "f:runAsGroup": {},
+                            "f:runAsNonRoot": {},
+                            "f:runAsUser": {},
+                            "f:seccompProfile": {
+                                ".": {},
+                                "f:type": {}
+                            }
+                        },
+                        "f:serviceAccount": {},
+                        "f:serviceAccountName": {},
+                        "f:terminationGracePeriodSeconds": {},
+                        "f:volumes": {
+                            ".": {},
+                            "k:{\"name\":\"cache-dir\"}": {
+                                ".": {},
+                                "f:name": {},
+                                "f:persistentVolumeClaim": {
+                                    ".": {},
+                                    "f:claimName": {}
+                                }
+                            },
+                            "k:{\"name\":\"home-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"layers-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"network-wait-launcher-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"notary-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"platform-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"registry-source-pull-secrets-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"report-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            },
+                            "k:{\"name\":\"secret-volume-0\"}": {
+                                ".": {},
+                                "f:name": {},
+                                "f:secret": {
+                                    ".": {},
+                                    "f:defaultMode": {},
+                                    "f:secretName": {}
+                                }
+                            },
+                            "k:{\"name\":\"workspace-dir\"}": {
+                                ".": {},
+                                "f:emptyDir": {},
+                                "f:name": {}
+                            }
+                        }
+                    }
+                },
+                "manager": "controller",
+                "operation": "Update",
+                "time": "2023-09-03T12:55:01+00:00"
+            },
+            {
+                "apiVersion": "v1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:status": {
+                        "f:conditions": {
+                            "k:{\"type\":\"ContainersReady\"}": {
+                                ".": {},
+                                "f:lastProbeTime": {},
+                                "f:lastTransitionTime": {},
+                                "f:message": {},
+                                "f:reason": {},
+                                "f:status": {},
+                                "f:type": {}
+                            },
+                            "k:{\"type\":\"Initialized\"}": {
+                                ".": {},
+                                "f:lastProbeTime": {},
+                                "f:lastTransitionTime": {},
+                                "f:message": {},
+                                "f:reason": {},
+                                "f:status": {},
+                                "f:type": {}
+                            },
+                            "k:{\"type\":\"Ready\"}": {
+                                ".": {},
+                                "f:lastProbeTime": {},
+                                "f:lastTransitionTime": {},
+                                "f:message": {},
+                                "f:reason": {},
+                                "f:status": {},
+                                "f:type": {}
+                            }
+                        },
+                        "f:containerStatuses": {},
+                        "f:hostIP": {},
+                        "f:initContainerStatuses": {},
+                        "f:podIP": {},
+                        "f:podIPs": {
+                            ".": {},
+                            "k:{\"ip\":\"10.244.0.16\"}": {
+                                ".": {},
+                                "f:ip": {}
+                            }
+                        },
+                        "f:startTime": {}
+                    }
+                },
+                "manager": "kubelet",
+                "operation": "Update",
+                "subresource": "status",
+                "time": "2023-09-03T12:55:27+00:00"
+            }
+        ],
+        "name": "test-project-7-kp-image-build-1-build-pod",
+        "namespace": "pxyxrlyuvl",
+        "ownerReferences": [
+            {
+                "apiVersion": "kpack.io/v1alpha2",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "Build",
+                "name": "test-project-7-kp-image-build-1",
+                "uid": "d7098f33-be57-4bdb-b1cb-a4dc6901ecba"
+            }
+        ],
+        "resourceVersion": "7604",
+        "uid": "b932b0a0-db3a-4248-860d-b977f7703106"
+    },
+    "spec": {
+        "containers": [
+            {
+                "args": [
+                    "-dockerconfig=docker-configjson",
+                    "-cosign-annotations=buildTimestamp=20230903.125459",
+                    "-cosign-annotations=buildNumber=1"
+                ],
+                "command": [
+                    "/cnb/process/completion"
+                ],
+                "env": [
+                    {
+                        "name": "HOME",
+                        "value": "/builder/home"
+                    },
+                    {
+                        "name": "CACHE_TAG"
+                    },
+                    {
+                        "name": "TERMINATION_MESSAGE_PATH",
+                        "value": "/tmp/termination-log"
+                    }
+                ],
+                "image": "gcr.io/cf-build-service-public/kpack/completion@sha256:8ec2d6f91c97b5b4ef411f5c09a56ffb4d58c226d3d18eb84a8d77eba16c5303",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "completion",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/tmp/termination-log",
+                "terminationMessagePolicy": "FallbackToLogsOnError",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/build-secrets/docker-configjson",
+                        "name": "secret-volume-0"
+                    },
+                    {
+                        "mountPath": "/builder/home",
+                        "name": "home-dir"
+                    },
+                    {
+                        "mountPath": "/var/report",
+                        "name": "report-dir"
+                    },
+                    {
+                        "mountPath": "/var/notary/v1",
+                        "name": "notary-dir",
+                        "readOnly": true
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "imagePullSecrets": [
+            {
+                "name": "docker-configjson"
+            }
+        ],
+        "initContainers": [
+            {
+                "args": [
+                    "-dockerconfig=docker-configjson"
+                ],
+                "command": [
+                    "/cnb/process/build-init"
+                ],
+                "env": [
+                    {
+                        "name": "GIT_URL",
+                        "value": "https://github.com/jim-junior/next-temp"
+                    },
+                    {
+                        "name": "GIT_REVISION",
+                        "value": "1c879b3e856cb9fe747298148a9d19cac923ab48"
+                    },
+                    {
+                        "name": "SOURCE_SUB_PATH"
+                    },
+                    {
+                        "name": "PROJECT_DESCRIPTOR_PATH"
+                    },
+                    {
+                        "name": "IMAGE_TAG",
+                        "value": "jimjuniorb/pxyxrlyuvl-test-project-7-kp-image"
+                    },
+                    {
+                        "name": "RUN_IMAGE",
+                        "value": "index.docker.io/heroku/heroku@sha256:6174db5ebda8fc1f23f7cbae19e7342516c690f7c55af43f6dd27b9e80216d9d"
+                    },
+                    {
+                        "name": "BUILDER_IMAGE",
+                        "value": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7"
+                    },
+                    {
+                        "name": "BUILDER_NAME",
+                        "value": "default-builder"
+                    },
+                    {
+                        "name": "BUILDER_KIND",
+                        "value": "ClusterBuilder"
+                    },
+                    {
+                        "name": "DNS_PROBE_HOSTNAME",
+                        "value": "index.docker.io"
+                    },
+                    {
+                        "name": "BUILD_CHANGES",
+                        "value": "[{\"reason\":\"CONFIG\",\"old\":{\"resources\":{},\"source\":{}},\"new\":{\"resources\":{},\"source\":{\"git\":{\"url\":\"https://github.com/jim-junior/next-temp\",\"revision\":\"1c879b3e856cb9fe747298148a9d19cac923ab48\"}}}}]"
+                    },
+                    {
+                        "name": "INSECURE_SSH_TRUST_UNKNOWN_HOSTS",
+                        "value": "true"
+                    }
+                ],
+                "image": "gcr.io/cf-build-service-public/kpack/build-init@sha256:34c3cae608797d5f445de1ddf80550c4c9511e1bfddc9c2204a873450f7e9fef",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "prepare",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/build-secrets/docker-configjson",
+                        "name": "secret-volume-0"
+                    },
+                    {
+                        "mountPath": "/registrySourcePullSecrets",
+                        "name": "registry-source-pull-secrets-dir",
+                        "readOnly": true
+                    },
+                    {
+                        "mountPath": "/platform",
+                        "name": "platform-dir"
+                    },
+                    {
+                        "mountPath": "/workspace",
+                        "name": "workspace-dir"
+                    },
+                    {
+                        "mountPath": "/builder/home",
+                        "name": "home-dir"
+                    },
+                    {
+                        "mountPath": "/projectMetadata",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ],
+                "workingDir": "/workspace"
+            },
+            {
+                "args": [
+                    "-layers=/layers",
+                    "-analyzed=/layers/analyzed.toml",
+                    "-run-image=index.docker.io/heroku/heroku@sha256:6174db5ebda8fc1f23f7cbae19e7342516c690f7c55af43f6dd27b9e80216d9d",
+                    "-tag=index.docker.io/jimjuniorb/pxyxrlyuvl-test-project-7-kp-image:b1.20230903.125459",
+                    "jimjuniorb/pxyxrlyuvl-test-project-7-kp-image"
+                ],
+                "command": [
+                    "/cnb/lifecycle/analyzer"
+                ],
+                "env": [
+                    {
+                        "name": "HOME",
+                        "value": "/builder/home"
+                    },
+                    {
+                        "name": "CNB_PLATFORM_API",
+                        "value": "0.9"
+                    },
+                    {
+                        "name": "SERVICE_BINDING_ROOT",
+                        "value": "/platform/bindings"
+                    }
+                ],
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "analyze",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/layers",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/workspace",
+                        "name": "workspace-dir"
+                    },
+                    {
+                        "mountPath": "/builder/home",
+                        "name": "home-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            },
+            {
+                "args": [
+                    "-app=/workspace",
+                    "-group=/layers/group.toml",
+                    "-plan=/layers/plan.toml"
+                ],
+                "command": [
+                    "/cnb/lifecycle/detector"
+                ],
+                "env": [
+                    {
+                        "name": "CNB_PLATFORM_API",
+                        "value": "0.9"
+                    }
+                ],
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "detect",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/layers",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/platform",
+                        "name": "platform-dir"
+                    },
+                    {
+                        "mountPath": "/workspace",
+                        "name": "workspace-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            },
+            {
+                "args": [
+                    "-group=/layers/group.toml",
+                    "-layers=/layers",
+                    "-cache-dir=/cache",
+                    "-analyzed=/layers/analyzed.toml"
+                ],
+                "command": [
+                    "/cnb/lifecycle/restorer"
+                ],
+                "env": [
+                    {
+                        "name": "HOME",
+                        "value": "/builder/home"
+                    },
+                    {
+                        "name": "CNB_PLATFORM_API",
+                        "value": "0.9"
+                    }
+                ],
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "restore",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/layers",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/builder/home",
+                        "name": "home-dir"
+                    },
+                    {
+                        "mountPath": "/cache",
+                        "name": "cache-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            },
+            {
+                "args": [
+                    "-layers=/layers",
+                    "-app=/workspace",
+                    "-group=/layers/group.toml",
+                    "-plan=/layers/plan.toml"
+                ],
+                "command": [
+                    "/cnb/lifecycle/builder"
+                ],
+                "env": [
+                    {
+                        "name": "CNB_PLATFORM_API",
+                        "value": "0.9"
+                    },
+                    {
+                        "name": "SERVICE_BINDING_ROOT",
+                        "value": "/platform/bindings"
+                    }
+                ],
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "build",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/layers",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/platform",
+                        "name": "platform-dir"
+                    },
+                    {
+                        "mountPath": "/workspace",
+                        "name": "workspace-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            },
+            {
+                "args": [
+                    "-layers=/layers",
+                    "-app=/workspace",
+                    "-group=/layers/group.toml",
+                    "-analyzed=/layers/analyzed.toml",
+                    "-project-metadata=/layers/project-metadata.toml",
+                    "-cache-dir=/cache",
+                    "-report=/var/report/report.toml",
+                    "jimjuniorb/pxyxrlyuvl-test-project-7-kp-image",
+                    "index.docker.io/jimjuniorb/pxyxrlyuvl-test-project-7-kp-image:b1.20230903.125459"
+                ],
+                "command": [
+                    "/cnb/lifecycle/exporter"
+                ],
+                "env": [
+                    {
+                        "name": "HOME",
+                        "value": "/builder/home"
+                    },
+                    {
+                        "name": "CNB_PLATFORM_API",
+                        "value": "0.9"
+                    },
+                    {
+                        "name": "CNB_RUN_IMAGE",
+                        "value": "index.docker.io/heroku/heroku@sha256:6174db5ebda8fc1f23f7cbae19e7342516c690f7c55af43f6dd27b9e80216d9d"
+                    }
+                ],
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "export",
+                "resources": {},
+                "securityContext": {
+                    "allowPrivilegeEscalation": false,
+                    "capabilities": {
+                        "drop": [
+                            "ALL"
+                        ]
+                    },
+                    "privileged": false,
+                    "runAsNonRoot": true,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/layers",
+                        "name": "layers-dir"
+                    },
+                    {
+                        "mountPath": "/workspace",
+                        "name": "workspace-dir"
+                    },
+                    {
+                        "mountPath": "/builder/home",
+                        "name": "home-dir"
+                    },
+                    {
+                        "mountPath": "/var/report",
+                        "name": "report-dir"
+                    },
+                    {
+                        "mountPath": "/cache",
+                        "name": "cache-dir"
+                    },
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-lcxbs",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "nodeName": "minikube",
+        "nodeSelector": {
+            "kubernetes.io/os": "linux"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+            "fsGroup": 1000,
+            "runAsGroup": 1000,
+            "runAsNonRoot": true,
+            "runAsUser": 1000,
+            "seccompProfile": {
+                "type": "RuntimeDefault"
+            }
+        },
+        "serviceAccount": "7-sva",
+        "serviceAccountName": "7-sva",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/not-ready",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            }
+        ],
+        "volumes": [
+            {
+                "name": "secret-volume-0",
+                "secret": {
+                    "defaultMode": 420,
+                    "secretName": "docker-configjson"
+                }
+            },
+            {
+                "name": "cache-dir",
+                "persistentVolumeClaim": {
+                    "claimName": "test-project-7-kp-image-cache"
+                }
+            },
+            {
+                "emptyDir": {},
+                "name": "layers-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "home-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "workspace-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "platform-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "report-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "network-wait-launcher-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "registry-source-pull-secrets-dir"
+            },
+            {
+                "emptyDir": {},
+                "name": "notary-dir"
+            },
+            {
+                "name": "kube-api-access-lcxbs",
+                "projected": {
+                    "defaultMode": 420,
+                    "sources": [
+                        {
+                            "serviceAccountToken": {
+                                "expirationSeconds": 3607,
+                                "path": "token"
+                            }
+                        },
+                        {
+                            "configMap": {
+                                "items": [
+                                    {
+                                        "key": "ca.crt",
+                                        "path": "ca.crt"
+                                    }
+                                ],
+                                "name": "kube-root-ca.crt"
+                            }
+                        },
+                        {
+                            "downwardAPI": {
+                                "items": [
+                                    {
+                                        "fieldRef": {
+                                            "apiVersion": "v1",
+                                            "fieldPath": "metadata.namespace"
+                                        },
+                                        "path": "namespace"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2023-09-03T12:55:02+00:00",
+                "message": "containers with incomplete status: [build export]",
+                "reason": "ContainersNotInitialized",
+                "status": "False",
+                "type": "Initialized"
+            },
+            {
+                "lastTransitionTime": "2023-09-03T12:55:02+00:00",
+                "message": "containers with unready status: [completion]",
+                "reason": "ContainersNotReady",
+                "status": "False",
+                "type": "Ready"
+            },
+            {
+                "lastTransitionTime": "2023-09-03T12:55:02+00:00",
+                "message": "containers with unready status: [completion]",
+                "reason": "ContainersNotReady",
+                "status": "False",
+                "type": "ContainersReady"
+            },
+            {
+                "lastTransitionTime": "2023-09-03T12:55:02+00:00",
+                "status": "True",
+                "type": "PodScheduled"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "image": "gcr.io/cf-build-service-public/kpack/completion@sha256:8ec2d6f91c97b5b4ef411f5c09a56ffb4d58c226d3d18eb84a8d77eba16c5303",
+                "imageID": "",
+                "lastState": {},
+                "name": "completion",
+                "ready": false,
+                "restartCount": 0,
+                "started": false,
+                "state": {
+                    "waiting": {
+                        "reason": "PodInitializing"
+                    }
+                }
+            }
+        ],
+        "hostIP": "192.168.49.2",
+        "initContainerStatuses": [
+            {
+                "containerID": "docker://8fac624466b54d89936004bf0ed8a485fe2cae5e7df896a1c436dc3f71825690",
+                "image": "sha256:7ff437f3fd0f50749d673b1d9e6bbd2c7f4940009e9f8df1e636756e1a1182f5",
+                "imageID": "docker-pullable://gcr.io/cf-build-service-public/kpack/build-init@sha256:34c3cae608797d5f445de1ddf80550c4c9511e1bfddc9c2204a873450f7e9fef",
+                "lastState": {},
+                "name": "prepare",
+                "ready": true,
+                "restartCount": 0,
+                "state": {
+                    "terminated": {
+                        "containerID": "docker://8fac624466b54d89936004bf0ed8a485fe2cae5e7df896a1c436dc3f71825690",
+                        "exitCode": 0,
+                        "finishedAt": "2023-09-03T12:55:09+00:00",
+                        "reason": "Completed",
+                        "startedAt": "2023-09-03T12:55:05+00:00"
+                    }
+                }
+            },
+            {
+                "containerID": "docker://02b3d481fe7cf9faa144300d51df1c443bbedf570228b954abc95d53681ecc00",
+                "image": "sha256:f950d6a80eefad423003931ead951e6be96ee4d624971622ad7770cd8ca4d09b",
+                "imageID": "docker-pullable://jimjuniorb/buildpacks@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "lastState": {},
+                "name": "analyze",
+                "ready": true,
+                "restartCount": 0,
+                "state": {
+                    "terminated": {
+                        "containerID": "docker://02b3d481fe7cf9faa144300d51df1c443bbedf570228b954abc95d53681ecc00",
+                        "exitCode": 0,
+                        "finishedAt": "2023-09-03T12:55:21+00:00",
+                        "reason": "Completed",
+                        "startedAt": "2023-09-03T12:55:10+00:00"
+                    }
+                }
+            },
+            {
+                "containerID": "docker://166584af3e1b9d57b9b41e51f444a9d01e4ac2fb97b9348d20437c732946348d",
+                "image": "sha256:f950d6a80eefad423003931ead951e6be96ee4d624971622ad7770cd8ca4d09b",
+                "imageID": "docker-pullable://jimjuniorb/buildpacks@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "lastState": {},
+                "name": "detect",
+                "ready": true,
+                "restartCount": 0,
+                "state": {
+                    "terminated": {
+                        "containerID": "docker://166584af3e1b9d57b9b41e51f444a9d01e4ac2fb97b9348d20437c732946348d",
+                        "exitCode": 0,
+                        "finishedAt": "2023-09-03T12:55:24+00:00",
+                        "reason": "Completed",
+                        "startedAt": "2023-09-03T12:55:23+00:00"
+                    }
+                }
+            },
+            {
+                "containerID": "docker://30e5c541c366f6dadf009ce3b3a2a919b55ff9b00093b3b3259ae9eb211dee4b",
+                "image": "sha256:f950d6a80eefad423003931ead951e6be96ee4d624971622ad7770cd8ca4d09b",
+                "imageID": "docker-pullable://jimjuniorb/buildpacks@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "lastState": {},
+                "name": "restore",
+                "ready": true,
+                "restartCount": 0,
+                "state": {
+                    "terminated": {
+                        "containerID": "docker://30e5c541c366f6dadf009ce3b3a2a919b55ff9b00093b3b3259ae9eb211dee4b",
+                        "exitCode": 0,
+                        "finishedAt": "2023-09-03T12:55:26+00:00",
+                        "reason": "Completed",
+                        "startedAt": "2023-09-03T12:55:26+00:00"
+                    }
+                }
+            },
+            {
+                "containerID": "docker://427d515db7ac168e7c30cea3a3a4a519e3b13b2de5c3c721323b6328df614eb7",
+                "image": "sha256:f950d6a80eefad423003931ead951e6be96ee4d624971622ad7770cd8ca4d09b",
+                "imageID": "docker-pullable://jimjuniorb/buildpacks@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "lastState": {},
+                "name": "build",
+                "ready": false,
+                "restartCount": 0,
+                "state": {
+                    "running": {
+                        "startedAt": "2023-09-03T12:55:26+00:00"
+                    }
+                }
+            },
+            {
+                "image": "jimjuniorb/buildpacks:22@sha256:d3f0874613a670ed8849c1dc5d100e699b5c4683a95d8bb5867a181c460f1ad7",
+                "imageID": "",
+                "lastState": {},
+                "name": "export",
+                "ready": false,
+                "restartCount": 0,
+                "state": {
+                    "waiting": {
+                        "reason": "PodInitializing"
+                    }
+                }
+            }
+        ],
+        "phase": "Pending",
+        "podIP": "10.244.0.16",
+        "podIPs": [
+            {
+                "ip": "10.244.0.16"
+            }
+        ],
+        "qosClass": "BestEffort",
+        "startTime": "2023-09-03T12:55:02+00:00"
+    }
+}

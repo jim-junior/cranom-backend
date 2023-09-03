@@ -31,11 +31,7 @@ async def get_node_logs(obj, node, username):
                 if value == imageName:
                     podname = pod.metadata.name
                     break
-    
-    
 
-    podDict = api.sanitize_for_serialization(pod)
-    
 
     while True:
         temp_pod = v1.read_namespaced_pod(name=podname, namespace=username)
@@ -121,7 +117,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
                     "type": "platfrom",
                     "status": "Failed"
                 }))
-                print("Node does not exists")
 
 
     async def disconnect(self, code):

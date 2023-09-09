@@ -84,6 +84,7 @@ def delete_git_node(node: Node):
     delete_git_node_ingress(node)
 
 
+
 @shared_task
 def create_deployment_task(deployment_uuid: str):
     deployment: Deployment = Deployment.objects.get(uuid=deployment_uuid)

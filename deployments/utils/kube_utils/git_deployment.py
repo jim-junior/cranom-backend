@@ -45,7 +45,7 @@ def create_git_node_deployment(node: Node):
     container = {
         "name": f"{node.name}-{node.id}",
         "image": docker_image,
-        "imagePullPolicy": "Never",
+        "imagePullPolicy": "Always",
         "env": environVars
     }
 
@@ -127,9 +127,6 @@ def create_git_node_deployment(node: Node):
 
 def create_git_node_service(node: Node):
     # Get node Metadata
-    print(node)
-    print(node.name)
-    print(node.port)
     name = node.name
     project: Project = node.project
     user: UserProfile = project.user

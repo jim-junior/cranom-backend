@@ -98,7 +98,7 @@ async def get_node_logs(obj, node, username):
             await obj.send(text_data=json.dumps({
                 'message': "",
                 "type": "platfrom",
-                "status": "Failed"
+                "status": "Deploy Failed"
             }))
             break
         else:

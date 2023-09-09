@@ -3,7 +3,7 @@ from kube.config import get_api_client_config
 from deployments.models import Node
 from deployments.utils.kube_utils.git_deployment import create_git_node_deployment, create_git_node_service, create_node_ingress
 from celery import shared_task
-
+from time import sleep
 
 """ apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
@@ -25,6 +25,7 @@ def deploy_kp_image(nodeid):
     node = Node.objects.get(id=nodeid)
     project = node.project
     user = project.user
+    print(f"Building Node {node.id}")
 
     current = None
 
@@ -45,13 +46,18 @@ def deploy_kp_image(nodeid):
             #create_node_ingress(node)
             node.build_status = "Deployed"
             node.save()
+            print("Node built")
             break
+            
         elif status == "False":
             node.build_status = "Failed"
             node.save()
+            print("Build Failed")
             break
         else:
             if current is None:
                 current = status
-                node.build_status = "Building"
+                if node.build_status != "Building":
+                    node.build_status = "Building"
                 node.save()
+            sleep(2)

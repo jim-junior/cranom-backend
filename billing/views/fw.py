@@ -1,9 +1,10 @@
+from django.http import QueryDict
 from billing.models import Transaction
 import datetime
 from users.models import Notification
 
 
-def process_payment(data: dict):
+def process_payment(data: QueryDict):
     """Process payment webhook recieved
 
     :param data: Dictionary with payment data.

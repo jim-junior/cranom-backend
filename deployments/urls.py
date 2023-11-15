@@ -1,4 +1,4 @@
-#from .views import CreateDeploymentView
+# from .views import CreateDeploymentView
 from django.urls import path
 from .views.cli import (CreateDeployment, CreateProject, GetProjectInfo,)
 from .views.base import (
@@ -18,7 +18,10 @@ from .views.base import (
 )
 from .views.project import ReDeployLatestDeployment, TurnNodeOffAndOn, UpdateEnvironmentVariables, DeleteNode, ListInstallationGHRepositories, CheckNodeName, ListUserAllGitHubInstallations, CreateProject
 
-from .views.nodes import CreateNode
+from .views.nodes import CreateNode, GetProjectNodes
+from .views.metrics import GetNodeMemoryUsage
+
+from .views.domains import DomainList, DomainCreate, DomainDelete, GetDomainRecords
 
 urlpatterns = [
     path("create/", CreateDeployment.as_view(), name="Create deployment"),
@@ -58,5 +61,19 @@ urlpatterns = [
     path("create-node/<project_uuid>/", CreateNode.as_view(),
          name="Create Node for Project"),
     path("project/create/", CreateProject.as_view(), name="Create Project"),
+    path("get/nodes/", GetProjectNodes.as_view(),
+         name="Get Project Nodes"),
+
+    # Domains
+    path("domains/", DomainList.as_view(), name="List Domains"),
+    path("domain/create/", DomainCreate.as_view(), name="Create Domain"),
+    path("domain/delete/<domain_name>/",
+         DomainDelete.as_view(), name="Delete Domain"),
+    path("domain/records/<domain_name>/",
+         GetDomainRecords.as_view(), name="Get Domain Records"),
+
+    # Metrics
+    path("metrics/node/memory/", GetNodeMemoryUsage.as_view(),
+         name="Get Node Memory Usage"),
 
 ]

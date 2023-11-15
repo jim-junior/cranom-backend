@@ -1,9 +1,11 @@
 {
   "editor.tabSize": 4,
-  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.typeCheckingMode": "basic",
   "iis.configDir": "",
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
   },
-  "python.formatting.provider": "none",
+  "python.analysis.autoFormatStrings": true,
+  "python.languageServer": "Pylance",
+  "python.analysis.autoImportCompletions": true
 }

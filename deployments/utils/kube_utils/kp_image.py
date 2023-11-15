@@ -7,14 +7,15 @@ from yaml.loader import BaseLoader
 from ...models import Deployment, Project, Node
 from django.conf import settings
 
-""" apiConfig = get_api_client_config()
+apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 
 custom_obj_api = client.CustomObjectsApi(apiclient)
-core_api = client.CoreV1Api(apiclient) """
-config.load_kube_config()
+core_api = client.CoreV1Api(apiclient)
+""" config.load_kube_config()
 custom_obj_api = client.CustomObjectsApi()
-core_api = client.CoreV1Api()
+core_api = client.CoreV1Api() """
+
 
 def create_kp_image(project: Project, node: Node, username: str):
 
@@ -22,11 +23,11 @@ def create_kp_image(project: Project, node: Node, username: str):
         "apiVersion": "kpack.io/v1alpha2",
         "kind": "Image",
         "metadata": {
-            "name": f"{project.name}-{node.id}-kp-image"
+            "name": f"{project.name}-{node.pk}-kp-image"
         },
         "spec": {
             "tag": f"{settings.KPACK_DOCKER_REGISTRY}{username}-{project.name}-{node.id}-kp-image",
-            "serviceAccountName":f"{node.id}-sva",
+            "serviceAccountName": f"{node.pk}-sva",
             "builder": {
                 "name": "default-builder",
                 "kind": "ClusterBuilder"
@@ -86,7 +87,7 @@ def create_kp_builder(project: Project, node: Node, username: str):
 apiVersion: kpack.io/v1alpha2
 kind: Builder
 metadata:
-  name: {project.name}-{node.id}-builder
+  name: {project.name}-{node.pk}-builder
 spec:
   tag: jimjuniorb/{project.name}-{username}-kp-builder
   serviceAccountName: {project.name}-sva

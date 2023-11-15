@@ -8,7 +8,6 @@ load_dotenv()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 CELERY_REDIS_URL = os.getenv("CELERY_BROKER_REDIS_URL")
-print(CELERY_REDIS_URL)
 
 app = Celery(
     'backend', broker=CELERY_REDIS_URL)

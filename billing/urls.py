@@ -1,4 +1,4 @@
-#from .views import CreateDeploymentView
+# from .views import CreateDeploymentView
 from django.urls import path
 from .views import (
     AddCardAPIView,
@@ -10,6 +10,7 @@ from .views import (
     ListMMPhoneNumbersAPIView,
     DeleteMMPhoneAPIView,
     ChargeMobileMoneyAPIView,
+    GetAccumulatedBalance
 
 )
 from .views.webhooks import FlutterwaveTransactionWebhooks
@@ -32,4 +33,6 @@ urlpatterns = [
          name='flutterwave-webhooks'),
     path('charge-mobile-money/', ChargeMobileMoneyAPIView.as_view(),
          name='charge-mobile-money'),
+    path('balance/', GetAccumulatedBalance.as_view(),
+         name='get-balance'),
 ]

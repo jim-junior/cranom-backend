@@ -39,11 +39,11 @@ async def get_node_logs(obj, node, username):
     """
     Get Logs for a specific node. This should be run in a Thread
     """
-    """ apiConfig = get_api_client_config()
+    apiConfig = get_api_client_config()
     apiclient = client.ApiClient(apiConfig)
-    v1 = client.CoreV1Api(apiclient) """
-    config.load_kube_config()
-    v1 = client.CoreV1Api()
+    v1 = client.CoreV1Api(apiclient)
+    """ config.load_kube_config()
+    v1 = client.CoreV1Api()"""
     w = watch.Watch()
 
     deploymentName = f"{node['name']}-{node['id']}-deployment"
@@ -108,7 +108,7 @@ class NodeLogsConsumer(AsyncWebsocketConsumer):
                 "exists": True,
                 "running": node.running,
                 "name": node.name,
-                "id": node.id
+                "id": node.pk
             }
             return nodeInfo
         else:

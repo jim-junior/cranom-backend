@@ -21,6 +21,8 @@ PROCESS_TYPES = (
     ("web", "web"),
     ("worker", "worker"),
 )
+
+
 NODE_TYPES = (
     ("git", "git"),
     ("local", "local"),
@@ -145,15 +147,20 @@ class Node(models.Model):
 
 
 class DomainName(models.Model):
-    domain_name = models.CharField(max_length=100)
-    project = models.ForeignKey(
-        Project,
-        to_field="project_uuid",
-        on_delete=models.CASCADE
+    domain_name = models.CharField(
+        max_length=100,
+        unique=True
     )
     node = models.ForeignKey(
         Node,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        null=True
     )
     third_party = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

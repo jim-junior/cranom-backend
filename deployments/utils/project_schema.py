@@ -5,7 +5,7 @@ from deployments.models import Project, Deployment, Node
 import yaml
 from yaml.loader import BaseLoader
 import json
-from deployments.models import PROJECT_PLANS, PROJECT_TYPES, NODE_TYPES
+from deployments.models import PROJECT_PLANS, PROCESS_TYPES, NODE_TYPES
 
 
 class NodeSchema(serializers.Serializer):
@@ -23,7 +23,7 @@ class CCSchema(serializers.Serializer):
     Class that defines and validates cranom configuration file schema.
     """
     name = serializers.CharField(max_length=100, required=True)
-    project_type = serializers.ChoiceField(choices=PROJECT_TYPES)
+    project_type = serializers.ChoiceField(choices=PROCESS_TYPES)
     nodes = NodeSchema(many=True, read_only=False, required=False)
 
     # Zip project file. This is not part of the Schema but is just needed incase the project is of type `local`

@@ -7,9 +7,12 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from billing.models import MMPhoneNumber, Card, Transaction, UserProfile
 from billing.serializers import CardSerializer, MMPhoneSerializer
+from billing.tasks.projects import get_project_amount
 from billing.utils.charge import charge_card, charge_mobile_money, verify_transaction
 from billing.utils.sms import send_sms
+from deployments.models import Node
 import random
+import datetime
 
 # An API View that adds a new card
 
@@ -149,7 +152,7 @@ class VerifyMobileNumberAPIView(APIView):
                 otp=otp
             ).first()
             if mm_phone_number:
-                mm_phone_number.is_verified = True
+                mm_phone_number.verified = True
                 mm_phone_number.save()
                 return Response({'message': 'Phone number verified'}, status=status.HTTP_200_OK)
             return Response({'message': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
@@ -190,13 +193,13 @@ class ChargeMobileMoneyAPIView(APIView):
                 resp = charge_mobile_money(
                     phone_number=phone_number, transaction_id=str(tx.trans_id), order_id=str(tx.order_id), amount=amount, email=user.email, country="uganda")
                 if resp["status"] == "success":
-                    tx.status = 'success'
+                    tx.transaction_status = 'success'
                     redirect_url = resp["meta"]["authorization"]["redirect"]
-                    tx.redirect_url = redirect_url
+                    tx.verification_url = redirect_url
                     tx.save()
                     return Response({'redirect_url': redirect_url}, status=status.HTTP_200_OK)
                 else:
-                    tx.status = 'failed'
+                    tx.transaction_status = 'failed'
                     tx.save()
                     print(resp)
                     return Response(resp, status=status.HTTP_400_BAD_REQUEST)
@@ -243,17 +246,56 @@ class ChargeCardAPIView(APIView):
                     email=user.email,
                 )
                 if resp["status"] == "success":
-                    tx.status = 'success'
+                    tx.transaction_status = 'success'
                     redirect_url = resp["meta"]["authorization"]["redirect"]
-                    tx.redirect_url = redirect_url
+                    tx.verification_url = redirect_url
                     tx.save()
                     return Response({'redirect_url': redirect_url}, status=status.HTTP_200_OK)
                 else:
-                    tx.status = 'failed'
+                    tx.transaction_status = 'failed'
                     tx.save()
-                    print(resp)
                     return Response(resp, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({'error': 'Card not found'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'Amount or card id missing'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAccumulatedBalance(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            authuser = request.user
+            user = getUserProfile(authuser)
+
+            total_amount = 0
+            nodes = Node.objects.filter(project__user=user)
+            print(nodes)
+            for node in nodes:
+                print(node.started_on)
+                last_turned_on = node.started_on
+                if last_turned_on is None:
+                    continue
+                # Get the current time
+                now = datetime.datetime.now()
+                # Get the difference between the two
+                diff = now - last_turned_on.replace(tzinfo=None)
+                print(diff.total_seconds())
+
+                accumlated = get_project_amount(
+                    node.plan, diff.total_seconds())
+                bill_accumulated = 0
+                if node.bill_accumulated is not None:
+                    bill_accumulated = node.bill_accumulated
+                amount = accumlated + bill_accumulated
+                total_amount += amount
+                print(total_amount)
+            return Response(data={
+                "balance": total_amount
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(data={
+                "message": "Internal Server Error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

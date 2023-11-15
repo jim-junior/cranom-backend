@@ -193,13 +193,19 @@ class ActivateAccount(APIView):
         user = request.user
         userprofile = UserProfile.objects.get(user=user)
         data = request.data
-        token = data['token']
+        token = data.get("token")  # type: ignore
+        if token is None:
+            Response({"message": "Invalid Payload"},
+                     status=status.HTTP_400_BAD_REQUEST)
         """ if userprofile.is_active:
             return Response({"message": "Account already activated"}, status=status.HTTP_400_BAD_REQUEST) """
         decrypted_obj = decrypt(token)
         if decrypted_obj['email'] != userprofile.email or decrypted_obj['username'] != userprofile.username:
             return Response({"message": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
         created_at = decrypted_obj['time']
+        if created_at is None:
+            return Response({"message": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         # Check if the token has spent more that 24 hours
         if (created_at + 24 * 60 * 60) < time.time():
             return Response({"message": "Token has expired"}, status=status.HTTP_400_BAD_REQUEST)

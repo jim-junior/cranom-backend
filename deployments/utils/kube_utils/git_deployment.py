@@ -6,16 +6,16 @@ from deployments.models import Deployment, Project, Node, DomainName
 from users.models import UserProfile
 from django.conf import settings
 
-""" apiConfig = get_api_client_config()
+apiConfig = get_api_client_config()
 apiclient = client.ApiClient(apiConfig)
 v1 = client.CoreV1Api(apiclient)
 apps_v1_api = client.AppsV1Api(apiclient)
-networking_v1_api = client.NetworkingV1Api(apiclient) """
+networking_v1_api = client.NetworkingV1Api(apiclient)
 
-config.load_kube_config()
+""" config.load_kube_config()
 v1 = client.CoreV1Api()
 apps_v1_api = client.AppsV1Api()
-networking_v1_api = client.NetworkingV1Api()
+networking_v1_api = client.NetworkingV1Api() """
 
 
 def create_git_node_deployment(node: Node):
@@ -43,7 +43,7 @@ def create_git_node_deployment(node: Node):
 
     # Generate Container Configuration
     container = {
-        "name": f"{node.name}-{node.id}",
+        "name": f"{node.name}-{node.pk}",
         "image": docker_image,
         "imagePullPolicy": "Always",
         "env": environVars
@@ -52,7 +52,7 @@ def create_git_node_deployment(node: Node):
     if node.process_type == "web":
         container["ports"] = [
             {
-                "name": f"{project.name}-{node.id}",
+                "name": f"{project.name}-{node.pk}",
                 "containerPort": node.port
             }
         ]
@@ -61,22 +61,22 @@ def create_git_node_deployment(node: Node):
         "apiVersion": "apps/v1",
         "kind": "Deployment",
         "metadata": {
-            "name": f"{name}-{node.id}",
+            "name": f"{name}-{node.pk}",
             "labels": {
-                "app": f"{name}-{node.id}"
+                "app": f"{name}-{node.pk}"
             }
         },
         "spec": {
             "replicas": 1,
             "selector": {
                 "matchLabels": {
-                    "app": f"{name}-{node.id}"
+                    "app": f"{name}-{node.pk}"
                 }
             },
             "template": {
                 "metadata": {
                     "labels": {
-                        "app": f"{name}-{node.id}"
+                        "app": f"{name}-{node.pk}"
                     }
                 },
                 "spec": {
@@ -89,18 +89,18 @@ def create_git_node_deployment(node: Node):
     if node.running == True:
         try:
             respo = apps_v1_api.patch_namespaced_deployment(
-                namespace=user.username, body=dic
+                namespace=user.username, body=dic, name=f"{name}-{node.pk}"
             )
             node.build_status = "Success"
             node.save()
             print(
-                f"Deployed {node.name} {node.id} successefuly"
+                f"Deployed {node.name} {node.pk} successefuly"
             )
         except:
             node.build_status = "Failed"
             node.save()
             print(
-                f"FAILED: {node.name} {node.id} failed to deploy"
+                f"FAILED: {node.name} {node.pk} failed to deploy"
             )
     else:
 

@@ -22,6 +22,6 @@ def create_gh_deployment(project_uuid, deployment_uuid):
     # create service account
     create_proj_sva(project, user.username)
     # create builder
-    create_kp_builder(project, deployment, user.username)
+    create_kp_builder(project, deployment, user.username)  # type: ignore
     # create image
-    create_kp_image(project, deployment, user.username)
+    create_kp_image(project, deployment, user.username)  # type: ignore

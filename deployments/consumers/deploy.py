@@ -14,13 +14,13 @@ async def get_node_logs(obj, node, username):
     """
     Get Logs for a specific node. This should be run in a Thread
     """
-    """ apiConfig = get_api_client_config()
+    apiConfig = get_api_client_config()
     apiclient = client.ApiClient(apiConfig)
-    v1 = client.CoreV1Api(apiclient) """
-    config.load_kube_config()
+    v1 = client.CoreV1Api(apiclient)
+    """ config.load_kube_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
-    api = client.ApiClient()
+    api = client.ApiClient() """
 
     imageName = f"{node['project']}-{node['id']}-kp-image"
     podname = ""
@@ -32,7 +32,6 @@ async def get_node_logs(obj, node, username):
                     podname = pod.metadata.name
                     break
 
-
     while True:
         temp_pod = v1.read_namespaced_pod(name=podname, namespace=username)
         if temp_pod.status.init_container_statuses != None:
@@ -43,25 +42,25 @@ async def get_node_logs(obj, node, username):
                     if container.name == "build":
                         if container.state.running != None:
                             await obj.send(text_data=json.dumps({
-                                    'message': "",
-                                    "type": "platfrom",
-                                    "status": "Building"
-                                }))
-                            for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build" ):
-                                
+                                'message': "",
+                                "type": "platfrom",
+                                "status": "Building"
+                            }))
+                            for e in w.stream(v1.read_namespaced_pod_log, name=podname, namespace=username, container="build"):
+
                                 await obj.send(text_data=json.dumps({
-                                        'message': e,
-                                        "type": "buildLogs"
-                                    }))
-                                
+                                    'message': e,
+                                    "type": "buildLogs"
+                                }))
+
                             status = "Building"
                             break
                         elif container.state.waiting != None:
                             await obj.send(text_data=json.dumps({
-                                    'message': "",
-                                    "type": "platfrom",
-                                    "status": "Preparing"
-                                }))
+                                'message': "",
+                                "type": "platfrom",
+                                "status": "Preparing"
+                            }))
                             status = "Waiting"
                             sleep(1)
                             break
@@ -106,9 +105,6 @@ async def get_node_logs(obj, node, username):
             continue
 
 
-    
-
-
 class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.node_id = self.scope['url_route']['kwargs']['node_id']
@@ -126,7 +122,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
             await asyncio.sleep(2)
             nodeInfo = await self.get_node_info()
             if nodeInfo["exists"] == True:
-                
 
                 logging_thread = Thread(target=self.between_callback, args=(
                     nodeInfo, userObj["username"],))
@@ -137,7 +132,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
                     "type": "platfrom",
                     "status": "Failed"
                 }))
-
 
     async def disconnect(self, code):
         return await super().disconnect(code)
@@ -166,7 +160,6 @@ class NodeDeploymentProgressConsumer(AsyncWebsocketConsumer):
         node_id = self.node_id
         node = Node.objects.get(pk=node_id)
         return node.build_status
-
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)

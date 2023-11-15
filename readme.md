@@ -101,3 +101,19 @@ kubectl describe secret backend-token
 # Copy the host fron the Output
 kubectl config view --minify
 ```
+
+
+## Prometheus
+
+Prometheus and Grafana will be intalled using helm
+
+```sh
+# Add Prometheus stack repo
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm repo update
+
+# Install
+helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+
+```

@@ -8,5 +8,6 @@ from .transactions import (
     ListMMPhoneNumbersAPIView,
     DeleteMMPhoneAPIView,
     ChargeMobileMoneyAPIView,
+    GetAccumulatedBalance
 
 )

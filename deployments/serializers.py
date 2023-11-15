@@ -36,3 +36,10 @@ class ProjectNodeSerializer(serializers.ModelSerializer):
         for node_data in nodes_data:
             Node.objects.create(project=project, **node_data)
         return project
+
+
+class DomainNameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DomainName
+        fields = "__all__"
